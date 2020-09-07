@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Marvellisimo</string>
+    <string name="title_activity_characters_page">CharactersPageActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="title_activity_character_details">CharacterDetailsActivity</string>
+    <string name="title_activity_comic_details">ComicDetailsActivity</string>
 </resources>
