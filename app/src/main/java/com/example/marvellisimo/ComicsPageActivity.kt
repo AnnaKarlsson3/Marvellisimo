@@ -2,23 +2,39 @@ package com.example.marvellisimo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.squareup.picasso.Picasso
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.activity_comic_page.*
 
 class ComicsPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
 
+        //3party adapter https://github.com/lisawray/groupie ..
+        val adapter = GroupAdapter<GroupieViewHolder>()
 
+        //adapter.add()
+        recycle_view_comic.adapter = adapter
 
-        val model: ViewModelCharacterPage by viewModels()
+    }
+}
 
-        model.characterDataWrapper.observe(this, {
-            Log.i("tag", "reponame:${it.data.results[0].name}")
+//adapterClass:
+class ComicItem(): Item<GroupieViewHolder>(){
 
-        })
+    //get the name and pic from viewModel-object: will be called in our list for each user object:
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+        // viewHolder.itemView.textView_username_new_message.text= user.username
+        //put image in: (use picasso lib, 3e party: https://github.com/square/picasso)
+
+    }
+
+    //renders out the rows in view:
+    override fun getLayout(): Int {
+        return R.layout.comic_recycle_row_layout
     }
 }
