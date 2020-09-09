@@ -1,5 +1,6 @@
 package com.example.marvellisimo
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import retrofit2.Call
@@ -19,7 +20,7 @@ class ViewModelCharacterPage : ViewModel() {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         val characterDataWrapper = MutableLiveData<CharacterDataWrapper>()
 
-        service.getAllCharacters("snehal").enqueue(object : Callback<CharacterDataWrapper> {
+        service.getAllCharacters().enqueue(object : Callback<CharacterDataWrapper> {
             override fun onResponse(
                 call: Call<CharacterDataWrapper>,
                 response: Response<CharacterDataWrapper>
@@ -38,7 +39,10 @@ class ViewModelCharacterPage : ViewModel() {
 
 
         })
+
         characterDataWrapper
 
+
     }
+
 }
