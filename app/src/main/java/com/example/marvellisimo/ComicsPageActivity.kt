@@ -12,16 +12,12 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
 
-        /*val model: ViewModelCharacterPage by viewModelStore.
 
-        val res = listOf<CharacterDataContainer>()
-        for(c in res){
-            Log.d("result", "Characters: $c")
-        }*/
+
         val model: ViewModelCharacterPage by viewModels()
 
         model.characterDataWrapper.observe(this, {
-            Log.i("tag", "reponame:${it}")
+            Log.i("tag", "reponame:${it.data.results[0].name}")
 
         })
     }
