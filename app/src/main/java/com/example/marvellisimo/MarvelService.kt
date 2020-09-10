@@ -9,7 +9,7 @@ import java.security.MessageDigest
 
 const val apiKey = "3573b53875a89b001a4e318271a7b005" // Replace this
 const val privateKey = "78821bef882d707a3c579952f4ffaf71d37a8213" // Replace this
-var ts = System.currentTimeMillis()
+//var ts = System.currentTimeMillis()
 
 fun getMD5 (timestamp:String): String{
     return "${timestamp}$privateKey$apiKey".md5()

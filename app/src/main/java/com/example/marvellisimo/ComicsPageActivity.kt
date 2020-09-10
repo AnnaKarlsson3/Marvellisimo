@@ -2,6 +2,8 @@ package com.example.marvellisimo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -18,6 +20,13 @@ class ComicsPageActivity : AppCompatActivity() {
 
         //adapter.add()
         recycle_view_comic.adapter = adapter
+
+        val model: ViewModelCharacterPage by viewModels()
+
+        model.characterDataWrapper.observe(this, {
+            Log.i("tag", "reponame:${it.data.results[0].name}")
+
+        })
 
     }
 }
