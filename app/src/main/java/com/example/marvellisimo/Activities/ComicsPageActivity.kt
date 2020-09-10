@@ -20,6 +20,15 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
 
+        PrintToRecycleView()
+        setFavButton();
+        navButtons();
+
+    }
+
+
+
+    private fun navButtons(){
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
 
@@ -29,16 +38,9 @@ class ComicsPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-        PrintToRecycleView()
-        setFavButton();
-
-
-
     }
 
     var isClicked = false
-
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
 

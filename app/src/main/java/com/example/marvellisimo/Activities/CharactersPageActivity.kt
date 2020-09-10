@@ -31,11 +31,22 @@ class CharactersPageActivity : AppCompatActivity() {
         }
 
         PrintToRecycleView()
-
+        navButtons()
 
 
     }
 
+    private fun navButtons(){
+        val dis_button = findViewById<Button>(R.id.character_btn)
+        dis_button.setEnabled(false);
+
+        val button = findViewById<Button>(R.id.comic_btn)
+        button.setOnClickListener{
+            val intent = Intent(this, ComicsPageActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
 
 
     private fun PrintToRecycleView(){
