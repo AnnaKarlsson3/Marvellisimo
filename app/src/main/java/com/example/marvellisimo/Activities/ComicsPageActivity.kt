@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
+import com.example.marvellisimo.Activities.CharacterDetailsActivity
+import com.example.marvellisimo.Activities.ComicDetailsActivity
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -31,6 +33,10 @@ class ComicsPageActivity : AppCompatActivity() {
 
         PrintToRecycleView()
     }
+    companion object{
+        val COMIC_KEY = "COMIC_KEY"
+    }
+
 
     private fun PrintToRecycleView(){
         //3party adapter https://github.com/lisawray/groupie ..
@@ -40,6 +46,13 @@ class ComicsPageActivity : AppCompatActivity() {
         model.comicDataWrapper.observe(this, {
             it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
         })
+
+        adapter.setOnItemClickListener { item, view ->
+            val comicItem = item as ComicItem
+            val intent = Intent(this, ComicDetailsActivity::class.java)
+            intent.putExtra(COMIC_KEY, comicItem.comic)
+            startActivity(intent)
+        }
 
         recycle_view_comic.adapter = adapter
     }

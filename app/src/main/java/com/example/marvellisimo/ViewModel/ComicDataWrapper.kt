@@ -1,5 +1,8 @@
 package com.example.marvellisimo.ViewModel
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class ComicDataWrapper(val data: ComicDataContainer) {
 
 }
@@ -7,9 +10,11 @@ data class ComicDataWrapper(val data: ComicDataContainer) {
 data class ComicDataContainer(val results: ArrayList<Comic>) {
 
 }
+@Parcelize
 data class Comic(val id: Int,
                      val title: String,
                      val description: String,
-                     val thumbnail:  com.example.marvellisimo.ViewModel.ImageComic)
+                     val thumbnail:  com.example.marvellisimo.ViewModel.Image):Parcelable
 
-data class ImageComic(val path: String, val extension: String)
+//@Parcelize
+//data class ImageComic(val path: String, val extension: String):Parcelable

@@ -15,7 +15,7 @@ class ComicItem(val comic: Comic) : Item<GroupieViewHolder>() {
         //put image in: (use picasso lib, 3e party: https://github.com/square/picasso)
 
         val imgsize = "/portrait_small"
-        val img : String = renamePathHttps("${comic.thumbnail.path}$imgsize.${comic.thumbnail.extension}")
+        val img : String = renamePathHttps("${comic.thumbnail.path}.${comic.thumbnail.extension}")
 
         Picasso.get().load(img).fit().into(viewHolder.itemView.imageView_comic_row)
 
