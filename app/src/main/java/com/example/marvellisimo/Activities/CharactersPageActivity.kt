@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatButton
+import com.example.marvellisimo.R
 
 
 class CharactersPageActivity : AppCompatActivity() {
