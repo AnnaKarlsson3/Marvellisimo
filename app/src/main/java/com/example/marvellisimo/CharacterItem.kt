@@ -1,6 +1,7 @@
 
-import com.example.marvellisimo.Character
+
 import com.example.marvellisimo.R
+import com.example.marvellisimo.ViewModel.Character
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item

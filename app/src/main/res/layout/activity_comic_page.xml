@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="35"
-                android:background="@drawable/button_menu"
+                android:background="@drawable/dis_button"
                 android:text="Comic"
                 android:textColor="@color/textColor" />
 
