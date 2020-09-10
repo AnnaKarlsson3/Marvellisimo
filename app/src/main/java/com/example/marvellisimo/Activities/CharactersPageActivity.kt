@@ -21,17 +21,10 @@ class CharactersPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
 
-        val dis_button = findViewById<Button>(R.id.character_btn)
-        dis_button.setEnabled(false);
-
-        val button = findViewById<Button>(R.id.comic_btn)
-        button.setOnClickListener{
-            val intent = Intent(this, ComicsPageActivity::class.java)
-            startActivity(intent)
-        }
 
         PrintToRecycleView()
         navButtons()
+        setFavButton();
 
 
     }
@@ -46,6 +39,22 @@ class CharactersPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    var isClicked = false
+    private fun setFavButton(){
+        val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
+
+        favButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(arg0: View?) {
+                if(isClicked){
+                    favButton.setImageResource(R.drawable.ic_star_solid)
+                }else{
+                    favButton.setImageResource(R.drawable.ic_star_regular)
+                }
+                isClicked = !isClicked;
+            }
+        })
     }
 
 
