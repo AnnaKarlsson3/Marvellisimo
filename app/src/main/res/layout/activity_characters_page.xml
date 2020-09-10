@@ -6,11 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".Activities.CharactersPageActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Character Page"
-        tools:layout_editor_absoluteX="141dp"
-        tools:layout_editor_absoluteY="321dp" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="153dp"
+        android:background="@color/colorPurple"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@color/colorPurple"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:weightSum="0">
+
+
+            <Button
+                android:id="@+id/comic_btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="35"
+                android:background="@drawable/button_menu"
+                android:text="Comic"
+                android:textColor="@color/textColor" />
+
+            <Button
+                android:id="@+id/character_btn"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="35"
+                android:background="@drawable/dis_button"
+                android:text="character"
+                android:textColor="@color/textColor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="0">
+
+            <SearchView
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="4"
+                android:background="@drawable/rounded_search_menu">
+
+            </SearchView>
+
+            <ImageButton
+                android:id="@+id/filter_fav_image_btn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+
+                app:srcCompat="@android:drawable/btn_star_big_off" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view_character"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
