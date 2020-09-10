@@ -70,6 +70,8 @@ dependencies {
     implementation 'com.xwray:groupie-kotlin-android-extensions:2.8.1'
     implementation "com.xwray:groupie-databinding:2.8.1"
 
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
 }
 
 //dependencies {

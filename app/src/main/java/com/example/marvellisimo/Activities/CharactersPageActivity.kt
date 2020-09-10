@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
@@ -13,10 +14,15 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_characters_page.*
 import kotlinx.android.synthetic.main.activity_comic_page.*
 
+
+
 class CharactersPageActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
+
+
 
         val dis_button = findViewById<Button>(R.id.character_btn)
         dis_button.setEnabled(false);
