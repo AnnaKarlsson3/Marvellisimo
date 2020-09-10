@@ -14,9 +14,9 @@
         >
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
+            android:id="@+id/imageView_comic_row"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
 
