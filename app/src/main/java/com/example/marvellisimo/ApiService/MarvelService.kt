@@ -1,7 +1,9 @@
 @file:JvmName("MarvelServiceKt")
 
-package com.example.marvellisimo
+package com.example.marvellisimo.ApiService
 
+import com.example.marvellisimo.ViewModel.CharacterDataWrapper
+import com.example.marvellisimo.ViewModel.ComicDataWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -23,5 +25,8 @@ fun String.md5(): String{
 interface MarvelService {
     @GET("characters?apikey=$apiKey")
     fun getAllCharacters(@Query("ts") ts:String=System.currentTimeMillis().toString(),  @Query("hash") hash: String = getMD5(ts)): Call<CharacterDataWrapper>
+
+    @GET("comics?apikey=$apiKey")
+    fun getAllComics(@Query("ts") ts:String=System.currentTimeMillis().toString(),  @Query("hash") hash: String = getMD5(ts)): Call<ComicDataWrapper>
 }
 

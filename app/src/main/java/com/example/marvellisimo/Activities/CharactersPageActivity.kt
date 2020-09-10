@@ -1,8 +1,8 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import com.example.marvellisimo.R
 
 class CharactersPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

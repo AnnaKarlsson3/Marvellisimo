@@ -15,18 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CharacterDetailsActivity"></activity>
+        <activity android:name=".Activities.CharacterDetailsActivity"></activity>
         <activity
-            android:name=".CharactersPageActivity"
+            android:name=".Activities.CharactersPageActivity"
             android:label="@string/title_activity_characters_page">
         </activity>
         <activity
-            android:name=".ComicDetailsActivity"
+            android:name=".Activities.ComicDetailsActivity"
             android:label="@string/title_activity_comic_details">
         </activity>
 
 
-        <activity android:name=".ComicsPageActivity">
+        <activity android:name=".Activities.ComicsPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
