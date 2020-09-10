@@ -19,6 +19,7 @@
         <activity
             android:name=".CharactersPageActivity"
             android:label="@string/title_activity_characters_page">
+
         </activity>
         <activity
             android:name=".ComicDetailsActivity"
