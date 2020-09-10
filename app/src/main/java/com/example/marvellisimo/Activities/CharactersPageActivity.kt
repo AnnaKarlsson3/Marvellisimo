@@ -1,17 +1,20 @@
 package com.example.marvellisimo
 
 import CharacterItem
+import com.example.marvellisimo.R
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_characters_page.*
-import kotlinx.android.synthetic.main.activity_comic_page.*
+import kotlinx.android.synthetic.main.character_recycle_row_layout.view.*
+
 
 class CharactersPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +32,11 @@ class CharactersPageActivity : AppCompatActivity() {
 
         PrintToRecycleView()
 
+
+
     }
+
+
 
     private fun PrintToRecycleView(){
         //3party adapter https://github.com/lisawray/groupie ..
@@ -42,4 +49,8 @@ class CharactersPageActivity : AppCompatActivity() {
 
         recycle_view_character.adapter = adapter
     }
+
+
+
+
 }
