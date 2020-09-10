@@ -1,4 +1,4 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.example.marvellisimo.R
+import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 
 class ComicsPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,11 +15,14 @@ class ComicsPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_comic_page)
 
 
+        val model: ViewModelComicCharacterPage by viewModels()
 
-        val model: ViewModelCharacterPage by viewModels()
 
         model.characterDataWrapper.observe(this, {
-            Log.i("tag", "reponame:${it.data.results[0].name}")
+            Log.i("tag", "character:${it.data.results}")
+        })
+        model.comicDataWrapper.observe(this, {
+            it.data.results.forEach{d ->  Log.i("tag", "comic:${d.title}")}
 
         })
 
