@@ -41,10 +41,10 @@ class CharactersPageActivity : AppCompatActivity() {
 
     }
 
-    var isClicked = false
+
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
-
+        var isClicked = false
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
                 if(isClicked){

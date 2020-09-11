@@ -20,6 +20,9 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
 
+        val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
+
+
         PrintToRecycleView()
         setFavButton();
         navButtons();
@@ -40,10 +43,10 @@ class ComicsPageActivity : AppCompatActivity() {
 
     }
 
-    var isClicked = false
+
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
-
+        var isClicked = false
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
                 if(isClicked){
