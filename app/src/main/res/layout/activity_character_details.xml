@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,15 +15,15 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
-        <ImageView
-            android:id="@+id/comic_image"
-            android:layout_width="380dp"
-            android:layout_height="194dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/character_image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_marginBottom="50dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/comic_name"
+            android:id="@+id/character_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
@@ -33,7 +33,7 @@
             tools:text="Character 1" />
 
         <TextView
-            android:id="@+id/comic_info"
+            android:id="@+id/character_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
@@ -43,11 +43,11 @@
             tools:text="After an alien device mutated her DNA, Danvers transformed from a merely brilliant pilot into one of the most powerful Super Heroes in the universe. Now soaring among the stars, Carol Danvers is known as Captain Marvel!" />
 
         <ImageButton
-            android:id="@+id/comic_link"
+            android:id="@+id/character_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:rotation="-180"
             app:srcCompat="@drawable/abc_vector_test" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

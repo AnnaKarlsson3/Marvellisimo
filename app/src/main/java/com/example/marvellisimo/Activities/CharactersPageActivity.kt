@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -56,6 +57,9 @@ class CharactersPageActivity : AppCompatActivity() {
             }
         })
     }
+    companion object{
+        val CHAR_KEY = "CHAR_KEY"
+    }
 
 
     private fun PrintToRecycleView(){
@@ -67,6 +71,13 @@ class CharactersPageActivity : AppCompatActivity() {
             it.data.results.forEach { character -> adapter.add(CharacterItem(character)) }
         })
 
+
+        adapter.setOnItemClickListener { item, view ->
+            val characterItem = item as CharacterItem
+            val intent = Intent(this, CharacterDetailsActivity::class.java)
+            intent.putExtra(CHAR_KEY, characterItem.character)
+            startActivity(intent)
+        }
         recycle_view_character.adapter = adapter
     }
 
