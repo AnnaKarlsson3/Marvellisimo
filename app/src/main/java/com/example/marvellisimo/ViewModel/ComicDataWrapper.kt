@@ -14,7 +14,8 @@ data class ComicDataContainer(val results: ArrayList<Comic>) {
 data class Comic(val id: Int,
                      val title: String,
                      val description: String,
-                     val thumbnail:  com.example.marvellisimo.ViewModel.Image):Parcelable
+                     val thumbnail:  com.example.marvellisimo.ViewModel.Image,
+                      val urls: ArrayList<Url>):Parcelable
 
 //@Parcelize
 //data class ImageComic(val path: String, val extension: String):Parcelable

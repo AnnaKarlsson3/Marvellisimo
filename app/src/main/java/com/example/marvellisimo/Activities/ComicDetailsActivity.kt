@@ -1,5 +1,7 @@
 package com.example.marvellisimo.Activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.marvellisimo.CharactersPageActivity
@@ -32,7 +34,13 @@ class ComicDetailsActivity : AppCompatActivity() {
             comic_name.text =""
         }
 
-
+        comic_link.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            if (comic != null) {
+                intent.data = Uri.parse(comic.urls[0].url)
+            }
+            startActivity(intent)
+        }
 
     }
 }

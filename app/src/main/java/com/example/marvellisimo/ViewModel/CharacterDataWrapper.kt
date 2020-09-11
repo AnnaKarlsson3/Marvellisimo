@@ -14,9 +14,13 @@ data class CharacterDataContainer(val results: ArrayList<Character>) {
 data class Character(val id: Int,
                      val name: String,
                      val description: String,
-                     val thumbnail: com.example.marvellisimo.ViewModel.Image): Parcelable{
+                     val thumbnail: com.example.marvellisimo.ViewModel.Image,
+                     val urls: ArrayList<Url> ): Parcelable{
 
 }
 
 @Parcelize
 data class Image(val path: String, val extension: String):Parcelable
+
+@Parcelize
+data class Url(val type:String,val url:String):Parcelable
