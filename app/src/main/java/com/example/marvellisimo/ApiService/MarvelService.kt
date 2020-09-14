@@ -26,7 +26,13 @@ interface MarvelService {
     @GET("characters?apikey=$apiKey")
     fun getAllCharacters(@Query("ts") ts:String=System.currentTimeMillis().toString(),  @Query("hash") hash: String = getMD5(ts)): Call<CharacterDataWrapper>
 
+
+    @GET("comics?apikey=$apiKey")
+=======
     @GET("comics?offset=5&apikey=$apiKey")
+
     fun getAllComics(@Query("ts") ts:String=System.currentTimeMillis().toString(),  @Query("hash") hash: String = getMD5(ts)): Call<ComicDataWrapper>
+
+
 }
 
