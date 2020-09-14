@@ -24,6 +24,7 @@ class ComicsPageActivity : AppCompatActivity() {
     val model: ViewModelComicCharacterPage by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_comic_page)
         Realm.init(this)
 
 
@@ -37,34 +38,31 @@ class ComicsPageActivity : AppCompatActivity() {
         val realm = Realm.getInstance(configuration)
 
         val activity = this
-        realm.executeTransactionAsync(fun(realm: Realm) {
-            realm.createObject(RealmCharacterDb::class.java).apply {
 
-                model.characterDataWrapper.observe(activity, {
-                    it.data.results.forEach { c ->
-
-                        id = c.id
-                        name = c.name
-                        description = c.description
-                        thumbnail.apply {
-                            c.thumbnail
+                    model.characterDataWrapper.observe(activity, {
+                            it.data.results.forEach { c ->
+                                realm.executeTransactionAsync(fun(realm: Realm) {
+                                realm.createObject(RealmCharacterDb::class.java, c.id).apply {
+                                    id = c.id
+                                    name = c.name
+                                    description = c.description
+                                    thumbnail.apply {
+                                        c.thumbnail
+                                    }
+                                    urls.apply {
+                                        c.urls
+                                    }
+                                }
+                            },fun() {
+                                    android.util.Log.d("database", "uploaded")
+                                })
                         }
-                        urls.apply {
-                            c.urls
-                        }
-                        realm.copyToRealmOrUpdate(this)
-                    }
-
-                })
-
-            }
-        }, fun() {
-            Log.d("database", "uploaded")
-        })
+                        })
 
 
 
-        setContentView(R.layout.activity_comic_page)
+
+
 
         PrintToRecycleView()
         setFavButton();
