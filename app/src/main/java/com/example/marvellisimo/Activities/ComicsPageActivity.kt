@@ -43,7 +43,6 @@ class ComicsPageActivity : AppCompatActivity() {
                             it.data.results.forEach { c ->
                                 realm.executeTransactionAsync(fun(realm: Realm) {
                                 realm.createObject(RealmCharacterDb::class.java, c.id).apply {
-                                    id = c.id
                                     name = c.name
                                     description = c.description
                                     thumbnail.apply {
