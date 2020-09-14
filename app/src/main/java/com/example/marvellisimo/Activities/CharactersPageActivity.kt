@@ -79,6 +79,7 @@ class CharactersPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         recycle_view_character.adapter = adapter
+       
     }
 
 
