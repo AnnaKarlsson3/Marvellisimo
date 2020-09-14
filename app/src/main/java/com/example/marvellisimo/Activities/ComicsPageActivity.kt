@@ -3,15 +3,14 @@ package com.example.marvellisimo
 import ComicItem
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
-import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import com.example.marvellisimo.Activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
-import com.example.marvellisimo.Database.RealmCharacterDb
+import com.example.marvellisimo.Database.RealmComicEntity
+import com.example.marvellisimo.Database.UrlDb
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -29,7 +28,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
         val configuration = RealmConfiguration.Builder()
-            .name("characterDb")
+            .name("comicDb")
             .schemaVersion(1)
             .deleteRealmIfMigrationNeeded()
             .build()
@@ -37,31 +36,29 @@ class ComicsPageActivity : AppCompatActivity() {
 
         val realm = Realm.getInstance(configuration)
 
-        val activity = this
-
-                    model.characterDataWrapper.observe(activity, {
-                            it.data.results.forEach { c ->
-                                realm.executeTransactionAsync(fun(realm: Realm) {
-                                realm.createObject(RealmCharacterDb::class.java, c.id).apply {
-                                    id = c.id
-                                    name = c.name
-                                    description = c.description
-                                    thumbnail.apply {
-                                        c.thumbnail
-                                    }
-                                    urls.apply {
-                                        c.urls
-                                    }
-                                }
-                            },fun() {
-                                    android.util.Log.d("database", "uploaded")
-                                })
-                        }
+        model.comicDataWrapper.observe(this, {
+            it.data.results.forEach { c ->
+                realm.executeTransactionAsync(fun(realm: Realm) {
+                    val comic = RealmComicEntity().apply {
+                        id = c.id
+                        title = c.title
+                        description = c.description
+                        thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                        urls?.addAll(c.urls.map {
+                            UrlDb().apply {
+                                type = "string"
+                                url = it.toString()
+                            }
                         })
 
+                    }
+                    realm.copyToRealmOrUpdate(comic)
 
-
-
+                }, fun() {
+                    android.util.Log.d("database", "uploaded")
+                })
+            }//foreach end
+        })
 
 
         PrintToRecycleView()
