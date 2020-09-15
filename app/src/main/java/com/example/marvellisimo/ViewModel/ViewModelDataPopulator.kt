@@ -14,6 +14,7 @@ class ViewModelDataPopulator : ViewModel() {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         val comicDataWrapper = MutableLiveData<ComicDataWrapper>()
 
+
         service.getAllComics().enqueue(object : Callback<ComicDataWrapper> {
             override fun onResponse(
                 call: Call<ComicDataWrapper>,

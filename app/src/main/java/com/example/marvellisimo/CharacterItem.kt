@@ -15,7 +15,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         viewHolder.itemView.textView_charactername_row.text = character.name
 
         val imgsize = "/portrait_small"
-        val img : String = renamePathHttps("${character.thumbnail.path}$imgsize.${character.thumbnail.extension}")
+        val img : String = renamePathHttps("${character.thumbnail.path}.${character.thumbnail.extension}")
 
         Picasso.get().load(img).fit().into(viewHolder.itemView.imageView_character_row)
 
