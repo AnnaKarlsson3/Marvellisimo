@@ -1,6 +1,5 @@
-package com.example.marvellisimo.Database
+package com.example.marvellisimo.entity
 
-import com.example.marvellisimo.ViewModel.Url
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -15,6 +14,17 @@ open class RealmComicEntity:RealmObject() {
     var thumbnail: String? =null
     var urls: RealmList<UrlDb>? = RealmList()
 }
+
+@RealmClass
+open class RealmCharacterEntity:RealmObject() {
+    @PrimaryKey
+    var id: Int? = null
+    var name: String? = null
+    var description: String?= null
+    var thumbnail: String? =null
+    var urls: RealmList<UrlDb>? = RealmList()
+}
+
 
 @RealmClass
 open class UrlDb: RealmObject(){

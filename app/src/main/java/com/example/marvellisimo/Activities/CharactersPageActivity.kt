@@ -3,15 +3,15 @@ package com.example.marvellisimo
 import CharacterItem
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
-import com.example.marvellisimo.ViewModel.CharacterDataWrapper
-import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
+import com.example.marvellisimo.entity.UrlDb
+import com.example.marvellisimo.ViewModel.ViewModelDataPopulator
+import com.example.marvellisimo.entity.RealmCharacterEntity
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
@@ -20,17 +20,30 @@ import kotlinx.android.synthetic.main.activity_characters_page.*
 
 
 class CharactersPageActivity : AppCompatActivity() {
-    val model: ViewModelComicCharacterPage by viewModels()
+    val model: ViewModelDataPopulator by viewModels()
+    var isClicked = false
+
+    companion object{
+        val CHAR_KEY = "CHAR_KEY"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
+        Realm.init(this)
 
+        val configuration = RealmConfiguration.Builder()
+            .name("characterDb")
+            .schemaVersion(1)
+            .deleteRealmIfMigrationNeeded()
+            .build()
+        Realm.setDefaultConfiguration(configuration)
+        val realm = Realm.getInstance(configuration)
 
+        dataCashing(realm)
         PrintToRecycleView()
         navButtons()
         setFavButton();
-
-
     }
 
     private fun navButtons(){
@@ -42,10 +55,8 @@ class CharactersPageActivity : AppCompatActivity() {
             val intent = Intent(this, ComicsPageActivity::class.java)
             startActivity(intent)
         }
-
     }
 
-    var isClicked = false
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
 
@@ -60,10 +71,6 @@ class CharactersPageActivity : AppCompatActivity() {
             }
         })
     }
-    companion object{
-        val CHAR_KEY = "CHAR_KEY"
-    }
-
 
     private fun PrintToRecycleView(){
         //3party adapter https://github.com/lisawray/groupie ..
@@ -72,7 +79,6 @@ class CharactersPageActivity : AppCompatActivity() {
         model.characterDataWrapper.observe(this, {
             it.data.results.forEach { character -> adapter.add(CharacterItem(character)) }
         })
-
 
         adapter.setOnItemClickListener { item, view ->
             val characterItem = item as CharacterItem
@@ -84,7 +90,28 @@ class CharactersPageActivity : AppCompatActivity() {
        
     }
 
-
-
+    private fun dataCashing(realm: Realm) {
+        model.characterDataWrapper.observe(this, {
+            it.data.results.forEach { c ->
+                realm.executeTransactionAsync(fun(realm: Realm) {
+                    val character = RealmCharacterEntity().apply {
+                        id = c.id
+                        name = c.name
+                        description = c.description
+                        thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                        urls?.addAll(c.urls.map {
+                            UrlDb().apply {
+                                type = "string"
+                                url = it.toString()
+                            }
+                        })
+                    }
+                    realm.copyToRealmOrUpdate(character)
+                }, fun() {
+                    android.util.Log.d("database", "character uploaded")
+                })
+            }//foreach end
+        })
+    }
 
 }
