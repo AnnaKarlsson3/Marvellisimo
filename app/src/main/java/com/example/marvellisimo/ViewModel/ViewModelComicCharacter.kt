@@ -23,6 +23,10 @@ class ViewModelComicCharacter() : ViewModel(){
         return realm.where(RealmComicEntity::class.java).findAllAsync().asLiveData()
     }
 
+    fun getSearchComicData(): LiveData<RealmResults<RealmComicEntity>> {
+        TODO()
+    }
+
     override fun onCleared() {
         realm.close()
         super.onCleared()

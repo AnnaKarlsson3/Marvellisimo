@@ -45,11 +45,7 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.setDefaultConfiguration(configuration)
         val realm = Realm.getDefaultInstance()
 
-        val modelComic: ViewModelComicCharacter by viewModels ()
 
-        modelComic.getComicData().observe(this, {
-            it.forEach{c -> Log.d("comicResult", "${c.title}")}
-        })
 
         dataCashing(realm)
         PrintToRecycleView()
@@ -87,17 +83,23 @@ class ComicsPageActivity : AppCompatActivity() {
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
         val adapter = GroupAdapter<GroupieViewHolder>()
+        val modelComic: ViewModelComicCharacter by viewModels ()
 
-        model.comicDataWrapper.observe(this, {
-            it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
+        modelComic.getComicData().observe(this, {
+            it.forEach{ comic -> adapter.add(ComicItem(comic))
+                Log.d("comicResult", "${comic.title}")}
         })
 
-        adapter.setOnItemClickListener { item, view ->
+        /*model.comicDataWrapper.observe(this, {
+            it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
+        })*/
+
+       /* adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
             intent.putExtra(COMIC_KEY, comicItem.comic)
             startActivity(intent)
-        }
+        }*/
 
         recycle_view_comic.adapter = adapter
     }
