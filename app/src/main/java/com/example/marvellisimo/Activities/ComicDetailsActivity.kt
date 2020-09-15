@@ -2,15 +2,12 @@ package com.example.marvellisimo.Activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.marvellisimo.CharactersPageActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
-import com.example.marvellisimo.ViewModel.Character
-import com.example.marvellisimo.ViewModel.Comic
+import com.example.marvellisimo.entity.RealmComicEntity
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_character_details.*
 import kotlinx.android.synthetic.main.activity_comic_details.*
 
 class ComicDetailsActivity : AppCompatActivity() {
@@ -18,27 +15,23 @@ class ComicDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
 
-        val comic = intent.getParcelableExtra<Comic>(ComicsPageActivity.COMIC_KEY)
+        val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
+        val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
+        val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
+        val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
 
-            supportActionBar?.title = comic?.title
+        supportActionBar?.title = text
 
-            comic_name.text = comic?.title
-            comic_info.text = comic?.description
+        comic_name.text = text
+        comic_info.text = info
 
-
-
-        if (comic != null) {
-            var img = "${comic.thumbnail?.path}.${comic.thumbnail.extension}".replace("http","https")
-            Picasso.get().load(img).fit().into(comic_image)
-        }else{
-            comic_name.text =""
-        }
+        Picasso.get().load(imageUrl?.replace("http","https")).fit().into(comic_image)
 
         comic_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            if (comic != null) {
-                intent.data = Uri.parse(comic.urls[0].url)
-            }
+
+            intent.data = Uri.parse(url)
+
             startActivity(intent)
         }
 

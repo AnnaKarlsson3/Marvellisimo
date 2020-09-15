@@ -1,12 +1,16 @@
 package com.example.marvellisimo.entity
 
+import android.os.Parcelable
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
+
 
 @RealmClass
-open class RealmComicEntity:RealmObject() {
+open  class RealmComicEntity:RealmObject(){
     @PrimaryKey
     var id: Int? = null
     var title: String? = null
@@ -15,9 +19,9 @@ open class RealmComicEntity:RealmObject() {
     var urls: RealmList<UrlDb>? = RealmList()
 
 }
-
+@Parcelize
 @RealmClass
-open class RealmCharacterEntity:RealmObject() {
+open class RealmCharacterEntity:RealmObject(),Parcelable {
     @PrimaryKey
     var id: Int? = null
     var name: String? = null

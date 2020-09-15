@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.SearchView
 import androidx.activity.viewModels
 import com.example.marvellisimo.Activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.observe
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacter
 import com.example.marvellisimo.entity.RealmComicEntity
 import com.example.marvellisimo.entity.UrlDb
@@ -25,11 +27,18 @@ import kotlinx.android.synthetic.main.activity_comic_page.*
 
 class ComicsPageActivity : AppCompatActivity() {
     val model: ViewModelDataPopulator by viewModels()
+    val modelComic: ViewModelComicCharacter by viewModels()
     var isClicked = false
+    val activity = this
+    val adapter = GroupAdapter<GroupieViewHolder>()
 
 
     companion object {
         val COMIC_KEY = "COMIC_KEY"
+        val COMIC_TITLE = "COMIC_TITLE"
+        val COMIC_INFO = "COMIC_INFO"
+        val COMIC_URL = "COMIC_URL"
+        val COMIC_IMAGE = "COMIC_IMAGE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,27 +91,34 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
-        val adapter = GroupAdapter<GroupieViewHolder>()
-        val modelComic: ViewModelComicCharacter by viewModels ()
+
 
         modelComic.getComicData().observe(this, {
-            it.forEach{ comic -> adapter.add(ComicItem(comic))
-                Log.d("comicResult", "${comic.title}")}
+            it.forEach { comic ->
+                adapter.add(ComicItem(comic))
+                Log.d("comicResult", "${comic.title}")
+            }
         })
 
         /*model.comicDataWrapper.observe(this, {
             it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
         })*/
 
-       /* adapter.setOnItemClickListener { item, view ->
+        adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
-            intent.putExtra(COMIC_KEY, comicItem.comic)
+            //intent.putExtra(COMIC_KEY, comicItem.comic)
+            intent.putExtra(COMIC_TITLE, comicItem.comic.title)
+            intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
+            intent.putExtra(COMIC_INFO, comicItem.comic.description)
+            intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
+
             startActivity(intent)
-        }*/
+        }
 
         recycle_view_comic.adapter = adapter
     }
+
 
     private fun dataCashing(realm: Realm) {
 
@@ -124,8 +140,8 @@ class ComicsPageActivity : AppCompatActivity() {
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
-                                type = "string"
-                                url = it.toString()
+                                type = it.type
+                                url = it.url
                             }
                         })
                     }
@@ -138,6 +154,27 @@ class ComicsPageActivity : AppCompatActivity() {
         })
 
     }
+
+//    private fun filterComic(){
+//
+//        search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//
+//            override fun onQueryTextChange(newText: String): Boolean {
+//                modelComic.getSearchComicData(newText).observe(activity, {
+//                    it.forEach{ comic -> adapter.add(ComicItem(comic))
+//                        Log.d("filterdComic", "${comic.title}")}
+//                })
+//
+//                return false
+//            }
+//
+//            override fun onQueryTextSubmit(query: String): Boolean {
+//                // task HERE
+//                return false
+//            }
+//
+//        })
+//    }
 
 
 }

@@ -3,12 +3,14 @@ package com.example.marvellisimo
 import CharacterItem
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.ViewModel.ViewModelComicCharacter
 import com.example.marvellisimo.entity.UrlDb
 import com.example.marvellisimo.ViewModel.ViewModelDataPopulator
 import com.example.marvellisimo.entity.RealmCharacterEntity
@@ -25,6 +27,10 @@ class CharactersPageActivity : AppCompatActivity() {
 
     companion object{
         val CHAR_KEY = "CHAR_KEY"
+        val CHAR_NAME = "CHAR_NAME"
+        val CHAR_INFO = "CHAR_INFO"
+        val CHAR_URL = "CHAR_URL"
+        val CHAR_IMAGE = "CHAR_IMAGE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,15 +81,26 @@ class CharactersPageActivity : AppCompatActivity() {
     private fun PrintToRecycleView(){
         //3party adapter https://github.com/lisawray/groupie ..
         val adapter = GroupAdapter<GroupieViewHolder>()
+        val modelCharacter: ViewModelComicCharacter by viewModels ()
 
-        model.characterDataWrapper.observe(this, {
-            it.data.results.forEach { character -> adapter.add(CharacterItem(character)) }
+        modelCharacter.getCharacterData().observe(this, {
+            it.forEach{ character -> adapter.add(CharacterItem(character))
+                Log.d("characterResult", "${character.name}")}
         })
+
+//        model.characterDataWrapper.observe(this, {
+//            it.data.results.forEach { character -> adapter.add(CharacterItem(character)) }
+//        })
 
         adapter.setOnItemClickListener { item, view ->
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
+
             intent.putExtra(CHAR_KEY, characterItem.character)
+            intent.putExtra(CHAR_NAME, characterItem.character.name)
+            intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
+            intent.putExtra(CHAR_INFO, characterItem.character.description)
+            intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
         }
         recycle_view_character.adapter = adapter
@@ -101,8 +118,8 @@ class CharactersPageActivity : AppCompatActivity() {
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
-                                type = "string"
-                                url = it.toString()
+                                type = it.type
+                                url = it.url
                             }
                         })
                     }
