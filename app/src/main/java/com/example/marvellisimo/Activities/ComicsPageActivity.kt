@@ -84,6 +84,10 @@ class ComicsPageActivity : AppCompatActivity() {
             it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
         })
 
+
+
+
+
         adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
