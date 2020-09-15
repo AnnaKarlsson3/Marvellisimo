@@ -3,6 +3,7 @@ package com.example.marvellisimo
 import ComicItem
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_comic_page.*
 
 class ComicsPageActivity : AppCompatActivity() {
     val model: ViewModelDataPopulator by viewModels()
+    val modelComic : ViewModelComicCharacter by viewModels()
     var isClicked = false
 
 
@@ -44,9 +46,11 @@ class ComicsPageActivity : AppCompatActivity() {
 
         val modelComic: ViewModelComicCharacter by viewModels ()
 
-       /* modelComic..observe(this, {
-            it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
-        })*/
+       modelComic.getComics().observe(this,{
+           
+       })
+
+
 
         dataCashing(realm)
         PrintToRecycleView()
