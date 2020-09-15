@@ -3,6 +3,7 @@ package com.example.marvellisimo
 import ComicItem
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -42,8 +43,10 @@ class ComicsPageActivity : AppCompatActivity() {
     private fun navButtons(){
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
+        dis_button.paintFlags = dis_button.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         val button = findViewById<Button>(R.id.character_btn)
+
         button.setOnClickListener{
             val intent = Intent(this, CharactersPageActivity::class.java)
             startActivity(intent)
@@ -80,6 +83,10 @@ class ComicsPageActivity : AppCompatActivity() {
         model.comicDataWrapper.observe(this, {
             it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
         })
+
+
+
+
 
         adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
