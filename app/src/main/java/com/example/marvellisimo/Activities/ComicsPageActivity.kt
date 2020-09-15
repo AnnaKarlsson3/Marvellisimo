@@ -15,6 +15,7 @@ import com.example.marvellisimo.ViewModel.Comic
 import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import com.example.marvellisimo.Activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.observe
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
