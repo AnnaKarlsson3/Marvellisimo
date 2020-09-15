@@ -38,7 +38,7 @@ class CharactersPageActivity : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(configuration)
-        val realm = Realm.getInstance(configuration)
+        val realm = Realm.getDefaultInstance()
 
         dataCashing(realm)
         PrintToRecycleView()

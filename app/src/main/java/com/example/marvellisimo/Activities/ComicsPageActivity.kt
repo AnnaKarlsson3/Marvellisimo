@@ -3,6 +3,7 @@ package com.example.marvellisimo
 import ComicItem
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -13,10 +14,12 @@ import com.example.marvellisimo.ViewModel.ViewModelComicCharacter
 import com.example.marvellisimo.entity.RealmComicEntity
 import com.example.marvellisimo.entity.UrlDb
 import com.example.marvellisimo.ViewModel.ViewModelDataPopulator
+import com.example.marvellisimo.ViewModel.asLiveData
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_comic_page.*
 
 
@@ -40,13 +43,13 @@ class ComicsPageActivity : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(configuration)
-        val realm = Realm.getInstance(configuration)
+        val realm = Realm.getDefaultInstance()
 
         val modelComic: ViewModelComicCharacter by viewModels ()
 
-       /* modelComic..observe(this, {
-            it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
-        })*/
+        modelComic.getComicData().observe(this, {
+            it.forEach{c -> Log.d("comicResult", "${c.title}")}
+        })
 
         dataCashing(realm)
         PrintToRecycleView()
@@ -101,8 +104,16 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun dataCashing(realm: Realm) {
 
+        realm.executeTransactionAsync {
+            it.where<RealmComicEntity>()
+                .findAll()
+                .deleteAllFromRealm()
+        }
+
         model.comicDataWrapper.observe(this, {
+
             it.data.results.forEach { c ->
+
                 realm.executeTransactionAsync(fun(realm: Realm) {
                     val comic = RealmComicEntity().apply {
                         id = c.id
@@ -116,7 +127,7 @@ class ComicsPageActivity : AppCompatActivity() {
                             }
                         })
                     }
-                    realm.copyToRealmOrUpdate(comic)
+                    realm.insertOrUpdate(comic)
 
                 }, fun() {
                     android.util.Log.d("database", "uploaded")
