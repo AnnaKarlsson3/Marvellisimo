@@ -3,6 +3,7 @@ package com.example.marvellisimo
 import CharacterItem
 import com.example.marvellisimo.R
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -39,6 +40,7 @@ class CharactersPageActivity : AppCompatActivity() {
     private fun navButtons(){
 
         val dis_button = findViewById<Button>(R.id.character_btn)
+        dis_button.paintFlags = dis_button.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         dis_button.setEnabled(false);
 
         val button = findViewById<Button>(R.id.comic_btn)
