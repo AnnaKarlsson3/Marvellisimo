@@ -147,7 +147,6 @@ class ComicsPageActivity : AppCompatActivity() {
                         title = c.title
                         description = c.description
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
-                        favorite = c.favorite;
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
                                 type = it.type

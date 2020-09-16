@@ -140,7 +140,7 @@ class CharactersPageActivity : AppCompatActivity() {
                         name = c.name
                         description = c.description
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
-                        favorite = c.favorite
+                        //favorite
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
                                 type = it.type
