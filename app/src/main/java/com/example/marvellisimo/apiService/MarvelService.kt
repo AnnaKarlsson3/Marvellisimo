@@ -1,9 +1,9 @@
 @file:JvmName("MarvelServiceKt")
 
-package com.example.marvellisimo.ApiService
+package com.example.marvellisimo.apiService
 
-import com.example.marvellisimo.ViewModel.CharacterDataWrapper
-import com.example.marvellisimo.ViewModel.ComicDataWrapper
+import com.example.marvellisimo.viewModel.CharacterDataWrapper
+import com.example.marvellisimo.viewModel.ComicDataWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

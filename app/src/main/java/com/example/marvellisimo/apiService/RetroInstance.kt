@@ -1,4 +1,4 @@
-package com.example.marvellisimo.ApiService
+package com.example.marvellisimo.apiService
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
