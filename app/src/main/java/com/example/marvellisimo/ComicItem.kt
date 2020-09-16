@@ -20,12 +20,13 @@ class ComicItem(val comic: Comic) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textView_comicname_row.text = comic.title
         //put image in: (use picasso lib, 3e party: https://github.com/square/picasso)
-        var fav_ListButton : ImageButton = viewHolder.itemView.findViewById(R.id.image_Fav_Button)
+        var isClicked = true
+        var fav_ListButton : ImageButton = viewHolder.itemView.findViewById(R.id.image_Fav_Button_comic)
 
         val imgsize = "/portrait_small"
         val img : String = renamePathHttps("${comic.thumbnail.path}.${comic.thumbnail.extension}")
 
-        var isClicked = false
+
         Picasso.get().load(img).fit().into(viewHolder.itemView.imageView_comic_row)
 
         fav_ListButton.setOnClickListener(object: View.OnClickListener{

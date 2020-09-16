@@ -15,6 +15,7 @@ import com.example.marvellisimo.ViewModel.Comic
 import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import com.example.marvellisimo.Activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.observe
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
@@ -32,6 +33,10 @@ class ComicsPageActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
+
+        val toolbar: Toolbar = findViewById(R.id.myToolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
 
         PrintToRecycleView()
         setFavButton();
@@ -55,7 +60,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
     }
 
-    var isClicked = false
+    var isClicked = true
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
 

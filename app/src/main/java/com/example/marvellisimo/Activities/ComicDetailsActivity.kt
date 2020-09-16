@@ -22,6 +22,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
             supportActionBar?.title = comic?.title
 
+
             comic_name.text = comic?.title
             comic_info.text = comic?.description
 

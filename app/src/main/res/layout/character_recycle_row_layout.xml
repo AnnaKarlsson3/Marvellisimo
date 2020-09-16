@@ -28,13 +28,13 @@
             android:fontFamily="@font/marvel_bold"
             android:paddingLeft="16dp"
             android:text="Name"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textFontWeight="900"
             android:textSize="36sp"
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/image_Fav_Button_character"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="5dp"
