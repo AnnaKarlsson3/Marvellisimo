@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_comic_page.*
 class ComicsPageActivity : AppCompatActivity() {
     val model: ViewModelDataPopulator by viewModels()
     val modelComic: ViewModelComicCharacter by viewModels()
-    var isClicked = false
+    var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
@@ -55,15 +55,15 @@ class ComicsPageActivity : AppCompatActivity() {
         val realm = Realm.getDefaultInstance()
 
 
-
-
-
         dataCashing(realm)
-        filterComic()
         PrintToRecycleView()
-        setFavButton();
-        navButtons();
+        filterComic()
+
+        navButtons()
+        setFavButton()
     }
+
+
 
     private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
@@ -78,17 +78,26 @@ class ComicsPageActivity : AppCompatActivity() {
     }
 
     private fun setFavButton() {
-        val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
+        val favButton: ImageButton = findViewById(R.id.filter_fav_comic_btn)
 
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
                 if (isClicked) {
+                    modelComic.getFavoriteComic().observe(activity, {
+                        adapter.clear()
+                        it.forEach { comic ->
+                            adapter.add(ComicItem(comic))
+                        }
+                    })
+
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
+                    PrintToRecycleView()
                 }
                 isClicked = !isClicked;
             }
+
         })
     }
 
@@ -154,15 +163,17 @@ class ComicsPageActivity : AppCompatActivity() {
 
     }
 
-    private fun filterComic(){
+    private fun filterComic() {
 
         search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 modelComic.getSearchComicData(newText).observe(activity, {
                     adapter.clear()
-                    it.forEach{ comic -> adapter.add(ComicItem(comic))
-                        Log.d("filterdComic", "${comic.title}")}
+                    it.forEach { comic ->
+                        adapter.add(ComicItem(comic))
+                        Log.d("filterdComic", "${comic.title}")
+                    }
                 })
 
                 return false

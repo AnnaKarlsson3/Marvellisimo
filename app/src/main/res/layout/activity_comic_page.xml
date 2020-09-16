@@ -64,7 +64,7 @@
             </SearchView>
 
             <ImageButton
-                android:id="@+id/filter_fav_image_btn"
+                android:id="@+id/filter_fav_comic_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

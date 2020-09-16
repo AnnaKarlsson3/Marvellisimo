@@ -71,7 +71,7 @@ class CharactersPageActivity : AppCompatActivity() {
     }
 
     private fun setFavButton() {
-        val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
+        val favButton: ImageButton = findViewById(R.id.filter_fav_character_btn)
 
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
