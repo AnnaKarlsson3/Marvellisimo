@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="60dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
         android:orientation="vertical">
@@ -68,8 +67,6 @@
                 android:background="@drawable/button_menu"
                 android:text="READ MORE  >"
                 android:textColor="@color/textColor" />
-
-
         </LinearLayout>
 
 
