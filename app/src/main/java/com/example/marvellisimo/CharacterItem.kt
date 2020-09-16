@@ -19,8 +19,8 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         viewHolder.itemView.textView_charactername_row.text = character.name
 
 
-        var isClicked = false
-        var fav_ListButton : ImageButton = viewHolder.itemView.findViewById(R.id.image_Fav_Button)
+        var isClicked = true
+        var fav_ListButton : ImageButton = viewHolder.itemView.findViewById(R.id.image_Fav_Button_character)
 
 
         val imgsize = "/portrait_small"

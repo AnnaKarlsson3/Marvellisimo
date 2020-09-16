@@ -51,7 +51,7 @@ class CharactersPageActivity : AppCompatActivity() {
 
     }
 
-    var isClicked = false
+    var isClicked = true
     private fun setFavButton(){
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
 
