@@ -2,6 +2,7 @@ package com.example.marvellisimo
 
 import CharacterItem
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -63,6 +64,7 @@ class CharactersPageActivity : AppCompatActivity() {
     private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.character_btn)
         dis_button.setEnabled(false);
+        dis_button.paintFlags = dis_button.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         val button = findViewById<Button>(R.id.comic_btn)
         button.setOnClickListener {

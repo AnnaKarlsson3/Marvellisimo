@@ -23,7 +23,8 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
 
         val img : String = renamePathHttps("${character.thumbnail}")
 
-        Picasso.get().load(img).fit().into(viewHolder.itemView.imageView_character_row)
+        Picasso.get().load(img).resize(100, 75)
+            .centerCrop().into(viewHolder.itemView.imageView_character_row)
 
         var fav_ListButton: ImageButton =
             viewHolder.itemView.findViewById(R.id.image_Fav_Button_character)

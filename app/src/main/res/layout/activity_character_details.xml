@@ -46,8 +46,9 @@
             android:id="@+id/character_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
             android:rotation="-180"
-            app:srcCompat="@drawable/abc_vector_test" />
+            app:srcCompat="@drawable/ic_reply_all_solid" />
     </LinearLayout>
 
 </ScrollView>

@@ -22,7 +22,9 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         var favorite = comic.favorite
 
         val img: String = renamePathHttps("${comic.thumbnail}")
-        Picasso.get().load(img).fit().into(viewHolder.itemView.imageView_comic_row)
+        Picasso.get().load(img).resize(100, 75)
+            .centerCrop()
+            .into(viewHolder.itemView.imageView_comic_row)
 
         var fav_ListButton: ImageButton =
             viewHolder.itemView.findViewById(R.id.image_Fav_Button_comic)
