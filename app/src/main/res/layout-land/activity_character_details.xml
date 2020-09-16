@@ -36,7 +36,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/charcter_image"
+                android:id="@+id/character_image"
                 android:layout_width="280dp"
                 android:layout_height="280dp"
                 android:layout_marginBottom="50dp"
@@ -59,7 +59,7 @@
                     tools:text="After an alien device mutated her DNA, Danvers transformed from a merely brilliant pilot into one of the most powerful Super Heroes in the universe. Now soaring among the stars, Carol Danvers is known as Captain Marvel!" />
 
                 <Button
-                    android:id="@+id/charcter_link"
+                    android:id="@+id/character_link"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="239dp"
                     android:layout_height="wrap_content"
