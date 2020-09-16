@@ -57,6 +57,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
         dataCashing(realm)
+        filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
@@ -94,6 +95,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
         modelComic.getComicData().observe(this, {
+            adapter.clear()
             it.forEach { comic ->
                 adapter.add(ComicItem(comic))
                 Log.d("comicResult", "${comic.title}")
@@ -122,12 +124,6 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun dataCashing(realm: Realm) {
 
-        realm.executeTransactionAsync {
-            it.where<RealmComicEntity>()
-                .findAll()
-                .deleteAllFromRealm()
-        }
-
         model.comicDataWrapper.observe(this, {
 
             it.data.results.forEach { c ->
@@ -155,26 +151,27 @@ class ComicsPageActivity : AppCompatActivity() {
 
     }
 
-//    private fun filterComic(){
-//
-//        search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//
-//            override fun onQueryTextChange(newText: String): Boolean {
-//                modelComic.getSearchComicData(newText).observe(activity, {
-//                    it.forEach{ comic -> adapter.add(ComicItem(comic))
-//                        Log.d("filterdComic", "${comic.title}")}
-//                })
-//
-//                return false
-//            }
-//
-//            override fun onQueryTextSubmit(query: String): Boolean {
-//                // task HERE
-//                return false
-//            }
-//
-//        })
-//    }
+    private fun filterComic(){
+
+        search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                modelComic.getSearchComicData(newText).observe(activity, {
+                    adapter.clear()
+                    it.forEach{ comic -> adapter.add(ComicItem(comic))
+                        Log.d("filterdComic", "${comic.title}")}
+                })
+
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // task HERE
+                return false
+            }
+
+        })
+    }
 
 
 }

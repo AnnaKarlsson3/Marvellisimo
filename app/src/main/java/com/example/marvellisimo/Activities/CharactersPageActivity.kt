@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.SearchView
 import androidx.activity.viewModels
 import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.observe
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacter
 import com.example.marvellisimo.entity.UrlDb
 import com.example.marvellisimo.ViewModel.ViewModelDataPopulator
@@ -19,13 +21,17 @@ import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_characters_page.*
+import kotlinx.android.synthetic.main.activity_comic_page.*
 
 
 class CharactersPageActivity : AppCompatActivity() {
     val model: ViewModelDataPopulator by viewModels()
+    val modelCharacter: ViewModelComicCharacter by viewModels()
     var isClicked = false
+    val activity = this
+    val adapter = GroupAdapter<GroupieViewHolder>()
 
-    companion object{
+    companion object {
         val CHAR_KEY = "CHAR_KEY"
         val CHAR_NAME = "CHAR_NAME"
         val CHAR_INFO = "CHAR_INFO"
@@ -47,30 +53,31 @@ class CharactersPageActivity : AppCompatActivity() {
         val realm = Realm.getDefaultInstance()
 
         dataCashing(realm)
+        filterCharacter()
         PrintToRecycleView()
         navButtons()
         setFavButton();
     }
 
-    private fun navButtons(){
+    private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.character_btn)
         dis_button.setEnabled(false);
 
         val button = findViewById<Button>(R.id.comic_btn)
-        button.setOnClickListener{
+        button.setOnClickListener {
             val intent = Intent(this, ComicsPageActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun setFavButton(){
+    private fun setFavButton() {
         val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
 
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
-                if(isClicked){
+                if (isClicked) {
                     favButton.setImageResource(R.drawable.ic_star_solid)
-                }else{
+                } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
                 }
                 isClicked = !isClicked;
@@ -78,14 +85,15 @@ class CharactersPageActivity : AppCompatActivity() {
         })
     }
 
-    private fun PrintToRecycleView(){
+    private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
-        val adapter = GroupAdapter<GroupieViewHolder>()
-        val modelCharacter: ViewModelComicCharacter by viewModels ()
+
 
         modelCharacter.getCharacterData().observe(this, {
-            it.forEach{ character -> adapter.add(CharacterItem(character))
-                Log.d("characterResult", "${character.name}")}
+            it.forEach { character ->
+                adapter.add(CharacterItem(character))
+                Log.d("characterResult", "${character.name}")
+            }
         })
 
 //        model.characterDataWrapper.observe(this, {
@@ -104,7 +112,7 @@ class CharactersPageActivity : AppCompatActivity() {
             startActivity(intent)
         }
         recycle_view_character.adapter = adapter
-       
+
     }
 
     private fun dataCashing(realm: Realm) {
@@ -130,5 +138,31 @@ class CharactersPageActivity : AppCompatActivity() {
             }//foreach end
         })
     }
+
+
+    private fun filterCharacter() {
+
+        search_bar_character.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                modelCharacter.getSearchCharacterData(newText).observe(activity, {
+                    adapter.clear()
+                    it.forEach { character ->
+                        adapter.add(CharacterItem(character))
+                        Log.d("filterdCharacter", "${character.name}")
+                    }
+                })
+
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // task HERE
+                return false
+            }
+
+        })
+    }
+
 
 }
