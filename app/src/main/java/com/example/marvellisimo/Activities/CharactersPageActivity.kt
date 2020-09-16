@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_comic_page.*
 class CharactersPageActivity : AppCompatActivity() {
     val model: ViewModelDataPopulator by viewModels()
     val modelCharacter: ViewModelComicCharacter by viewModels()
-    var isClicked = false
+    var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
@@ -55,6 +55,7 @@ class CharactersPageActivity : AppCompatActivity() {
         dataCashing(realm)
         filterCharacter()
         PrintToRecycleView()
+        clickOnRecycleView()
         navButtons()
         setFavButton();
     }
@@ -70,26 +71,13 @@ class CharactersPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFavButton() {
-        val favButton: ImageButton = findViewById(R.id.filter_fav_character_btn)
-
-        favButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(arg0: View?) {
-                if (isClicked) {
-                    favButton.setImageResource(R.drawable.ic_star_solid)
-                } else {
-                    favButton.setImageResource(R.drawable.ic_star_regular)
-                }
-                isClicked = !isClicked;
-            }
-        })
-    }
 
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
 
 
         modelCharacter.getCharacterData().observe(this, {
+            adapter.clear()
             it.forEach { character ->
                 adapter.add(CharacterItem(character))
                 Log.d("characterResult", "${character.name}")
@@ -100,6 +88,12 @@ class CharactersPageActivity : AppCompatActivity() {
 //            it.data.results.forEach { character -> adapter.add(CharacterItem(character)) }
 //        })
 
+
+        recycle_view_character.adapter = adapter
+
+    }
+
+    private fun clickOnRecycleView(){
         adapter.setOnItemClickListener { item, view ->
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
@@ -111,8 +105,30 @@ class CharactersPageActivity : AppCompatActivity() {
             intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
         }
-        recycle_view_character.adapter = adapter
+    }
 
+    private fun setFavButton() {
+        val favButton: ImageButton = findViewById(R.id.filter_fav_character_btn)
+
+        favButton.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(arg0: View?) {
+                if (isClicked) {
+                    modelCharacter.getFavoriteCharacter().observe(activity, {
+                        adapter.clear()
+                        it.forEach { character ->
+                            adapter.add(CharacterItem(character))
+                        }
+                    })
+
+                    favButton.setImageResource(R.drawable.ic_star_solid)
+                } else {
+                    favButton.setImageResource(R.drawable.ic_star_regular)
+                    PrintToRecycleView()
+                }
+                isClicked = !isClicked;
+            }
+
+        })
     }
 
     private fun dataCashing(realm: Realm) {
@@ -124,6 +140,7 @@ class CharactersPageActivity : AppCompatActivity() {
                         name = c.name
                         description = c.description
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                        favorite = c.favorite
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
                                 type = it.type

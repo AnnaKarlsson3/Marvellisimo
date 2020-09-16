@@ -61,9 +61,8 @@ class ComicsPageActivity : AppCompatActivity() {
 
         navButtons()
         setFavButton()
+        clickToRecycleView()
     }
-
-
 
     private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
@@ -76,6 +75,7 @@ class ComicsPageActivity : AppCompatActivity() {
         }
 
     }
+
 
     private fun setFavButton() {
         val favButton: ImageButton = findViewById(R.id.filter_fav_comic_btn)
@@ -117,6 +117,10 @@ class ComicsPageActivity : AppCompatActivity() {
             it.data.results.forEach { comic -> adapter.add(ComicItem(comic)) }
         })*/
 
+        recycle_view_comic.adapter = adapter
+    }
+
+    private fun clickToRecycleView() {
         adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
@@ -128,8 +132,6 @@ class ComicsPageActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
-
-        recycle_view_comic.adapter = adapter
     }
 
 

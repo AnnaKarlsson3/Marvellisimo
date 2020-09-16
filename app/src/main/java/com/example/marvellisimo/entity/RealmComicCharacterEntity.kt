@@ -29,6 +29,7 @@ open class RealmCharacterEntity:RealmObject(),Parcelable {
     var description: String?= null
     var thumbnail: String? =null
     var urls: RealmList<UrlDb>? = RealmList()
+    var favorite: Boolean ? = null
 }
 
 

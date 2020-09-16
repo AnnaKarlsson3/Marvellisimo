@@ -47,14 +47,9 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
                         comic.favorite = false
                         realm.copyToRealmOrUpdate(comic)
                     }
-
                 }
-
-
             }
-
         });
-
     }
 
     //renders out the rows in view:
