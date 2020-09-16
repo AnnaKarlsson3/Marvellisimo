@@ -2,8 +2,8 @@
 
 package com.example.marvellisimo.apiService
 
-import com.example.marvellisimo.viewModel.CharacterDataWrapper
-import com.example.marvellisimo.viewModel.ComicDataWrapper
+import com.example.marvellisimo.entity.CharacterDataWrapper
+import com.example.marvellisimo.entity.ComicDataWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

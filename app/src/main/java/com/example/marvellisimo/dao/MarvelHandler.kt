@@ -2,8 +2,8 @@ package com.example.marvellisimo.dao
 
 import com.example.marvellisimo.apiService.MarvelService
 import com.example.marvellisimo.apiService.RetroInstance
-import com.example.marvellisimo.viewModel.CharacterDataWrapper
-import com.example.marvellisimo.viewModel.ComicDataWrapper
+import com.example.marvellisimo.entity.CharacterDataWrapper
+import com.example.marvellisimo.entity.ComicDataWrapper
 import com.example.marvellisimo.entity.*
 import io.realm.Realm
 import retrofit2.Call
@@ -17,8 +17,8 @@ class MarvelHandler(val realm: Realm) {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         service.getAllComics().enqueue(object : Callback<ComicDataWrapper> {
             override fun onResponse(
-                    call: Call<ComicDataWrapper>,
-                    response: Response<ComicDataWrapper>
+                call: Call<ComicDataWrapper>,
+                response: Response<ComicDataWrapper>
             ) {
                 if (response.isSuccessful) {
                     saveComicsToRealm(response.body()!!)
@@ -60,8 +60,8 @@ class MarvelHandler(val realm: Realm) {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         service.getAllCharacters().enqueue(object : Callback<CharacterDataWrapper> {
             override fun onResponse(
-                    call: Call<CharacterDataWrapper>,
-                    response: Response<CharacterDataWrapper>
+                call: Call<CharacterDataWrapper>,
+                response: Response<CharacterDataWrapper>
             ) {
                 if (response.isSuccessful) {
                     saveCharactersToRealm(response.body()!!)

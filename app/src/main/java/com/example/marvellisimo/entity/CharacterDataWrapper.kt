@@ -1,4 +1,4 @@
-package com.example.marvellisimo.viewModel
+package com.example.marvellisimo.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -14,7 +14,7 @@ data class CharacterDataContainer(val results: ArrayList<Character>) {
 data class Character(val id: Int,
                      val name: String,
                      val description: String,
-                     val thumbnail: com.example.marvellisimo.viewModel.Image,
+                     val thumbnail: Image,
                      val urls: ArrayList<Url> ): Parcelable{
 
 }
