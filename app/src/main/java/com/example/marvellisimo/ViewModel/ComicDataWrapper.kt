@@ -15,6 +15,7 @@ data class Comic(val id: Int,
                      val title: String,
                      val description: String,
                      val thumbnail:  com.example.marvellisimo.ViewModel.Image,
+                    val favorite : Boolean,
                     val urls: ArrayList<Url>):Parcelable
 
 //@Parcelize

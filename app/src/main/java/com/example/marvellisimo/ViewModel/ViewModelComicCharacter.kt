@@ -25,12 +25,16 @@ class ViewModelComicCharacter() : ViewModel(){
         return realm.where(RealmCharacterEntity::class.java).findAllAsync().asLiveData()
     }
 
+
+
     fun getSearchComicData(searchText: String): LiveData<RealmResults<RealmComicEntity>> {
         return realm.where(RealmComicEntity::class.java)
             .beginsWith("title","${searchText}",Case.INSENSITIVE)
             .findAllAsync().asLiveData()
 
     }
+
+    //fun getFavoriteComic(): LiveData<RealmResults<RealmComicEntity>> {}
 
     fun getSearchCharacterData(searchText: String): LiveData<RealmResults<RealmCharacterEntity>> {
         return realm.where(RealmCharacterEntity::class.java)

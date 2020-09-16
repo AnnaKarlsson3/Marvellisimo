@@ -17,6 +17,7 @@ open  class RealmComicEntity:RealmObject(){
     var description: String?= null
     var thumbnail: String? =null
     var urls: RealmList<UrlDb>? = RealmList()
+    var favorite: Boolean? = null;
 
 }
 @Parcelize

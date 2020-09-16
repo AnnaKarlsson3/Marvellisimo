@@ -56,6 +56,8 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 
+
+
         dataCashing(realm)
         filterComic()
         PrintToRecycleView()
@@ -98,7 +100,7 @@ class ComicsPageActivity : AppCompatActivity() {
             adapter.clear()
             it.forEach { comic ->
                 adapter.add(ComicItem(comic))
-                Log.d("comicResult", "${comic.title}")
+                Log.d("comicResult", "${comic.title}" + "${comic.favorite}")
             }
         })
 
@@ -134,6 +136,7 @@ class ComicsPageActivity : AppCompatActivity() {
                         title = c.title
                         description = c.description
                         thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                        favorite = c.favorite;
                         urls?.addAll(c.urls.map {
                             UrlDb().apply {
                                 type = it.type
