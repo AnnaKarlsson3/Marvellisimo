@@ -16,6 +16,7 @@ import com.example.marvellisimo.Activities.CharacterDetailsActivity
 import com.example.marvellisimo.Activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.observe
 import com.example.marvellisimo.ViewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -27,7 +28,6 @@ import okhttp3.Response
 import java.net.CacheResponse
 
 class ComicsPageActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
