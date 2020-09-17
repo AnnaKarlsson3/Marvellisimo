@@ -33,6 +33,18 @@ class ViewModelComicCharacterPage : ViewModel() {
 
     }
 
+    fun getFavoriteComic(): LiveData<RealmResults<RealmComicEntity>> {
+        return realm.where(RealmComicEntity::class.java)
+            .equalTo("favorite",true)
+            .findAllAsync().asLiveData()
+    }
+
+    fun getFavoriteCharacter(): LiveData<RealmResults<RealmCharacterEntity>> {
+        return realm.where(RealmCharacterEntity::class.java)
+            .equalTo("favorite",true)
+            .findAllAsync().asLiveData()
+    }
+
     fun getSearchCharacterData(searchText: String): LiveData<RealmResults<RealmCharacterEntity>> {
         return realm.where(RealmCharacterEntity::class.java)
                 .beginsWith("name","${searchText}", Case.INSENSITIVE)

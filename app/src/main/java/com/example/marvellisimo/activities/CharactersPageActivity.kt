@@ -45,6 +45,7 @@ class CharactersPageActivity : AppCompatActivity() {
         PrintToRecycleView()
         navButtons()
         setFavButton();
+        clickOnRecycleView()
     }
 
     private fun navButtons() {
@@ -59,17 +60,26 @@ class CharactersPageActivity : AppCompatActivity() {
     }
 
     private fun setFavButton() {
-        val favButton: ImageButton = findViewById(R.id.filter_fav_image_btn)
+        val favButton: ImageButton = findViewById(R.id.filter_fav_character_btn)
 
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
                 if (isClicked) {
+                    modelCharacter.getFavoriteCharacter().observe(activity, {
+                        adapter.clear()
+                        it.forEach { character ->
+                            adapter.add(CharacterItem(character))
+                        }
+                    })
+
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
+                    PrintToRecycleView()
                 }
                 isClicked = !isClicked;
             }
+
         })
     }
 
@@ -82,6 +92,11 @@ class CharactersPageActivity : AppCompatActivity() {
             }
         })
 
+
+        recycle_view_character.adapter = adapter
+    }
+
+    private fun clickOnRecycleView(){
         adapter.setOnItemClickListener { item, view ->
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
@@ -93,7 +108,6 @@ class CharactersPageActivity : AppCompatActivity() {
             intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
         }
-        recycle_view_character.adapter = adapter
     }
 
     private fun filterCharacter() {
