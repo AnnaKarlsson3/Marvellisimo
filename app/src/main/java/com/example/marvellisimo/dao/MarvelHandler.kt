@@ -19,12 +19,10 @@ class MarvelHandler(val realm: Realm) {
     }
 
     //Get Comic-data from API
-    fun fetchComicsToRealm(){
+    fun fetchComicsToRealm() {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         var offset = 0
-
-        for(i in 0 until 15) {
-            Log.d("getFromApi", "COMICS offset is: $offset, i = $i")
+        for (i in 0 until 15) {
             service.getAllComics().enqueue(object : Callback<ComicDataWrapper> {
                 override fun onResponse(
                     call: Call<ComicDataWrapper>,
@@ -33,25 +31,21 @@ class MarvelHandler(val realm: Realm) {
                     if (response.isSuccessful) {
                         saveComicsToRealm(response.body()!!)
                     } else {
-
                     }
                 }
-
                 override fun onFailure(call: Call<ComicDataWrapper>, t: Throwable) {
                 }
             })
             offset += 100
         }
-
     }
-
 
     //set ComicData from API to Realm
     private fun saveComicsToRealm(comicdatawrapper: ComicDataWrapper) {
         realm.executeTransactionAsync(fun(realm: Realm) {
             comicdatawrapper.data.results.forEach { c ->
                 val comicFromDatabase = realm.where(RealmComicEntity::class.java)
-                    .equalTo("id",c.id)
+                    .equalTo("id", c.id)
                     .findFirst()
                 val comic = RealmComicEntity().apply {
                     id = c.id
@@ -76,11 +70,10 @@ class MarvelHandler(val realm: Realm) {
     }
 
     //Get Character-data from API
-    fun fetchCharactersToRealm(){
+    fun fetchCharactersToRealm() {
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
         var offset = 0
-        for(i in 0 until 15) {
-            Log.d("getFromApi", "offset is: $offset, i = $i")
+        for (i in 0 until 15) {
             service.getAllCharacters(offset).enqueue(object : Callback<CharacterDataWrapper> {
                 override fun onResponse(
                     call: Call<CharacterDataWrapper>,
@@ -104,7 +97,7 @@ class MarvelHandler(val realm: Realm) {
         realm.executeTransactionAsync(fun(realm: Realm) {
             characterDataWrapper.data.results.forEach { c ->
                 val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
-                    .equalTo("id",c.id)
+                    .equalTo("id", c.id)
                     .findFirst()
                 val character = RealmCharacterEntity().apply {
                     id = c.id
