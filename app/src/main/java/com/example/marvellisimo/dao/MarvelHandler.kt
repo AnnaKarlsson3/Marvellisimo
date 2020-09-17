@@ -1,11 +1,13 @@
 package com.example.marvellisimo.dao
 
+import android.util.Log
 import com.example.marvellisimo.apiService.MarvelService
 import com.example.marvellisimo.apiService.RetroInstance
 import com.example.marvellisimo.entity.CharacterDataWrapper
 import com.example.marvellisimo.entity.ComicDataWrapper
 import com.example.marvellisimo.entity.*
 import io.realm.Realm
+import io.realm.kotlin.where
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,20 +21,28 @@ class MarvelHandler(val realm: Realm) {
     //Get Comic-data from API
     fun fetchComicsToRealm(){
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
-        service.getAllComics().enqueue(object : Callback<ComicDataWrapper> {
-            override fun onResponse(
-                call: Call<ComicDataWrapper>,
-                response: Response<ComicDataWrapper>
-            ) {
-                if (response.isSuccessful) {
-                    saveComicsToRealm(response.body()!!)
-                } else {
+        var offset = 0
 
+        for(i in 0 until 15) {
+            Log.d("getFromApi", "COMICS offset is: $offset, i = $i")
+            service.getAllComics().enqueue(object : Callback<ComicDataWrapper> {
+                override fun onResponse(
+                    call: Call<ComicDataWrapper>,
+                    response: Response<ComicDataWrapper>
+                ) {
+                    if (response.isSuccessful) {
+                        saveComicsToRealm(response.body()!!)
+                    } else {
+
+                    }
                 }
-            }
-            override fun onFailure(call: Call<ComicDataWrapper>, t: Throwable) {
-            }
-        })
+
+                override fun onFailure(call: Call<ComicDataWrapper>, t: Throwable) {
+                }
+            })
+            offset += 100
+        }
+
     }
 
 
@@ -68,20 +78,25 @@ class MarvelHandler(val realm: Realm) {
     //Get Character-data from API
     fun fetchCharactersToRealm(){
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
-        service.getAllCharacters().enqueue(object : Callback<CharacterDataWrapper> {
-            override fun onResponse(
-                call: Call<CharacterDataWrapper>,
-                response: Response<CharacterDataWrapper>
-            ) {
-                if (response.isSuccessful) {
-                    saveCharactersToRealm(response.body()!!)
-                } else {
+        var offset = 0
+        for(i in 0 until 15) {
+            Log.d("getFromApi", "offset is: $offset, i = $i")
+            service.getAllCharacters(offset).enqueue(object : Callback<CharacterDataWrapper> {
+                override fun onResponse(
+                    call: Call<CharacterDataWrapper>,
+                    response: Response<CharacterDataWrapper>
+                ) {
+                    if (response.isSuccessful) {
+                        saveCharactersToRealm(response.body()!!)
+                    } else {
 
+                    }
                 }
-            }
-            override fun onFailure(call: Call<CharacterDataWrapper>, t: Throwable) {
-            }
-        })
+                override fun onFailure(call: Call<CharacterDataWrapper>, t: Throwable) {
+                }
+            })
+            offset += 100
+        }
     }
 
     //set CharacterData from API to Realm
