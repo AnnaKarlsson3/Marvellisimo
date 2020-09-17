@@ -79,19 +79,18 @@ class CharactersPageActivity : AppCompatActivity() {
                 }
                 isClicked = !isClicked;
             }
-
         })
     }
 
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
         modelCharacter.getCharacterData().observe(this, {
+            adapter.clear()
             it.forEach { character ->
                 adapter.add(CharacterItem(character))
                 Log.d("characterResult", "${character.name}")
             }
         })
-
 
         recycle_view_character.adapter = adapter
     }

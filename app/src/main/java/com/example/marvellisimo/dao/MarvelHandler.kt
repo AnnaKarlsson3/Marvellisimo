@@ -12,6 +12,10 @@ import retrofit2.Response
 
 class MarvelHandler(val realm: Realm) {
 
+    companion object {
+        val realm = Realm.getDefaultInstance()
+    }
+
     //Get Comic-data from API
     fun fetchComicsToRealm(){
         val service = RetroInstance.getRetroInstance().create(MarvelService::class.java)
@@ -36,11 +40,15 @@ class MarvelHandler(val realm: Realm) {
     private fun saveComicsToRealm(comicdatawrapper: ComicDataWrapper) {
         realm.executeTransactionAsync(fun(realm: Realm) {
             comicdatawrapper.data.results.forEach { c ->
+                val comicFromDatabase = realm.where(RealmComicEntity::class.java)
+                    .equalTo("id",c.id)
+                    .findFirst()
                 val comic = RealmComicEntity().apply {
                     id = c.id
                     title = c.title
                     description = c.description
                     thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                    favorite = comicFromDatabase?.favorite!!
                     urls?.addAll(c.urls.map {
                         UrlDb().apply {
                             type = it.type
@@ -78,11 +86,15 @@ class MarvelHandler(val realm: Realm) {
     private fun saveCharactersToRealm(characterDataWrapper: CharacterDataWrapper) {
         realm.executeTransactionAsync(fun(realm: Realm) {
             characterDataWrapper.data.results.forEach { c ->
+                val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
+                    .equalTo("id",c.id)
+                    .findFirst()
                 val character = RealmCharacterEntity().apply {
                     id = c.id
                     name = c.name
                     description = c.description
                     thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
+                    favorite = characterFromDatabase!!.favorite
                     urls?.addAll(c.urls.map {
                         UrlDb().apply {
                             type = it.type
