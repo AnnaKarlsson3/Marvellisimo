@@ -60,7 +60,7 @@
 
             <SearchView
                 android:id="@+id/search_bar_character"
-                android:layout_width="0dp"
+                android:layout_width="207dp"
                 android:layout_height="40dp"
                 android:layout_weight="4"
                 android:background="@drawable/rounded_search_menu">
