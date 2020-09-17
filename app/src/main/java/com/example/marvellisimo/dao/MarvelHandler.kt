@@ -48,7 +48,9 @@ class MarvelHandler(val realm: Realm) {
                     title = c.title
                     description = c.description
                     thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
-                    favorite = comicFromDatabase?.favorite!!
+                    if (comicFromDatabase != null) {
+                        favorite = comicFromDatabase.favorite
+                    }
                     urls?.addAll(c.urls.map {
                         UrlDb().apply {
                             type = it.type
@@ -94,7 +96,9 @@ class MarvelHandler(val realm: Realm) {
                     name = c.name
                     description = c.description
                     thumbnail = "${c.thumbnail.path}.${c.thumbnail.extension}"
-                    favorite = characterFromDatabase!!.favorite
+                    if (characterFromDatabase != null) {
+                        favorite = characterFromDatabase.favorite
+                    }
                     urls?.addAll(c.urls.map {
                         UrlDb().apply {
                             type = it.type
