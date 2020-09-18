@@ -40,6 +40,7 @@ class CharactersPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         filterCharacter()
         PrintToRecycleView()

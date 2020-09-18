@@ -13,13 +13,15 @@ class ComicDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
 
-        supportActionBar?.title = text
+
 
         comic_name.text = text
         comic_info.text = info

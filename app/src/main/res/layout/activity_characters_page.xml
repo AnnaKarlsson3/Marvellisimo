@@ -6,10 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CharactersPageActivity">
 
-    <include
-        android:id="@+id/myToolbar"
-        layout="@layout/appbar" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -18,7 +14,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myToolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
@@ -71,18 +67,17 @@
                 android:id="@+id/filter_fav_character_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="0dp"
                 android:background="#00FFFFFF"
                 android:backgroundTint="#FFFFFF"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_star_regular"
-                />
+                app:srcCompat="@drawable/ic_star_regular" />
 
         </LinearLayout>
 
