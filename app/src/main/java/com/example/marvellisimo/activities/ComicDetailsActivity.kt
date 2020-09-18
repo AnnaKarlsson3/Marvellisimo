@@ -30,13 +30,10 @@ class ComicDetailsActivity : AppCompatActivity() {
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
-        //val favorite = intent.getBooleanExtra(ComicsPageActivity.COMIC_FAVORITE , false)
 
         supportActionBar?.title = text
         comic_name.text = text
         comic_info.text = info
-
-
 
         val comicFromDatabase = ComicDetailsActivity.realm.where(RealmCharacterEntity::class.java)
             .equalTo("id", id)
@@ -50,39 +47,32 @@ class ComicDetailsActivity : AppCompatActivity() {
                 image_Fav_Button_comic.setImageResource(R.drawable.ic_star_regular)
             }
 
-
         image_Fav_Button_comic.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (favorite == false) {
                     realm.executeTransaction {
                         comicFromDatabase!!.favorite = true
-                        CharacterDetailsActivity.realm.copyToRealmOrUpdate(comicFromDatabase)
+                        realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
-
                     finish()
                     startActivity(intent)
 
                 } else {
                     realm.executeTransaction {
                         comicFromDatabase!!.favorite = false
-                        CharacterDetailsActivity.realm.copyToRealmOrUpdate(comicFromDatabase)
+                        realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
-
                     finish()
                     startActivity(intent)
                 }
             }
         });
 
-
-
         Picasso.get().load(imageUrl?.replace("http","https")).fit().into(comic_image)
 
         comic_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-
             intent.data = Uri.parse(url)
-
             startActivity(intent)
         }
 

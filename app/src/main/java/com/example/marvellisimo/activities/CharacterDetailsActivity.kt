@@ -22,29 +22,21 @@ class CharacterDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
 
-
         val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
         val text = intent.getStringExtra(CharactersPageActivity.CHAR_NAME)
         val info = intent.getStringExtra(CharactersPageActivity.CHAR_INFO)
         val imageUrl = intent.getStringExtra(CharactersPageActivity.CHAR_IMAGE)
         val url = intent.getStringExtra(CharactersPageActivity.CHAR_URL)
-        //val favorite = intent.getBooleanExtra(CharactersPageActivity.CHAR_FAVORITE, false)
-
 
         val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
             .equalTo("id", id)
             .findFirst()
 
-        Log.d("CHARACTERID", "${characterFromDatabase}")
-
         val favorite = characterFromDatabase!!.favorite
 
         supportActionBar?.title = text
-
         character_name.text = text
         character_info.text = info
-
-
 
         Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(character_image)
 
@@ -62,7 +54,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
                         characterFromDatabase!!.favorite = true
                         realm.copyToRealmOrUpdate(characterFromDatabase)
                     }
-
                     finish()
                     startActivity(intent)
 
@@ -71,7 +62,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
                         characterFromDatabase!!.favorite = false
                         realm.copyToRealmOrUpdate(characterFromDatabase)
                     }
-
                     finish()
                     startActivity(intent)
                 }
@@ -81,7 +71,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
         character_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
-
             startActivity(intent)
         }
 
