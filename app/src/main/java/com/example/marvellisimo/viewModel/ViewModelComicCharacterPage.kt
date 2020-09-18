@@ -9,6 +9,7 @@ import com.example.marvellisimo.entity.RealmComicEntity
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
+import io.realm.Sort
 
 class ViewModelComicCharacterPage : ViewModel() {
     val realm: Realm by lazy {
@@ -18,12 +19,12 @@ class ViewModelComicCharacterPage : ViewModel() {
 
     fun getComicData(): LiveData<RealmResults<RealmComicEntity>> {
         api.fetchComicsToRealm()
-        return realm.where(RealmComicEntity::class.java).findAllAsync().asLiveData()
+        return realm.where(RealmComicEntity::class.java).sort("title", Sort.ASCENDING).findAllAsync().asLiveData()
     }
 
     fun getCharacterData(): LiveData<RealmResults<RealmCharacterEntity>> {
         api.fetchCharactersToRealm()
-        return realm.where(RealmCharacterEntity::class.java).findAllAsync().asLiveData()
+        return realm.where(RealmCharacterEntity::class.java).sort("name", Sort.ASCENDING).findAllAsync().asLiveData()
     }
 
     fun getSearchComicData(searchText: String): LiveData<RealmResults<RealmComicEntity>> {
