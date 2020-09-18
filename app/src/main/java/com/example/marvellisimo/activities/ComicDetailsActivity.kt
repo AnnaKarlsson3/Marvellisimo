@@ -21,7 +21,7 @@ class ComicDetailsActivity : AppCompatActivity() {
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
-        val favorite = intent.getBooleanExtra(ComicsPageActivity.COMIC_URL)
+        val favorite = intent.getBooleanExtra(ComicsPageActivity.COMIC_FAVORITE)
 
         supportActionBar?.title = text
         comic_name.text = text
