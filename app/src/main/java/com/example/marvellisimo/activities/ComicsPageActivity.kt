@@ -129,7 +129,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
             startActivity(intent)
-            finish()
+
         }
     }
 
