@@ -9,10 +9,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
-import com.example.marvellisimo.activities.ComicDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -148,6 +150,9 @@ class ComicsPageActivity : AppCompatActivity() {
 
         })
     }
+
+
+
 
 }
 

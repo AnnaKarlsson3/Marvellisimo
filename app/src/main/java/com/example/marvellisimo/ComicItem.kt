@@ -66,5 +66,11 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
     fun renamePathHttps(path: String): String {
         return path.replace("http", "https")
     }
+
+    fun loadMoreRows(){
+
+    }
+
+
 }
 

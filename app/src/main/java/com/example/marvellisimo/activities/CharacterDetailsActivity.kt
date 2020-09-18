@@ -16,7 +16,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_character_details)
 
 
-
         val text = intent.getStringExtra(CharactersPageActivity.CHAR_NAME)
         val info = intent.getStringExtra(CharactersPageActivity.CHAR_INFO)
         val imageUrl = intent.getStringExtra(CharactersPageActivity.CHAR_IMAGE)

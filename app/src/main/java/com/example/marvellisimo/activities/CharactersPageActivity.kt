@@ -1,33 +1,31 @@
 package com.example.marvellisimo
 
+
 import CharacterItem
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-
-
-
 import android.widget.ImageButton
 import android.widget.SearchView
-
 import androidx.activity.viewModels
-import com.example.marvellisimo.activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
+import com.example.marvellisimo.activities.CharacterDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_characters_page.*
 
 
-class CharactersPageActivity : AppCompatActivity() {
+abstract class CharactersPageActivity : AppCompatActivity() {
 
     val modelCharacter: ViewModelComicCharacterPage by viewModels()
     var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
+
 
     companion object {
         val CHAR_KEY = "CHAR_KEY"
@@ -37,15 +35,24 @@ class CharactersPageActivity : AppCompatActivity() {
         val CHAR_IMAGE = "CHAR_IMAGE"
     }
 
+
+
+    var pageNumber = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
+
 
         filterCharacter()
         PrintToRecycleView()
         navButtons()
         setFavButton();
         clickOnRecycleView()
+
+
+
+
+
     }
 
     private fun navButtons() {
@@ -69,6 +76,7 @@ class CharactersPageActivity : AppCompatActivity() {
                         adapter.clear()
                         it.forEach { character ->
                             adapter.add(CharacterItem(character))
+
                         }
                     })
 
@@ -89,10 +97,12 @@ class CharactersPageActivity : AppCompatActivity() {
             it.forEach { character ->
                 adapter.add(CharacterItem(character))
                 Log.d("characterResult", "${character.name}")
+
             }
         })
 
         recycle_view_character.adapter = adapter
+
     }
 
     private fun clickOnRecycleView(){
@@ -129,5 +139,10 @@ class CharactersPageActivity : AppCompatActivity() {
 
         })
     }
+
+
+
+
+
 
 }

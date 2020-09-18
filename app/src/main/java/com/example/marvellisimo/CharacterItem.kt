@@ -29,6 +29,7 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
         var fav_ListButton: ImageButton =
             viewHolder.itemView.findViewById(R.id.image_Fav_Button_character)
 
+
         if (favorite == true) {
             fav_ListButton.setImageResource(R.drawable.ic_star_solid)
         } else {
