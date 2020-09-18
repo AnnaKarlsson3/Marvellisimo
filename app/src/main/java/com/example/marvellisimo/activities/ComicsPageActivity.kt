@@ -2,20 +2,16 @@ package com.example.marvellisimo
 
 import ComicItem
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
@@ -33,6 +29,9 @@ class ComicsPageActivity : AppCompatActivity() {
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
+    val toggle: ActionBarDrawerToggle by lazy {
+        ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+    }
 
     companion object {
         val COMIC_KEY = "COMIC_KEY"
@@ -48,6 +47,9 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.init(this)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+
+
+
         val configuration = RealmConfiguration.Builder()
                 .name("comicDb")
                 .schemaVersion(1)
@@ -55,12 +57,27 @@ class ComicsPageActivity : AppCompatActivity() {
                 .build()
         Realm.setDefaultConfiguration(configuration)
         //val realm = Realm.getDefaultInstance()
-
+        drawerListener()
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
+    }
+
+    private fun drawerListener (){
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (toggle.onOptionsItemSelected(item)){
+            true
+        }
+        else{
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun navButtons() {
