@@ -43,6 +43,7 @@ class MarvelHandler(val realm: Realm) {
                 val comicFromDatabase = realm.where(RealmComicEntity::class.java)
                     .equalTo("id",c.id)
                     .findFirst()
+
                 val comic = RealmComicEntity().apply {
                     id = c.id
                     title = c.title

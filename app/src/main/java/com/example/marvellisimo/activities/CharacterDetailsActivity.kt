@@ -18,6 +18,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     companion object {
         val realm = Realm.getDefaultInstance()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
@@ -32,7 +33,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             .equalTo("id", id)
             .findFirst()
 
-        val favorite = characterFromDatabase!!.favorite
+        var favorite = characterFromDatabase!!.favorite
 
         supportActionBar?.title = text
         character_name.text = text
@@ -40,33 +41,35 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(character_image)
 
+
         if (favorite == true) {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
         } else {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_regular)
         }
 
-
         image_Fav_Button_character.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                if (favorite == false) {
+                if (characterFromDatabase.favorite == false) {
                     realm.executeTransaction {
                         characterFromDatabase!!.favorite = true
                         realm.copyToRealmOrUpdate(characterFromDatabase)
                     }
-                    finish()
-                    startActivity(intent)
+                    image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
 
                 } else {
+
                     realm.executeTransaction {
                         characterFromDatabase!!.favorite = false
                         realm.copyToRealmOrUpdate(characterFromDatabase)
                     }
-                    finish()
-                    startActivity(intent)
+                    image_Fav_Button_character.setImageResource(R.drawable.ic_star_regular)
+
                 }
             }
-        });
+        })
+
+
 
         character_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "120951976115",
+    "firebase_url": "https://marvellisimo-sasa.firebaseio.com",
+    "project_id": "marvellisimo-sasa",
+    "storage_bucket": "marvellisimo-sasa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120951976115:android:4274b929bd4ebdf152c0c6",
+        "android_client_info": {
+          "package_name": "com.example.marvellisimo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120951976115-cdc5094n8k8b6iupjar0s1bplu3lt0ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgW-DPGUSKnXncn2NCATg5UcYqC4Qfzxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120951976115-cdc5094n8k8b6iupjar0s1bplu3lt0ae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
