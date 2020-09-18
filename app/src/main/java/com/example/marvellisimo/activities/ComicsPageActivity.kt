@@ -30,6 +30,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
     companion object {
+        val COMIC_ID = "COMIC_ID"
         val COMIC_KEY = "COMIC_KEY"
         val COMIC_TITLE = "COMIC_TITLE"
         val COMIC_INFO = "COMIC_INFO"
@@ -119,6 +120,7 @@ class ComicsPageActivity : AppCompatActivity() {
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
             //intent.putExtra(COMIC_KEY, comicItem.comic)
+            intent.putExtra(COMIC_ID, comicItem.comic.id)
             intent.putExtra(COMIC_TITLE, comicItem.comic.title)
             intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
             intent.putExtra(COMIC_INFO, comicItem.comic.description)
@@ -127,6 +129,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
             startActivity(intent)
+            finish()
         }
     }
 

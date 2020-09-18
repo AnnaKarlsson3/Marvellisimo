@@ -4,18 +4,26 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.marvellisimo.CharactersPageActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
+import com.example.marvellisimo.entity.RealmCharacterEntity
 import com.squareup.picasso.Picasso
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_comic_details.*
 
 
 
+
 class ComicDetailsActivity : AppCompatActivity() {
+    companion object {
+        val realm = Realm.getDefaultInstance()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
 
+        val id = intent.getIntExtra(ComicsPageActivity.COMIC_ID, 1)
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
@@ -26,9 +34,13 @@ class ComicDetailsActivity : AppCompatActivity() {
         comic_name.text = text
         comic_info.text = info
 
+        val comicFromDatabase = ComicDetailsActivity.realm.where(RealmCharacterEntity::class.java)
+            .equalTo("id", id)
+            .findFirst()
 
 
-            if (favorite == true) {
+
+        if (favorite == true) {
                 image_Fav_Button_comic.setImageResource(R.drawable.ic_star_solid)
             } else {
                 image_Fav_Button_comic.setImageResource(R.drawable.ic_star_regular)

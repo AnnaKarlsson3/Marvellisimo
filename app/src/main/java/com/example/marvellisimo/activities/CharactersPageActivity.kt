@@ -30,6 +30,7 @@ class CharactersPageActivity : AppCompatActivity() {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     companion object {
+        val CHAR_ID = "CHAR_ID"
         val CHAR_KEY = "CHAR_KEY"
         val CHAR_NAME = "CHAR_NAME"
         val CHAR_INFO = "CHAR_INFO"
@@ -102,12 +103,14 @@ class CharactersPageActivity : AppCompatActivity() {
             val intent = Intent(this, CharacterDetailsActivity::class.java)
 
             intent.putExtra(CHAR_KEY, characterItem.character)
+            intent.putExtra(CHAR_ID, characterItem.character.id)
             intent.putExtra(CHAR_NAME, characterItem.character.name)
             intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
             intent.putExtra(CHAR_INFO, characterItem.character.description)
             intent.putExtra(CHAR_FAVORITE, characterItem.character.favorite)
             intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
+            finish()
         }
     }
 
