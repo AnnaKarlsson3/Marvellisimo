@@ -9,6 +9,7 @@ import com.example.marvellisimo.CharactersPageActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.RealmCharacterEntity
+import com.example.marvellisimo.entity.RealmComicEntity
 import com.squareup.picasso.Picasso
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_character_details.*
@@ -35,7 +36,7 @@ class ComicDetailsActivity : AppCompatActivity() {
         comic_name.text = text
         comic_info.text = info
 
-        val comicFromDatabase = ComicDetailsActivity.realm.where(RealmCharacterEntity::class.java)
+        val comicFromDatabase = ComicDetailsActivity.realm.where(RealmComicEntity::class.java)
             .equalTo("id", id)
             .findFirst()
 
@@ -54,7 +55,7 @@ class ComicDetailsActivity : AppCompatActivity() {
                         comicFromDatabase!!.favorite = true
                         realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
-                    finish()
+                    //finish()
                     startActivity(intent)
 
                 } else {
@@ -62,7 +63,7 @@ class ComicDetailsActivity : AppCompatActivity() {
                         comicFromDatabase!!.favorite = false
                         realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
-                    finish()
+                    //finish()
                     startActivity(intent)
                 }
             }
