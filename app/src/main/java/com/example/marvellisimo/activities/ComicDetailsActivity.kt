@@ -51,7 +51,7 @@ class ComicDetailsActivity : AppCompatActivity() {
             }
 
 
-        image_Fav_Button_character.setOnClickListener(object : View.OnClickListener {
+        image_Fav_Button_comic.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 if (favorite == false) {
                     realm.executeTransaction {
