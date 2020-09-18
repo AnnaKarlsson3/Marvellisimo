@@ -16,11 +16,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_comic_page.*
+import kotlinx.android.synthetic.main.comic_recycle_row_layout.view.*
+import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -47,12 +51,10 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
         Realm.init(this)
+
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val toolbar = findViewById<Toolbar>(R.id.toolBar)
-        supportActionBar?(toolbar)
-
-
 
         val configuration = RealmConfiguration.Builder()
                 .name("comicDb")
@@ -61,12 +63,15 @@ class ComicsPageActivity : AppCompatActivity() {
                 .build()
         Realm.setDefaultConfiguration(configuration)
         //val realm = Realm.getDefaultInstance()
+
         drawerListener()
+
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
+        testNavRecycle()
     }
 
     private fun drawerListener (){
@@ -84,7 +89,9 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun navButtons() {
+
+
+            private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
 
@@ -127,11 +134,8 @@ class ComicsPageActivity : AppCompatActivity() {
             adapter.clear()
             it.forEach { comic ->
                 adapter.add(ComicItem(comic))
-                Log.d("comicResult", "${comic.title}")
             }
         })
-
-
         recycle_view_comic.adapter = adapter
     }
 
@@ -157,7 +161,7 @@ class ComicsPageActivity : AppCompatActivity() {
                 modelComic.getSearchComicData(newText).observe(activity, {
                     adapter.clear()
                     it.forEach{ comic -> adapter.add(ComicItem(comic))
-                        Log.d("filterdComic", "${comic.title}")}
+                    }
                 })
 
                 return false
@@ -171,6 +175,29 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
+    private fun testNavRecycle(){
+
+
+            adapter.add(TestNavRecItem())
+        adapter.add(TestNavRecItem())
+        adapter.add(TestNavRecItem())
+        adapter.add(TestNavRecItem())
+        adapter.add(TestNavRecItem())
+
+        toolBar_RecyclerView.adapter = adapter
+    }
+
+}
+
+class TestNavRecItem(): Item<GroupieViewHolder>() {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.navigation_row_layout
+    }
 }
 
 
