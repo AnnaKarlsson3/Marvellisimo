@@ -35,6 +35,7 @@ class CharactersPageActivity : AppCompatActivity() {
         val CHAR_INFO = "CHAR_INFO"
         val CHAR_URL = "CHAR_URL"
         val CHAR_IMAGE = "CHAR_IMAGE"
+        val CHAR_FAVORITE = "CHAR_FAVORITE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +105,7 @@ class CharactersPageActivity : AppCompatActivity() {
             intent.putExtra(CHAR_NAME, characterItem.character.name)
             intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
             intent.putExtra(CHAR_INFO, characterItem.character.description)
+            intent.putExtra(CHAR_FAVORITE, characterItem.character.favorite)
             intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
         }
