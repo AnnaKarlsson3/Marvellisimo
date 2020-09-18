@@ -15,6 +15,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
 
@@ -24,7 +25,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val url = intent.getStringExtra(CharactersPageActivity.CHAR_URL)
         val favorite = intent.getBooleanExtra(CharactersPageActivity.CHAR_FAVORITE , false)
 
-        supportActionBar?.title = text
+
 
         character_name.text = text
         character_info.text = info

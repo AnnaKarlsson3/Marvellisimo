@@ -9,12 +9,12 @@ import com.example.marvellisimo.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_comic_details.*
 
-
-
 class ComicDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
@@ -22,7 +22,8 @@ class ComicDetailsActivity : AppCompatActivity() {
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
         val favorite = intent.getBooleanExtra(ComicsPageActivity.COMIC_FAVORITE , false)
 
-        supportActionBar?.title = text
+
+
         comic_name.text = text
         comic_info.text = info
 
@@ -48,5 +49,3 @@ class ComicDetailsActivity : AppCompatActivity() {
     }
 
 }
-
-
