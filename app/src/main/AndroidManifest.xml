@@ -14,7 +14,7 @@
         android:label="Marvellisimo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/custom_actionbar">
+        android:theme="@style/AppTheme">
         <activity android:name=".activities.CharacterDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

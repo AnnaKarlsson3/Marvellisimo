@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@drawable/banner_marvellisimo"
-
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:minHeight="?attr/actionBarSize"
+    android:fitsSystemWindows="true"
+    android:id="@+id/toolBar"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 </androidx.appcompat.widget.Toolbar>

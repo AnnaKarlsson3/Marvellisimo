@@ -10,24 +10,19 @@
     android:id="@+id/drawerLayout">
 
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        app:itemTextColor="@android:color/darker_gray"
-        android:layout_gravity="start"
-        app:menu="@menu/menu_navigation_drawer"/>
+
 
     <LinearLayout
 
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="153dp"
-        android:background="@color/colorPurple"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            layout="@layout/appbar"/>
 
 
         <LinearLayout
@@ -64,6 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:background="@color/colorPurple"
             android:orientation="horizontal"
             android:weightSum="0">
 

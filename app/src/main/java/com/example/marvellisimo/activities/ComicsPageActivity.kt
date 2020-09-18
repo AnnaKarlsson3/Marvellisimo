@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class ComicsPageActivity : AppCompatActivity() {
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
+
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
     }
@@ -47,6 +49,8 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.init(this)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val toolbar = findViewById<Toolbar>(R.id.toolBar)
+        supportActionBar?(toolbar)
 
 
 
