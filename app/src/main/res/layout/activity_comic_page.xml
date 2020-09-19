@@ -9,8 +9,6 @@
     tools:context=".ComicsPageActivity"
     android:id="@+id/drawerLayout">
 
-
-
     <LinearLayout
 
         android:id="@+id/linearLayout_menu"
@@ -94,15 +92,56 @@
             android:layout_height="match_parent"
             android:background="#000000"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
+
+
+
 
     <LinearLayout
         android:layout_width="270dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        >
+        android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+
+        <LinearLayout
+            android:layout_width="270dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorPurple">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="horizontal"
+                android:background="@drawable/borderbottom">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:fontFamily="@font/marvel_bold"
+                android:paddingTop="20dp"
+                android:text="Inloggad"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+            </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/toolBar_RecyclerView"
             android:layout_width="match_parent"
@@ -110,6 +149,8 @@
             android:background="@color/colorPurple"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

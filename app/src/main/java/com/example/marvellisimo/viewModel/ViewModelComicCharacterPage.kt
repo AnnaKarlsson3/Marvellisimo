@@ -12,10 +12,10 @@ import io.realm.RealmResults
 import io.realm.Sort
 
 class ViewModelComicCharacterPage : ViewModel() {
-    val realm: Realm by lazy {
-        Realm.getDefaultInstance()
+    companion object {
+        val realm = Realm.getDefaultInstance()
     }
-    val api= MarvelHandler(realm)
+    val api= MarvelHandler()
 
     fun getComicData(): LiveData<RealmResults<RealmComicEntity>> {
         api.fetchComicsToRealm()

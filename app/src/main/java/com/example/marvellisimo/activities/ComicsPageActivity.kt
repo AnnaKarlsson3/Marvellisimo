@@ -35,6 +35,7 @@ class ComicsPageActivity : AppCompatActivity() {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
 
+
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
     }
@@ -62,16 +63,17 @@ class ComicsPageActivity : AppCompatActivity() {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(configuration)
-        //val realm = Realm.getDefaultInstance()
+
+
 
         drawerListener()
-
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
-        testNavRecycle()
+        friendNavRecycle()
+
     }
 
     private fun drawerListener (){
@@ -89,8 +91,6 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
-
-
             private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
@@ -104,6 +104,7 @@ class ComicsPageActivity : AppCompatActivity() {
     }
 
     private fun setFavButton() {
+
         val favButton: ImageButton = findViewById(R.id.filter_fav_comic_btn)
 
         favButton.setOnClickListener(object : View.OnClickListener {
@@ -140,6 +141,7 @@ class ComicsPageActivity : AppCompatActivity() {
     }
 
     private fun clickToRecycleView() {
+
         adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
@@ -153,8 +155,8 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
-
     private fun filterComic(){
+
         search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
@@ -175,19 +177,17 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
-    private fun testNavRecycle(){
 
-
-            adapter.add(TestNavRecItem())
-        adapter.add(TestNavRecItem())
-        adapter.add(TestNavRecItem())
-        adapter.add(TestNavRecItem())
-        adapter.add(TestNavRecItem())
-
-        toolBar_RecyclerView.adapter = adapter
+    private fun friendNavRecycle(){
+        val adapterTest = GroupAdapter<GroupieViewHolder>()
+        adapterTest.add(TestNavRecItem())
+        adapterTest.add(TestNavRecItem())
+        adapterTest.add(TestNavRecItem())
+        toolBar_RecyclerView.adapter = adapterTest
     }
 
 }
+
 
 class TestNavRecItem(): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
