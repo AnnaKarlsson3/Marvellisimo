@@ -2,6 +2,8 @@ package com.example.marvellisimo
 
 import ComicItem
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,10 +11,13 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
-import com.example.marvellisimo.activities.ComicDetailsActivity
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
+import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
@@ -31,6 +36,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
     companion object {
+        val COMIC_ID = "COMIC_ID"
         val COMIC_KEY = "COMIC_KEY"
         val COMIC_TITLE = "COMIC_TITLE"
         val COMIC_INFO = "COMIC_INFO"
@@ -43,10 +49,7 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
         Realm.init(this)
-
-        val toolbar: Toolbar = findViewById(R.id.myToolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val configuration = RealmConfiguration.Builder()
                 .name("comicDb")
@@ -54,8 +57,7 @@ class ComicsPageActivity : AppCompatActivity() {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(configuration)
-        val realm = Realm.getDefaultInstance()
-
+        //val realm = Realm.getDefaultInstance()
 
         filterComic()
         PrintToRecycleView()
@@ -130,14 +132,14 @@ class ComicsPageActivity : AppCompatActivity() {
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
             //intent.putExtra(COMIC_KEY, comicItem.comic)
+            intent.putExtra(COMIC_ID, comicItem.comic.id)
             intent.putExtra(COMIC_TITLE, comicItem.comic.title)
             intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
             intent.putExtra(COMIC_INFO, comicItem.comic.description)
             intent.putExtra(COMIC_FAVORITE, comicItem.comic.favorite)
             intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
-
-
             startActivity(intent)
+
         }
     }
 
