@@ -10,7 +10,7 @@
     </style>
 
     <style name="custom_style" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/banner_marvellisimo</item>
+        <item name="background">@drawable/marvellisimo_toolbar</item>
     </style>
 
 </resources>

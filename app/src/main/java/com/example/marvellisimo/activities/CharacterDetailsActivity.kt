@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_character_details.*
 
 
+
 class CharacterDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val info = intent.getStringExtra(CharactersPageActivity.CHAR_INFO)
         val imageUrl = intent.getStringExtra(CharactersPageActivity.CHAR_IMAGE)
         val url = intent.getStringExtra(CharactersPageActivity.CHAR_URL)
+        val favorite = intent.getBooleanExtra(CharactersPageActivity.CHAR_FAVORITE , false)
 
 
 
@@ -29,6 +31,12 @@ class CharacterDetailsActivity : AppCompatActivity() {
         character_info.text = info
 
         Picasso.get().load(imageUrl?.replace("http","https")).fit().into(character_image)
+
+        if (favorite == true) {
+            image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
+        } else {
+            image_Fav_Button_character.setImageResource(R.drawable.ic_star_regular)
+        }
 
 
         character_link.setOnClickListener {

@@ -20,11 +20,21 @@ class ComicDetailsActivity : AppCompatActivity() {
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
+        val favorite = intent.getBooleanExtra(ComicsPageActivity.COMIC_FAVORITE , false)
 
 
 
         comic_name.text = text
         comic_info.text = info
+
+
+
+            if (favorite == true) {
+                image_Fav_Button_comic.setImageResource(R.drawable.ic_star_solid)
+            } else {
+                image_Fav_Button_comic.setImageResource(R.drawable.ic_star_regular)
+            }
+
 
         Picasso.get().load(imageUrl?.replace("http","https")).fit().into(comic_image)
 

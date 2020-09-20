@@ -46,6 +46,7 @@ class ComicsPageActivity : AppCompatActivity() {
         val COMIC_INFO = "COMIC_INFO"
         val COMIC_URL = "COMIC_URL"
         val COMIC_IMAGE = "COMIC_IMAGE"
+        val COMIC_FAVORITE = "COMIC_FAVORITE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,7 +150,9 @@ class ComicsPageActivity : AppCompatActivity() {
             intent.putExtra(COMIC_TITLE, comicItem.comic.title)
             intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
             intent.putExtra(COMIC_INFO, comicItem.comic.description)
+            intent.putExtra(COMIC_FAVORITE, comicItem.comic.favorite)
             intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
+
 
             startActivity(intent)
         }
