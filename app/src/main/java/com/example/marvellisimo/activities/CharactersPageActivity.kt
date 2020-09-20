@@ -111,7 +111,6 @@ class CharactersPageActivity : AppCompatActivity() {
             intent.putExtra(CHAR_FAVORITE, characterItem.character.favorite)
             intent.putExtra(CHAR_URL, characterItem.character.urls?.get(0)?.url)
             startActivity(intent)
-            finish()
         }
     }
 

@@ -127,8 +127,6 @@ class ComicsPageActivity : AppCompatActivity() {
             intent.putExtra(COMIC_INFO, comicItem.comic.description)
             intent.putExtra(COMIC_FAVORITE, comicItem.comic.favorite)
             intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
-
-
             startActivity(intent)
 
         }
