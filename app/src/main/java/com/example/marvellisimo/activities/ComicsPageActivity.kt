@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.observe
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
@@ -61,6 +62,16 @@ class ComicsPageActivity : AppCompatActivity() {
         setFavButton();
         navButtons();
         clickToRecycleView()
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword("snehal.patel@gmail.com","123456!")
+            .addOnCompleteListener {
+                if(!it.isSuccessful)return@addOnCompleteListener
+
+                Log.d("auth","logged in  with uid: ${it.result?.user?.uid}")
+            }
+            .addOnFailureListener {
+                Log.d("auth","failed to create: ${it.message}")
+            }
     }
 
     private fun navButtons() {
