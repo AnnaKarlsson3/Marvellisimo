@@ -22,6 +22,8 @@ class ComicDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
 
 
@@ -31,7 +33,8 @@ class ComicDetailsActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
 
-        supportActionBar?.title = text
+
+
         comic_name.text = text
         comic_info.text = info
 
@@ -70,7 +73,6 @@ class ComicDetailsActivity : AppCompatActivity() {
         })
 
 
-
         Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(comic_image)
 
         comic_link.setOnClickListener {
@@ -82,5 +84,3 @@ class ComicDetailsActivity : AppCompatActivity() {
     }
 
 }
-
-

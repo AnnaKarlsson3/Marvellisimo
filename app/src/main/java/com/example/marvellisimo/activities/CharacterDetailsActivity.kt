@@ -22,6 +22,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
         val text = intent.getStringExtra(CharactersPageActivity.CHAR_NAME)
@@ -32,6 +33,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
             .equalTo("id", id)
             .findFirst()
+
 
         var favorite = characterFromDatabase!!.favorite
 
@@ -68,7 +70,6 @@ class CharacterDetailsActivity : AppCompatActivity() {
                 }
             }
         })
-
 
 
         character_link.setOnClickListener {
