@@ -17,18 +17,14 @@ class SendMessageActivity :AppCompatActivity () {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-       // TODO()//  val username = get the user object so we can use the data in this view
+       // TODO()//  create method to view messages
 
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         recyclerview_chat_log.adapter = adapter
 
-        adapter.add(ChatItemFrom)
-        adapter.add(ChatItemTo)
-
-        // TODO: 2020-09-18 add useritem
-
-
+        //adapter.add(ChatItemFrom)
+        //adapter.add(ChatItemTo)
 
     }
 }
