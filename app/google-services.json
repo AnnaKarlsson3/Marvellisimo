@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "120951976115",
-    "firebase_url": "https://marvellisimo-sasa.firebaseio.com",
-    "project_id": "marvellisimo-sasa",
-    "storage_bucket": "marvellisimo-sasa.appspot.com"
-
+    "project_number": "161405185586",
+    "firebase_url": "https://marvellisimo-d19e0.firebaseio.com",
+    "project_id": "marvellisimo-d19e0",
+    "storage_bucket": "marvellisimo-d19e0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-
-        "mobilesdk_app_id": "1:120951976115:android:4274b929bd4ebdf152c0c6",
-
+        "mobilesdk_app_id": "1:161405185586:android:2d7ccafc34712588b5562b",
         "android_client_info": {
           "package_name": "com.example.marvellisimo"
         }
       },
       "oauth_client": [
         {
-
-          "client_id": "120951976115-cdc5094n8k8b6iupjar0s1bplu3lt0ae.apps.googleusercontent.com",
-
+          "client_id": "161405185586-c1onob15ndo0uar1bj57g99uls1g3omo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-
-          "current_key": "AIzaSyAgW-DPGUSKnXncn2NCATg5UcYqC4Qfzxw"
-
+          "current_key": "AIzaSyApVxTQdedD_DNXvUnwWbyeQjdolXzElis"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "120951976115-cdc5094n8k8b6iupjar0s1bplu3lt0ae.apps.googleusercontent.com",
-
+              "client_id": "161405185586-c1onob15ndo0uar1bj57g99uls1g3omo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
