@@ -6,12 +6,14 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -21,6 +23,7 @@ import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_comic_page.*
@@ -33,6 +36,9 @@ class ComicsPageActivity : AppCompatActivity() {
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
+    val toggle: ActionBarDrawerToggle by lazy {
+        ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+    }
 
     companion object {
         val COMIC_ID = "COMIC_ID"
@@ -48,7 +54,6 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
         Realm.init(this)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val configuration = RealmConfiguration.Builder()
                 .name("comicDb")
@@ -58,11 +63,32 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.setDefaultConfiguration(configuration)
         //val realm = Realm.getDefaultInstance()
 
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        drawerListener()
+        friendNavRecycle()
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
+    }
+
+    private fun drawerListener (){
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (toggle.onOptionsItemSelected(item)){
+            true
+        }
+        else{
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun navButtons() {
@@ -154,6 +180,26 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
+
+
+    private fun friendNavRecycle(){
+        val adapterTest = GroupAdapter<GroupieViewHolder>()
+        adapterTest.add(TestNavRecItem())
+        adapterTest.add(TestNavRecItem())
+        adapterTest.add(TestNavRecItem())
+        toolBar_RecyclerView.adapter = adapterTest
+    }
+
 }
 
 
+class TestNavRecItem(): Item<GroupieViewHolder>() {
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.navigation_row_layout
+    }
+}

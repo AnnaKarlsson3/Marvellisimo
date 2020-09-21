@@ -8,4 +8,6 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_character_details">CharacterDetailsActivity</string>
     <string name="title_activity_comic_details">ComicDetailsActivity</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

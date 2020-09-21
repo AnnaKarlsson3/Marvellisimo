@@ -6,15 +6,13 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <uses-feature android:name="android.hardware.type.watch" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Marvellisimo"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/custom_actionbar">
+        android:theme="@style/AppTheme">
         <activity android:name=".activities.CharacterDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
