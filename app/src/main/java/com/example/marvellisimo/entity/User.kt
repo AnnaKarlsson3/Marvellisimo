@@ -1,4 +1,4 @@
 package com.example.marvellisimo.entity
 
-class User {
+class User(val uid:String, val username: String, val imageUrl: String) {
 }
