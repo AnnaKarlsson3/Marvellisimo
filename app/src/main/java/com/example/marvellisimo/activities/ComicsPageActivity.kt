@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -74,6 +75,9 @@ class ComicsPageActivity : AppCompatActivity() {
         setFavButton();
         navButtons();
         clickToRecycleView()
+
+
+
     }
 
     private fun drawerListener (){
@@ -94,6 +98,7 @@ class ComicsPageActivity : AppCompatActivity() {
     private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
+
 
         val button = findViewById<Button>(R.id.character_btn)
         button.setOnClickListener {
