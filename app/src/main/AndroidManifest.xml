@@ -43,6 +43,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.LoginPageActivity" />
+        <activity android:name=".activities.SignUpPageActivity" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
