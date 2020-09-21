@@ -7,18 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".activities.ComicDetailsActivity">
 
-    <include
-        android:id="@+id/myToolbar"
-        layout="@layout/appbar" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#000000"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myToolbar"
-    android:gravity="center"
-    tools:context=".activities.ComicDetailsActivity">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".activities.ComicDetailsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,34 +25,53 @@
         android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/comic_image"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_marginBottom="20dp"
-            android:elevation="8dp"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            <ImageView
+                android:id="@+id/comic_image"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginBottom="20dp"
+                android:elevation="8dp"
+                android:paddingTop="16dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/comic_name"
-            android:layout_width="261dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="50dp"
-            android:fontFamily="@font/marvel"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="@color/textColor"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            tools:text="Comic 1" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/comic_name"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bangers"
+                android:gravity="left|center_horizontal"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textColor="@color/textColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="Comic 1" />
+
+            <ImageButton
+                android:id="@+id/image_Fav_Button_comic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/ic_star_regular" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/comic_info"
             android:layout_width="339dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="10dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="#FFFFFF"

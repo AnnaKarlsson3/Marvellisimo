@@ -2,6 +2,8 @@ package com.example.marvellisimo
 
 import ComicItem
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,13 +11,15 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
@@ -32,21 +36,20 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
     companion object {
+        val COMIC_ID = "COMIC_ID"
         val COMIC_KEY = "COMIC_KEY"
         val COMIC_TITLE = "COMIC_TITLE"
         val COMIC_INFO = "COMIC_INFO"
         val COMIC_URL = "COMIC_URL"
         val COMIC_IMAGE = "COMIC_IMAGE"
+        val COMIC_FAVORITE = "COMIC_FAVORITE"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
         Realm.init(this)
-
-        val toolbar: Toolbar = findViewById(R.id.myToolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val configuration = RealmConfiguration.Builder()
                 .name("comicDb")
@@ -54,14 +57,23 @@ class ComicsPageActivity : AppCompatActivity() {
                 .deleteRealmIfMigrationNeeded()
                 .build()
         Realm.setDefaultConfiguration(configuration)
-        val realm = Realm.getDefaultInstance()
-
+        //val realm = Realm.getDefaultInstance()
 
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword("snehal.patel@gmail.com","123456!")
+            .addOnCompleteListener {
+                if(!it.isSuccessful)return@addOnCompleteListener
+
+                Log.d("auth","logged in  with uid: ${it.result?.user?.uid}")
+            }
+            .addOnFailureListener {
+                Log.d("auth","failed to create: ${it.message}")
+            }
     }
 
     private fun navButtons() {
@@ -120,12 +132,14 @@ class ComicsPageActivity : AppCompatActivity() {
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
             //intent.putExtra(COMIC_KEY, comicItem.comic)
+            intent.putExtra(COMIC_ID, comicItem.comic.id)
             intent.putExtra(COMIC_TITLE, comicItem.comic.title)
             intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
             intent.putExtra(COMIC_INFO, comicItem.comic.description)
+            intent.putExtra(COMIC_FAVORITE, comicItem.comic.favorite)
             intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
-
             startActivity(intent)
+
         }
     }
 
@@ -150,9 +164,6 @@ class ComicsPageActivity : AppCompatActivity() {
 
         })
     }
-
-
-
 
 }
 
