@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -20,6 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
+import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
@@ -75,9 +77,7 @@ class ComicsPageActivity : AppCompatActivity() {
         setFavButton();
         navButtons();
         clickToRecycleView()
-
-
-
+        
     }
 
     private fun drawerListener (){
@@ -87,12 +87,25 @@ class ComicsPageActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.exit_icon ->{
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, LoginPageActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         return if (toggle.onOptionsItemSelected(item)){
-            true
+            return true
         }
         else{
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_nav, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun navButtons() {

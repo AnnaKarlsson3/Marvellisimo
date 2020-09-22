@@ -25,8 +25,6 @@ class ComicDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
-
-
         val id = intent.getIntExtra(ComicsPageActivity.COMIC_ID, 1)
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
