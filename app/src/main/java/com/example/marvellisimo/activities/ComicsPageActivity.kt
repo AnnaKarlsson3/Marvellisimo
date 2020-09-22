@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.google.firebase.auth.FirebaseAuth
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -56,10 +57,10 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.init(this)
 
         val configuration = RealmConfiguration.Builder()
-                .name("comicDb")
-                .schemaVersion(1)
-                .deleteRealmIfMigrationNeeded()
-                .build()
+            .name("comicDb")
+            .schemaVersion(1)
+            .deleteRealmIfMigrationNeeded()
+            .build()
         Realm.setDefaultConfiguration(configuration)
         //val realm = Realm.getDefaultInstance()
 
@@ -74,6 +75,9 @@ class ComicsPageActivity : AppCompatActivity() {
         setFavButton();
         navButtons();
         clickToRecycleView()
+
+
+
     }
 
     private fun drawerListener (){
@@ -94,6 +98,7 @@ class ComicsPageActivity : AppCompatActivity() {
     private fun navButtons() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
+
 
         val button = findViewById<Button>(R.id.character_btn)
         button.setOnClickListener {
@@ -193,13 +198,3 @@ class ComicsPageActivity : AppCompatActivity() {
 }
 
 
-class TestNavRecItem(): Item<GroupieViewHolder>() {
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
-
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.navigation_row_layout
-    }
-}
