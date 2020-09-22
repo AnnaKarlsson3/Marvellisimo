@@ -32,15 +32,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/share_comic"
-                android:layout_width="78dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right"
-                android:background="#00FFFFFF"
-                android:gravity="center_horizontal"
-                app:srcCompat="@drawable/ic_share_square_solid" />
 
         </LinearLayout>
 
@@ -62,6 +53,7 @@
                 android:layout_marginBottom="20dp"
                 android:elevation="8dp"
                 android:paddingTop="16dp"
+                android:layout_marginTop="20dp"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
@@ -72,28 +64,42 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ImageButton
+                android:id="@+id/image_Fav_Button_character"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:background="#00FFFFFF"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_star_regular" />
+
             <TextView
                 android:id="@+id/comic_name"
-                android:layout_width="250dp"
+                android:layout_width="241dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/bangers"
-                android:gravity="left|center_horizontal"
+                android:gravity="center_horizontal"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
-                android:textStyle="bold"
                 tools:text="Comic 1" />
 
             <ImageButton
-                android:id="@+id/image_Fav_Button_comic"
+                android:id="@+id/share_comic_detailview"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
+                android:layout_gravity="right"
+                android:foregroundGravity="center"
+                android:layout_marginRight="17dp"
                 android:background="#00FFFFFF"
-                app:srcCompat="@drawable/ic_star_regular" />
+                android:gravity="center_horizontal"
+                android:padding="20dp"
+                app:srcCompat="@drawable/ic_share_square_solid" />
+
+
 
         </LinearLayout>
 
