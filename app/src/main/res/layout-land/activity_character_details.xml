@@ -15,39 +15,54 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal">
 
-            >
-
-            <TextView
-                android:id="@+id/character_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="50dp"
-                android:fontFamily="@font/bangers"
-                android:text="TextView"
-                android:textColor="#FFFFFF"
-                android:textSize="40sp"
-                android:textStyle="bold"
-                tools:text="Character 1" />
 
             <ImageButton
                 android:id="@+id/image_Fav_Button_character"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:background="#00FFFFFF"
                 android:padding="5dp"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_star_regular" />
+
+            <TextView
+                android:id="@+id/character_name"
+                android:layout_width="241dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/bangers"
+                android:gravity="center_horizontal"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textColor="@color/textColor"
+                android:textSize="30sp"
+                tools:text="Character 1" />
+
+            <ImageButton
+                android:id="@+id/share_character_detailview"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:foregroundGravity="center"
+                android:layout_marginRight="17dp"
+                android:background="#00FFFFFF"
+                android:gravity="center_horizontal"
+                android:padding="20dp"
+                app:srcCompat="@drawable/ic_share_square_solid" />
+
+
+
         </LinearLayout>
 
         <LinearLayout
