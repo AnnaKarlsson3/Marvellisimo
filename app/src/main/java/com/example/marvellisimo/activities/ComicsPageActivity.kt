@@ -57,10 +57,10 @@ class ComicsPageActivity : AppCompatActivity() {
         Realm.init(this)
 
         val configuration = RealmConfiguration.Builder()
-                .name("comicDb")
-                .schemaVersion(1)
-                .deleteRealmIfMigrationNeeded()
-                .build()
+            .name("comicDb")
+            .schemaVersion(1)
+            .deleteRealmIfMigrationNeeded()
+            .build()
         Realm.setDefaultConfiguration(configuration)
         //val realm = Realm.getDefaultInstance()
 
@@ -198,13 +198,3 @@ class ComicsPageActivity : AppCompatActivity() {
 }
 
 
-class TestNavRecItem(): Item<GroupieViewHolder>() {
-    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
-
-    }
-
-    override fun getLayout(): Int {
-        return R.layout.navigation_row_layout
-    }
-}

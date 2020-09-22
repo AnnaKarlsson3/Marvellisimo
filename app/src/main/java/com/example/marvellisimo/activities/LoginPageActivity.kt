@@ -31,8 +31,8 @@ class LoginPageActivity : AppCompatActivity() {
         }
 
         noAccount.setOnClickListener{
-            val intent = Intent(this, SignUpPageActivity ::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, SignUpPageActivity ::class.java)
+            finish()
         }
     }
 }

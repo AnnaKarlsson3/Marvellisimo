@@ -16,24 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.SignUpPageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
 
         <activity android:name=".activities.CharacterDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CharactersPageActivity"/>
-
         </activity>
+
         <activity
             android:name=".CharactersPageActivity"
             android:label="@string/title_activity_characters_page">
-
         </activity>
+
         <activity
             android:name=".activities.ComicDetailsActivity"
             android:label="@string/title_activity_comic_details">
@@ -46,7 +41,13 @@
         <activity android:name=".ComicsPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <activity android:name=".activities.SignUpPageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
