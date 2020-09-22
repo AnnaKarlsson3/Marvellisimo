@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
@@ -109,6 +110,8 @@ class SignUpPageActivity : AppCompatActivity() {
         reference.setValue(user)
             .addOnSuccessListener {
                 Log.d("SignUpActivity", "User is saved to firebase database")
+                val intent = Intent(this, ComicsPageActivity::class.java)
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Log.d("SignUpActivity","Fail to store user: ${it.message}")

@@ -125,6 +125,7 @@
                 android:background="@drawable/borderbottom">
 
                 <ImageView
+                    android:id="@+id/inlogged_userImg"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -132,6 +133,7 @@
                     tools:srcCompat="@tools:sample/avatars"
                     />
                 <TextView
+                    android:id="@+id/inlogged_username"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:fontFamily="@font/marvel_bold"

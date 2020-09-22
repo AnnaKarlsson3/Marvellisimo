@@ -17,13 +17,11 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         val realm = Realm.getDefaultInstance()
     }
 
-
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textView_comicname_row.text = comic.title
         var favorite = comic.favorite
 
         val img : String = renamePathHttps("${comic.thumbnail}")
-
 
         Picasso.get().load(img).resize(100, 75)
             .centerCrop()

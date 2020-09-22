@@ -2,8 +2,6 @@ package com.example.marvellisimo
 
 import ComicItem
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,23 +11,28 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat.setBackground
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.activities.LoginPageActivity
+import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_comic_page.*
+import kotlinx.android.synthetic.main.activity_signin.view.*
+import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -39,13 +42,13 @@ class ComicsPageActivity : AppCompatActivity() {
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
 
+
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
     }
 
     companion object {
         val COMIC_ID = "COMIC_ID"
-        val COMIC_KEY = "COMIC_KEY"
         val COMIC_TITLE = "COMIC_TITLE"
         val COMIC_INFO = "COMIC_INFO"
         val COMIC_URL = "COMIC_URL"
@@ -64,20 +67,19 @@ class ComicsPageActivity : AppCompatActivity() {
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(configuration)
-        //val realm = Realm.getDefaultInstance()
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         drawerListener()
-        friendNavRecycle()
+        displayCurrentUserInNav()
+        fetchUsersAndDisplayInNav()
         filterComic()
         PrintToRecycleView()
         setFavButton();
         navButtons();
         clickToRecycleView()
-        
     }
 
     private fun drawerListener (){
@@ -112,13 +114,11 @@ class ComicsPageActivity : AppCompatActivity() {
         val dis_button = findViewById<Button>(R.id.comic_btn)
         dis_button.setEnabled(false);
 
-
         val button = findViewById<Button>(R.id.character_btn)
         button.setOnClickListener {
             val intent = Intent(this, CharactersPageActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun setFavButton() {
@@ -133,7 +133,6 @@ class ComicsPageActivity : AppCompatActivity() {
                             adapter.add(ComicItem(comic))
                         }
                     })
-
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
@@ -141,13 +140,11 @@ class ComicsPageActivity : AppCompatActivity() {
                 }
                 isClicked = !isClicked;
             }
-
         })
     }
 
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
-
         modelComic.getComicData().observe(this, {
             adapter.clear()
             it.forEach { comic ->
@@ -155,8 +152,6 @@ class ComicsPageActivity : AppCompatActivity() {
                 Log.d("comicResult", "${comic.title}")
             }
         })
-
-
         recycle_view_comic.adapter = adapter
     }
 
@@ -164,7 +159,6 @@ class ComicsPageActivity : AppCompatActivity() {
         adapter.setOnItemClickListener { item, view ->
             val comicItem = item as ComicItem
             val intent = Intent(this, ComicDetailsActivity::class.java)
-            //intent.putExtra(COMIC_KEY, comicItem.comic)
             intent.putExtra(COMIC_ID, comicItem.comic.id)
             intent.putExtra(COMIC_TITLE, comicItem.comic.title)
             intent.putExtra(COMIC_IMAGE, comicItem.comic.thumbnail)
@@ -172,10 +166,8 @@ class ComicsPageActivity : AppCompatActivity() {
             intent.putExtra(COMIC_FAVORITE, comicItem.comic.favorite)
             intent.putExtra(COMIC_URL, comicItem.comic.urls?.get(0)?.url)
             startActivity(intent)
-
         }
     }
-
 
     private fun filterComic(){
         search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -186,27 +178,54 @@ class ComicsPageActivity : AppCompatActivity() {
                     it.forEach{ comic -> adapter.add(ComicItem(comic))
                         Log.d("filterdComic", "${comic.title}")}
                 })
-
                 return false
             }
-
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 return false
             }
-
         })
     }
 
+    private fun displayCurrentUserInNav(){
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val user = Firebase.auth.currentUser
+        val userid = user?.uid
 
+        if (userid != null) {
+            ref.child(userid).addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                   val name = snapshot.child("username").value.toString()
+                    val image = snapshot.child("imageUrl").value.toString()
+                    inlogged_username.text = name
+                    Picasso.get().load(image).into(inlogged_userImg)
+                }
 
-    private fun friendNavRecycle(){
-        val adapterTest = GroupAdapter<GroupieViewHolder>()
-        adapterTest.add(TestNavRecItem())
-        adapterTest.add(TestNavRecItem())
-        adapterTest.add(TestNavRecItem())
-        toolBar_RecyclerView.adapter = adapterTest
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        }
     }
+
+    private fun fetchUsersAndDisplayInNav(){
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val adapterNav = GroupAdapter<GroupieViewHolder>()
+                p0.children.forEach{
+                    val user = it.getValue(User::class.java)
+                    if(user != null){
+                        adapterNav.add(UserItem(user))
+                    }
+                }
+                toolBar_RecyclerView.adapter = adapterNav
+            }
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+    }
+
 
 }
 
