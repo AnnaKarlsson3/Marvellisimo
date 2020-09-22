@@ -18,7 +18,9 @@ import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -93,6 +95,8 @@ class ComicsPageActivity : AppCompatActivity() {
             R.id.exit_icon ->{
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this, LoginPageActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
         }
@@ -228,5 +232,6 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 }
+
 
 
