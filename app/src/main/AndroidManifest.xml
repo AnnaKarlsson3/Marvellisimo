@@ -52,7 +52,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LoginPageActivity" />
+        <activity android:name=".activities.LoginPageActivity" >
+
+    </activity>
 
 
         <meta-data

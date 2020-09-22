@@ -98,7 +98,6 @@ class SignUpPageActivity : AppCompatActivity() {
             .addOnFailureListener {
                 //todo
             }
-
     }
 
     private fun saveUserToFirebaseDatabase(imageUri: String) {
