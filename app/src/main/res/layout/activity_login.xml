@@ -59,7 +59,7 @@
     <TextView
         android:id="@+id/noAccount"
         android:layout_width="188dp"
-        android:layout_height="15dp"
+        android:layout_height="27dp"
         android:gravity="center"
         android:text="Don't have an account?"
         android:textColor="@android:color/background_light"
@@ -70,5 +70,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_signin_signupView"
         app:layout_constraintVertical_bias="0.138" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="349dp"
+        android:layout_height="127dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/email_signupView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/marvelissimo_logga" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

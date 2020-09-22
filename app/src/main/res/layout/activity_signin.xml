@@ -66,8 +66,8 @@
 
     <TextView
         android:id="@+id/haveAccount_mainView"
-        android:layout_width="188dp"
-        android:layout_height="15dp"
+        android:layout_width="190dp"
+        android:layout_height="22dp"
         android:layout_marginTop="40dp"
         android:text="Already have an account?"
         android:textColor="@android:color/background_light"
