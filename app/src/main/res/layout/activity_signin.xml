@@ -66,8 +66,8 @@
 
     <TextView
         android:id="@+id/haveAccount_mainView"
-        android:layout_width="188dp"
-        android:layout_height="15dp"
+        android:layout_width="190dp"
+        android:layout_height="22dp"
         android:layout_marginTop="40dp"
         android:text="Already have an account?"
         android:textColor="@android:color/background_light"
@@ -82,7 +82,7 @@
             android:id="@+id/button_imageSelector_mainView"
             android:layout_width="159dp"
             android:layout_height="156dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/circle"
             android:text="Image"
             app:layout_constraintBottom_toTopOf="@+id/username_mainView"

@@ -71,4 +71,15 @@
         app:layout_constraintTop_toBottomOf="@+id/button_signin_signupView"
         app:layout_constraintVertical_bias="0.138" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="504dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/marvelissimo_logga" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
