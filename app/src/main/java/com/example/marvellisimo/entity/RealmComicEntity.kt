@@ -23,9 +23,8 @@ open  class RealmComicEntity:RealmObject(){
     var favorite: Boolean = false
 
 }
-@Parcelize
 @RealmClass
-open class RealmCharacterEntity:RealmObject(), Parcelable {
+open class RealmCharacterEntity:RealmObject(){
     @PrimaryKey
     var id: Int? = null
     var name: String? = null

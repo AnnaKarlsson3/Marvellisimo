@@ -103,7 +103,7 @@ class CharactersPageActivity : AppCompatActivity() {
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
 
-            intent.putExtra(CHAR_KEY, characterItem.character)
+            //intent.putExtra(CHAR_KEY, characterItem.character)
             intent.putExtra(CHAR_ID, characterItem.character.id)
             intent.putExtra(CHAR_NAME, characterItem.character.name)
             intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
