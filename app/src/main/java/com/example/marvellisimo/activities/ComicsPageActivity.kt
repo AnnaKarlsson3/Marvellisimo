@@ -1,9 +1,13 @@
 package com.example.marvellisimo
 
 import ComicItem
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -12,6 +16,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -30,6 +35,7 @@ import com.xwray.groupie.Item
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_comic_page.*
+import java.io.PrintWriter
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -52,6 +58,29 @@ class ComicsPageActivity : AppCompatActivity() {
         val COMIC_IMAGE = "COMIC_IMAGE"
         val COMIC_FAVORITE = "COMIC_FAVORITE"
     }
+
+    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val notConnected = intent.getBooleanExtra(
+                ConnectivityManager
+                    .EXTRA_NO_CONNECTIVITY, false
+            )
+            if (notConnected) {
+                disconnected()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,13 +229,19 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 
-    private fun friendNavRecycle(){
-        val adapterTest = GroupAdapter<GroupieViewHolder>()
-        adapterTest.add(TestNavRecItem())
-        adapterTest.add(TestNavRecItem())
-        adapterTest.add(TestNavRecItem())
-        toolBar_RecyclerView.adapter = adapterTest
-    }
+        private fun friendNavRecycle(){
+            val adapterTest = GroupAdapter<GroupieViewHolder>()
+            adapterTest.add(TestNavRecItem())
+            adapterTest.add(TestNavRecItem())
+            adapterTest.add(TestNavRecItem())
+            toolBar_RecyclerView.adapter = adapterTest
+        }
+
+
+
+        private fun disconnected() {
+            Toast.makeText(applicationContext,"Du är offline ", Toast.LENGTH_SHORT).show()
+        }
 
 }
 
