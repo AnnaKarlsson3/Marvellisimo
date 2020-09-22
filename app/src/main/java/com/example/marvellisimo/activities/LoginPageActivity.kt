@@ -17,6 +17,7 @@ class LoginPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         button_signin_signupView.setOnClickListener {
+            Log.d("login", "clicking on signin")
             val email = email_signupView.text.toString()
             val password = password_signupView.text.toString()
 
@@ -27,7 +28,7 @@ class LoginPageActivity : AppCompatActivity() {
                     .show()
                 return@setOnClickListener
             }
-
+            else
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(){
                     if (!it.isSuccessful)return@addOnCompleteListener
