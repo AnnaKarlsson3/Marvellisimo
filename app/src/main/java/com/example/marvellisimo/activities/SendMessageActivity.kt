@@ -26,7 +26,7 @@ class SendMessageActivity :AppCompatActivity () {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-    //var toUser: User = "ifo3feMxpjTlp6MyE1Peu09LCAi2"
+    //var toUser: User? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +57,7 @@ class SendMessageActivity :AppCompatActivity () {
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
         val toId = "ifo3feMxpjTlp6MyE1Peu09LCAi2"
+        //val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -105,7 +106,7 @@ class SendMessageActivity :AppCompatActivity () {
 
         val fromId = FirebaseAuth.getInstance().uid
         val user =  "ifo3feMxpjTlp6MyE1Peu09LCAi2" /*intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
-        val toId = "ifo3feMxpjTlp6MyE1Peu09LCAi2"
+        val toId = "ifo3feMxpjTlp6MyE1Peu09LCAi2" /*val toId = user.uid*/
 
         if (fromId == null) return
 
