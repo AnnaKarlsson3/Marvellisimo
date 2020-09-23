@@ -36,6 +36,8 @@ class SendMessageActivity :AppCompatActivity () {
         val toUser = intent.getStringExtra(ComicsPageActivity.USER_KEY)
         val toUserName = intent.getStringExtra(ComicsPageActivity.USER_NAME)
 
+        recyclerview_chat_log.adapter = adapter
+
         Log.d("ToUser",  "${toUser}")
         Log.d("ToUserName",  "${toUserName}")
 
@@ -52,7 +54,7 @@ class SendMessageActivity :AppCompatActivity () {
 
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
-        val toId = toUser?.uid
+        val toId = intent.getStringExtra(ComicsPageActivity.USER_KEY)
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -63,9 +65,10 @@ class SendMessageActivity :AppCompatActivity () {
                 if (chatMessage != null) {
                     Log.d(TAG, chatMessage.text)
 
+
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                         val currentUser = FirebaseAuth.getInstance().uid ?: return
-                        //val currentUser = LatestMessagesActivity.currentUser ?: return
+
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
@@ -99,8 +102,10 @@ class SendMessageActivity :AppCompatActivity () {
         val text = editext_chat_log.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        /*val user =  intent.getStringExtra(ComicsPageActivity.USER_KEY)*/
-        val toId = toUser?.uid
+        val user =  intent.getStringExtra(ComicsPageActivity.USER_KEY)
+        val toId = intent.getStringExtra(ComicsPageActivity.USER_KEY)
+
+
 
         if (fromId == null) return
 
@@ -113,6 +118,11 @@ class SendMessageActivity :AppCompatActivity () {
             ChatMessage(reference.key!!, text, fromId,
                 it, System.currentTimeMillis() / 1000)
         }
+
+        Log.d("ProvToID",  "${toId}")
+        Log.d("ProvFromID",  "${fromId}")
+        Log.d("Provuser",  "${user}")
+        Log.d("ProvMessage",  "${chatMessage}")
 
         reference.setValue(chatMessage)
             .addOnSuccessListener {
