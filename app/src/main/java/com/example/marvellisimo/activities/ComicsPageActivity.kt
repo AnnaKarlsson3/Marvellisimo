@@ -36,7 +36,9 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_comic_page.*
+import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -240,7 +242,11 @@ class ComicsPageActivity : AppCompatActivity() {
                    val name = snapshot.child("username").value.toString()
                     val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
-                    Picasso.get().load(image).into(inlogged_userImg)
+                    Picasso.get()
+                        .load(image)
+                        .resize(50, 50)
+                        .transform(CropCircleTransformation())
+                        .into(inlogged_userImg)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

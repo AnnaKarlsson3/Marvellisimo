@@ -16,7 +16,7 @@
 
         >
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imageView_usernav_row"
             android:layout_width="100dp"
             android:layout_height="75dp"
