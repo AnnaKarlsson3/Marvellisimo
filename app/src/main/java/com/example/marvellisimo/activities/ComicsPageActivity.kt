@@ -1,7 +1,11 @@
 package com.example.marvellisimo
 
 import ComicItem
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -10,17 +14,17 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.activities.LoginPageActivity
+import com.example.marvellisimo.activities.SendMessageActivity
 import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,8 +37,6 @@ import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.activity_comic_page.*
-import kotlinx.android.synthetic.main.activity_signin.view.*
-import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -43,6 +45,30 @@ class ComicsPageActivity : AppCompatActivity() {
     var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
+
+    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val notConnected = intent.getBooleanExtra(
+                ConnectivityManager
+                .EXTRA_NO_CONNECTIVITY, false)
+            if (notConnected) {
+                disconnected()
+            } else {
+                connected()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
+    }
+
 
 
     val toggle: ActionBarDrawerToggle by lazy {
@@ -56,6 +82,7 @@ class ComicsPageActivity : AppCompatActivity() {
         val COMIC_URL = "COMIC_URL"
         val COMIC_IMAGE = "COMIC_IMAGE"
         val COMIC_FAVORITE = "COMIC_FAVORITE"
+        val USER_KEY = "USER_KEY"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -222,6 +249,7 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
+    //Displays all users
     private fun fetchUsersAndDisplayInNav(){
         val ref = FirebaseDatabase.getInstance().getReference("/users")
 
@@ -229,16 +257,36 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 val adapterNav = GroupAdapter<GroupieViewHolder>()
                 p0.children.forEach{
+                    Log.d("nav", "new massage")
                     val user = it.getValue(User::class.java)
                     if(user != null){
                         adapterNav.add(UserItem(user))
                     }
                 }
                 toolBar_RecyclerView.adapter = adapterNav
+                adapterNav.setOnItemClickListener{item, view ->
+                    val userItem = item as UserItem
+                    val intent = Intent(view.context, SendMessageActivity::class.java)
+                    intent.putExtra(USER_KEY, userItem.user.username)
+                    startActivity(intent)
+                    finish()
+                }
             }
             override fun onCancelled(p0: DatabaseError) {
             }
         })
+
+
+    }
+
+    private fun disconnected() {
+        Log.d("networkaccess", "disconnected")
+        Toast.makeText(applicationContext,"Du är offline ", Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun connected() {
+        Log.d("networkaccess", "connected")
     }
 
     override fun onDestroy() {
@@ -255,6 +303,17 @@ class ComicsPageActivity : AppCompatActivity() {
 
         super.onDestroy()
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
