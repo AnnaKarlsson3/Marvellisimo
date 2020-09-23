@@ -1,7 +1,11 @@
 package com.example.marvellisimo
 
 import ComicItem
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -10,6 +14,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +48,30 @@ class ComicsPageActivity : AppCompatActivity() {
     var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
+
+    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val notConnected = intent.getBooleanExtra(
+                ConnectivityManager
+                .EXTRA_NO_CONNECTIVITY, false)
+            if (notConnected) {
+                disconnected()
+            } else {
+                connected()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(broadcastReceiver)
+    }
+
 
 
     val toggle: ActionBarDrawerToggle by lazy {
@@ -230,6 +259,15 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
+    private fun disconnected() {
+        Log.d("networkaccess", "disconnected")
+        Toast.makeText(applicationContext,"Du är offline ", Toast.LENGTH_SHORT).show()
+
+    }
+
+    private fun connected() {
+        Log.d("networkaccess", "connected")
+    }
 
 }
 
