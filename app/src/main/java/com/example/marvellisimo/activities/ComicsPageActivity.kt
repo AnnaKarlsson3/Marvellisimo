@@ -93,7 +93,18 @@ class ComicsPageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.exit_icon ->{
+                //set boolean active in db to false when logging out:
+                val ref = FirebaseDatabase.getInstance().getReference("/users")
+                val user = Firebase.auth.currentUser
+                val userid = user?.uid
+
+                if (userid != null) {
+                    ref.child(userid).child("active").setValue(false)
+                }
+
                 FirebaseAuth.getInstance().signOut()
+
+                //go back to login intent:
                 val intent = Intent(this, LoginPageActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -228,6 +239,21 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {
             }
         })
+    }
+
+    override fun onDestroy() {
+        //set boolean active in db to false when logging out:
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val user = Firebase.auth.currentUser
+        val userid = user?.uid
+
+        if (userid != null) {
+            ref.child(userid).child("active").setValue(false)
+        }
+
+        FirebaseAuth.getInstance().signOut()
+
+        super.onDestroy()
     }
 
 
