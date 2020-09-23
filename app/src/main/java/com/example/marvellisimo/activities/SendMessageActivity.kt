@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R.layout.*
+import com.example.marvellisimo.entity.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -20,18 +21,16 @@ class SendMessageActivity :AppCompatActivity () {
 
         // TODO()//  create method to view messages
 
-
+        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
 
         setupDummyData()
-
-        val userName = intent.getStringExtra(ComicsPageActivity.USER_KEY)
-        supportActionBar?.title = userName
 
 
     }
 
     private fun setupDummyData(){
         val adapter = GroupAdapter<GroupieViewHolder>()
+
         adapter.add(ChatItemFrom("text from"))
         adapter.add(ChatItemTo("text to"))
 
@@ -54,6 +53,7 @@ class ChatItemFrom(val text : String): Item<GroupieViewHolder>(){
 class ChatItemTo(val text: String): Item<GroupieViewHolder>(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.message_to.text = text
+
     }
 
     override fun getLayout(): Int {
