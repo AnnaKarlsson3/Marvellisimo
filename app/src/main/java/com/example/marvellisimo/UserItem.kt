@@ -12,10 +12,12 @@ import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 class UserItem(val user: User): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textView_user_row.text = user.username
-        Picasso.get().load(user.imageUrl).into(viewHolder.itemView.imageView_usernav_row)
+        if (user.imageUrl.isNotEmpty())
+            Picasso.get().load(user.imageUrl).into(viewHolder.itemView.imageView_usernav_row)
 
         var onlineOffline: ImageView =
             viewHolder.itemView.findViewById(R.id.imageview_online_offline)
+
 
         if (user.active == true) {
             onlineOffline.setImageResource(R.drawable.presence_online)

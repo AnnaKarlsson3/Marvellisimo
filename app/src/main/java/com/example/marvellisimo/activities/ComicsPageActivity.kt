@@ -26,10 +26,7 @@ import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
@@ -249,20 +246,22 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
+    //val users= mutableListOf<UserItem>()
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val users = mutableListOf<UserItem>()
 
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                val adapterNav = GroupAdapter<GroupieViewHolder>()
-                p0.children.forEach{
-                    Log.d("nav", "new massage")
-                    val user = it.getValue(User::class.java)
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val adapterNav = GroupAdapter<GroupieViewHolder>()
+        ref.addChildEventListener(object :ChildEventListener{
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
                     if(user != null){
-                        adapterNav.add(UserItem(user))
+                        val user=UserItem(user)
+                        adapterNav.add(user)
+                         users.add(user)
                     }
-                }
                 toolBar_RecyclerView.adapter = adapterNav
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
@@ -272,10 +271,37 @@ class ComicsPageActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
 
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    val oldUser = users.find { it.user.uid == user.uid }
+                    oldUser?.user?.active = user.active
+
+                    adapterNav.notifyDataSetChanged()
+                }
+                toolBar_RecyclerView.adapter = adapterNav
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+               TODO()
+                /* val user = snapshot.getValue(User::class.java)
+                if(user != null){
+                    adapterNav.notifyDataSetChanged()
+                    users.remove(user)
+                }
+                toolBar_RecyclerView.adapter = adapterNav*/
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
 
     }
 
