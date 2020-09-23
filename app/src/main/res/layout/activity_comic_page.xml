@@ -124,7 +124,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/borderbottom">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/inlogged_userImg"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
