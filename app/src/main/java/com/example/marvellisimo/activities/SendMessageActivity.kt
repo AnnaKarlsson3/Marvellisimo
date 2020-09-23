@@ -26,23 +26,20 @@ class SendMessageActivity :AppCompatActivity () {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-    //var toUser: User? = null
+    var toUser: User? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-        val toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
-        val toUserName = intent.getParcelableExtra<User>(ComicsPageActivity.USER_NAME)
+        val toUser = intent.getStringExtra(ComicsPageActivity.USER_KEY)
+        val toUserName = intent.getStringExtra(ComicsPageActivity.USER_NAME)
 
         Log.d("ToUser",  "${toUser}")
         Log.d("ToUserName",  "${toUserName}")
 
         // TODO()//  create method to view messages
-
-
-
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {
@@ -50,14 +47,12 @@ class SendMessageActivity :AppCompatActivity () {
             performSendMessage()
         }
 
-
     }
 
 
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
-        val toId = "ifo3feMxpjTlp6MyE1Peu09LCAi2"
-        //val toId = toUser?.uid
+        val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -73,7 +68,6 @@ class SendMessageActivity :AppCompatActivity () {
                         //val currentUser = LatestMessagesActivity.currentUser ?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
-                        val toUser = "ifo3feMxpjTlp6MyE1Peu09LCAi2"
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
                     }
                 }
@@ -105,12 +99,12 @@ class SendMessageActivity :AppCompatActivity () {
         val text = editext_chat_log.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        val user =  "ifo3feMxpjTlp6MyE1Peu09LCAi2" /*intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
-        val toId = "ifo3feMxpjTlp6MyE1Peu09LCAi2" /*val toId = user.uid*/
+        /*val user =  intent.getStringExtra(ComicsPageActivity.USER_KEY)*/
+        val toId = toUser?.uid
 
         if (fromId == null) return
 
-//    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+        //val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()

@@ -1,6 +1,7 @@
 package com.example.marvellisimo
 
 
+import com.example.marvellisimo.entity.User
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.chat_item_from_row.view.*
@@ -17,7 +18,7 @@ class ChatFromItem(val text: String, val user: String):  Item<GroupieViewHolder>
   }
 }
 
-class ChatToItem(val text: String, val user: String): Item<GroupieViewHolder>()  {
+class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>()  {
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
     viewHolder.itemView.message_to.text = text
   }

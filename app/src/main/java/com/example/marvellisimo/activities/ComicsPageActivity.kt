@@ -260,6 +260,7 @@ class ComicsPageActivity : AppCompatActivity() {
                     intent.putExtra(USER_KEY, userItem.user.uid)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
+                    /*Log.d("ToUser", "${userItem.user.username}")*/
                     finish()
                 }
             }
