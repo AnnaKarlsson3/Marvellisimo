@@ -71,7 +71,7 @@ class SendMessageActivity :AppCompatActivity () {
 
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
-                        adapter.add(ChatToItem(chatMessage.text, toUser!!))
+                        toUser?.let { ChatToItem(chatMessage.text, it) }?.let { adapter.add(it) }
                     }
                 }
 
