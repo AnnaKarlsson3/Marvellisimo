@@ -67,6 +67,8 @@ class ComicsPageActivity : AppCompatActivity() {
             )
             if (notConnected) {
                 disconnected()
+            }  else {
+            connected()
             }
         }
     }
@@ -241,6 +243,11 @@ class ComicsPageActivity : AppCompatActivity() {
 
         private fun disconnected() {
             Toast.makeText(applicationContext,"Du är offline ", Toast.LENGTH_SHORT).show()
+            Log.d("networkaccess", "Disconnected")
+        }
+
+        private fun connected(){
+            Log.d("networkaccess", "Connected")
         }
 
 }
