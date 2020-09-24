@@ -13,7 +13,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.tasks.await
 
 
 class LoginPageActivity : AppCompatActivity() {
