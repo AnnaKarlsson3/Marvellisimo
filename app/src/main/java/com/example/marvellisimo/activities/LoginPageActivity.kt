@@ -7,8 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.tasks.await
 
 
 class LoginPageActivity : AppCompatActivity() {
@@ -48,4 +50,18 @@ class LoginPageActivity : AppCompatActivity() {
             finish()
         }
     }
+
+//    suspend fun logInWithEmail(firebaseAuth: FirebaseAuth,
+//                               email:String,password:String): AuthResult? {
+//        return try{
+//            val data = firebaseAuth
+//                .signInWithEmailAndPassword(email,password)
+//                .await()
+//            return data
+//        }catch (e : Exception){
+//            return null
+//        }
+//    }
+//
+
 }
