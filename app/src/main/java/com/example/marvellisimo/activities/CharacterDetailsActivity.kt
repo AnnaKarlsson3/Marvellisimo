@@ -92,6 +92,13 @@ class CharacterDetailsActivity : AppCompatActivity() {
             }
         })
 
+        share_character_detailview.setOnClickListener{
+           
+            val intent = Intent(this, SendMessageActivity::class.java)
+            intent.putExtra("share_character_text", text )
+            startActivity(intent)
+        }
+
 
         character_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
@@ -247,6 +254,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
 
         super.onDestroy()
     }
+
+
 
 
 }
