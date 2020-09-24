@@ -87,7 +87,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        //only passes data to sendmessage view without specifying which user data is supposed to be sent to
       share_character_detailview.setOnClickListener{
           val intent = Intent(this, SendMessageActivity::class.java)
           intent.putExtra("share_character_text", text )

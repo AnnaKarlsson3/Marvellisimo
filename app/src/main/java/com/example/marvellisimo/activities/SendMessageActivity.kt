@@ -98,8 +98,7 @@ class SendMessageActivity :AppCompatActivity () {
         if (name != null) {
             Log.d("sendmessage", name)
         }
-
-
+        
         editext_chat_log?.setText(name)
 
 
