@@ -84,6 +84,7 @@ class ComicsPageActivity : AppCompatActivity() {
         val COMIC_FAVORITE = "COMIC_FAVORITE"
         val USER_KEY = "USER_KEY"
         val USER_NAME = "USER_NAME"
+        var currentUser: User? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,6 +232,7 @@ class ComicsPageActivity : AppCompatActivity() {
                     val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
                     Picasso.get().load(image).into(inlogged_userImg)
+                    currentUser = snapshot.getValue(User::class.java)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -257,7 +259,7 @@ class ComicsPageActivity : AppCompatActivity() {
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
-                    intent.putExtra(USER_KEY, userItem.user.uid)
+                    intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
                     /*Log.d("ToUser", "${userItem.user.username}")*/

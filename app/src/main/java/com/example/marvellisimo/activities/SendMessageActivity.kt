@@ -4,9 +4,11 @@ package com.example.marvellisimo.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.ChatFromItem
 import com.example.marvellisimo.ChatToItem
 import com.example.marvellisimo.ComicsPageActivity
+import com.example.marvellisimo.R
 import com.example.marvellisimo.R.layout.*
 import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.User
@@ -21,40 +23,37 @@ import kotlinx.android.synthetic.main.activity_chat_log.*
 
 
 class SendMessageActivity :AppCompatActivity () {
+
     companion object {
         val TAG = "ChatLog"
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-    var toUser: User? = null
 
+    var toUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-        val toUser = intent.getStringExtra(ComicsPageActivity.USER_KEY)
-        val toUserName = intent.getStringExtra(ComicsPageActivity.USER_NAME)
-
         recyclerview_chat_log.adapter = adapter
 
-        Log.d("ToUser",  "${toUser}")
-        Log.d("ToUserName",  "${toUserName}")
+        toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
 
-        // TODO()//  create method to view messages
+        supportActionBar?.title = toUser?.username
+
+//    setupDummyData()
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
         }
-
     }
-
 
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
-        val toId = intent.getStringExtra(ComicsPageActivity.USER_KEY)
+        val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -65,32 +64,30 @@ class SendMessageActivity :AppCompatActivity () {
                 if (chatMessage != null) {
                     Log.d(TAG, chatMessage.text)
 
-
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        val currentUser = FirebaseAuth.getInstance().uid ?: return
-
+                        val currentUser = ComicsPageActivity.currentUser ?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
-                        toUser?.let { ChatToItem(chatMessage.text, it) }?.let { adapter.add(it) }
+                        adapter.add(ChatToItem(chatMessage.text, toUser!!))
                     }
                 }
 
             }
 
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+            override fun onCancelled(p0: DatabaseError) {
+
             }
 
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+
             }
 
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+            override fun onChildRemoved(p0: DataSnapshot) {
+
             }
 
         })
@@ -102,14 +99,12 @@ class SendMessageActivity :AppCompatActivity () {
         val text = editext_chat_log.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
-        val user =  intent.getStringExtra(ComicsPageActivity.USER_KEY)
-        val toId = intent.getStringExtra(ComicsPageActivity.USER_KEY)
-
-
+        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        val toId = user?.uid
 
         if (fromId == null) return
 
-        //val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+//    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
@@ -118,11 +113,6 @@ class SendMessageActivity :AppCompatActivity () {
             ChatMessage(reference.key!!, text, fromId,
                 it, System.currentTimeMillis() / 1000)
         }
-
-        Log.d("ProvToID",  "${toId}")
-        Log.d("ProvFromID",  "${fromId}")
-        Log.d("Provuser",  "${user}")
-        Log.d("ProvMessage",  "${chatMessage}")
 
         reference.setValue(chatMessage)
             .addOnSuccessListener {
@@ -139,9 +129,11 @@ class SendMessageActivity :AppCompatActivity () {
         val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
         latestMessageToRef.setValue(chatMessage)
     }
-
-
 }
+
+
+
+
 
 
 
