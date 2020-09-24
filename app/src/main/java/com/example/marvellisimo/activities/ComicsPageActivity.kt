@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
@@ -19,6 +20,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
@@ -44,6 +47,13 @@ class ComicsPageActivity : AppCompatActivity() {
     var isClicked = true
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
+    val manager = LinearLayoutManager(this)
+    var isScrolling = false
+    var current = 0
+    var total = 0
+    var scrolledOut = 0
+    var offset = 0
+    var totalComic = 0
 
     private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -108,9 +118,10 @@ class ComicsPageActivity : AppCompatActivity() {
         setFavButton();
         navButtons();
         clickToRecycleView()
+        onScrolling()
     }
 
-    private fun drawerListener (){
+    private fun drawerListener() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -138,10 +149,9 @@ class ComicsPageActivity : AppCompatActivity() {
             }
         }
 
-        return if (toggle.onOptionsItemSelected(item)){
+        return if (toggle.onOptionsItemSelected(item)) {
             return true
-        }
-        else{
+        } else {
             super.onOptionsItemSelected(item)
         }
     }
@@ -186,7 +196,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun PrintToRecycleView() {
         //3party adapter https://github.com/lisawray/groupie ..
-        modelComic.getComicData().observe(this, {
+        modelComic.getComicData(offset).observe(this, {
             adapter.clear()
             it.forEach { comic ->
                 adapter.add(ComicItem(comic))
@@ -194,6 +204,46 @@ class ComicsPageActivity : AppCompatActivity() {
             }
         })
         recycle_view_comic.adapter = adapter
+
+
+    }
+
+    private fun onScrolling() {
+        recycle_view_comic.layoutManager = manager
+
+        recycle_view_comic.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                current = manager.childCount
+                total = manager.itemCount
+                scrolledOut = manager.findFirstVisibleItemPosition()
+                totalComic = modelComic.getTotalComicCount()
+                val limit = modelComic.getComicLimit()
+                Log.d("C", "comic limit:${limit}")
+                Log.d("C", "comic offset: ${offset}")
+                Log.d("C", "comic total in Api: ${totalComic}")
+
+                println("comic--- total in recycleview: ${total}, current:${current}, scrolled${scrolledOut}")
+
+
+
+                if (isScrolling && (current + scrolledOut == offset + limit) && offset < totalComic) {
+                    offset += limit
+
+                    modelComic.getComicData(offset)
+                    adapter.notifyDataSetChanged()
+
+                }
+            }
+        })
     }
 
     private fun clickToRecycleView() {
@@ -210,17 +260,20 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterComic(){
+    private fun filterComic() {
         search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 modelComic.getSearchComicData(newText).observe(activity, {
                     adapter.clear()
-                    it.forEach{ comic -> adapter.add(ComicItem(comic))
-                        Log.d("filterdComic", "${comic.title}")}
+                    it.forEach { comic ->
+                        adapter.add(ComicItem(comic))
+                        Log.d("filterdComic", "${comic.title}")
+                    }
                 })
                 return false
             }
+
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 return false
@@ -228,15 +281,15 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
-    private fun displayCurrentUserInNav(){
+    private fun displayCurrentUserInNav() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
         val userid = user?.uid
 
         if (userid != null) {
-            ref.child(userid).addListenerForSingleValueEvent(object: ValueEventListener {
+            ref.child(userid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                   val name = snapshot.child("username").value.toString()
+                    val name = snapshot.child("username").value.toString()
                     val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
 
@@ -253,8 +306,8 @@ class ComicsPageActivity : AppCompatActivity() {
                 }
             })
         }
-    }
 
+    }
 
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
@@ -312,7 +365,6 @@ class ComicsPageActivity : AppCompatActivity() {
             }
 
         })
-
     }
 
     private fun disconnected() {
@@ -340,19 +392,8 @@ class ComicsPageActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-}
 
 
 

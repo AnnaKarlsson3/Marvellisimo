@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AbsListView
 import android.widget.Button
-
 
 
 import android.widget.ImageButton
@@ -19,9 +19,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.marvellisimo.activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
+
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
 import com.example.marvellisimo.entity.User
+
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -38,9 +43,16 @@ import kotlinx.android.synthetic.main.activity_comic_page.*
 class CharactersPageActivity : AppCompatActivity() {
 
     val modelCharacter: ViewModelComicCharacterPage by viewModels()
-    var isClicked = true
+    var isClicked = false
     val activity = this
     val adapter = GroupAdapter<GroupieViewHolder>()
+    val manager = LinearLayoutManager(this)
+    var isScrolling = false
+    var current = 0
+    var total = 0
+    var scrolledOut = 0
+    var offset = 0
+    var totalCharacter = 0
 
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout_character, R.string.open, R.string.close)
@@ -74,6 +86,7 @@ class CharactersPageActivity : AppCompatActivity() {
         navButtons()
         setFavButton();
         clickOnRecycleView()
+        onScrolling()
     }
 
     private fun drawerListener (){
@@ -133,6 +146,7 @@ class CharactersPageActivity : AppCompatActivity() {
 
         favButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(arg0: View?) {
+                isClicked = !isClicked;
                 if (isClicked) {
                     modelCharacter.getFavoriteCharacter().observe(activity, {
                         adapter.clear()
@@ -146,14 +160,15 @@ class CharactersPageActivity : AppCompatActivity() {
                     favButton.setImageResource(R.drawable.ic_star_regular)
                     PrintToRecycleView()
                 }
-                isClicked = !isClicked;
+
             }
         })
     }
 
     private fun PrintToRecycleView() {
+
         //3party adapter https://github.com/lisawray/groupie ..
-        modelCharacter.getCharacterData().observe(this, {
+        modelCharacter.getCharacterData(offset).observe(this, {
             adapter.clear()
             it.forEach { character ->
                 adapter.add(CharacterItem(character))
@@ -162,9 +177,46 @@ class CharactersPageActivity : AppCompatActivity() {
         })
 
         recycle_view_character.adapter = adapter
+
+
     }
 
-    private fun clickOnRecycleView(){
+    private fun onScrolling() {
+        recycle_view_character.layoutManager = manager
+
+        recycle_view_character.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                current = manager.childCount
+                total = manager.itemCount
+                scrolledOut = manager.findFirstVisibleItemPosition()
+
+                totalCharacter = modelCharacter.getTotalCharacterCount()
+                val limit = modelCharacter.getCharacterLimit()
+                Log.d("C", "character limit:${limit}")
+                Log.d("C", "character offset: ${offset}")
+                Log.d("C", "character total in Api: ${totalCharacter}")
+
+                println("character--- total in recycleview: ${total}, current:${current}, scrolled${scrolledOut}")
+
+                if (isScrolling && scrolledOut + current == (offset + limit) && offset < totalCharacter) {
+                    offset += limit
+                    modelCharacter.getCharacterData(offset)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+        })
+    }
+
+    private fun clickOnRecycleView() {
         adapter.setOnItemClickListener { item, view ->
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
@@ -193,6 +245,7 @@ class CharactersPageActivity : AppCompatActivity() {
                 })
                 return false
             }
+
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 return false

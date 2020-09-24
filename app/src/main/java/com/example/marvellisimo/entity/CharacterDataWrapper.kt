@@ -7,7 +7,10 @@ data class CharacterDataWrapper(val data: CharacterDataContainer) {
 
 }
 
-data class CharacterDataContainer(val results: ArrayList<Character>) {
+data class CharacterDataContainer(val total:Int,
+                                  val count:Int,
+                                  val limit:Int,
+                                  val results: ArrayList<Character>) {
 
 }
 @Parcelize

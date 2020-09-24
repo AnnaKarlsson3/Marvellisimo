@@ -9,8 +9,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.security.MessageDigest
 
-const val apiKey = "3573b53875a89b001a4e318271a7b005" // Replace this
-const val privateKey = "78821bef882d707a3c579952f4ffaf71d37a8213" // Replace this
+const val apiKey = "16534c1cb23bb6f87e5211bbad399f32" // Replace this
+const val privateKey = "f4f723c0307fc2ff44a15ecc4323087f78189925" // Replace this
 
 
 
@@ -26,10 +26,30 @@ fun String.md5(): String{
 
 interface MarvelService {
 
+    @GET("characters?apikey=$apiKey&orderBy=name")
+    fun getAllCharacters(@Query("offset")offset :Int = 0,
+                         @Query("limit") limit : Int = 100,
+                         @Query("ts") ts:String=System.currentTimeMillis().toString(),
+                         @Query("hash") hash: String = getMD5(ts)): Call<CharacterDataWrapper>
+
+    @GET("comics?apikey=$apiKey&orderBy=title")
+    fun getAllComics(@Query("offset")offset :Int = 0,
+                     @Query("limit") limit : Int = 100,
+                     @Query("ts") ts:String=System.currentTimeMillis().toString(),
+                     @Query("hash") hash: String = getMD5(ts)): Call<ComicDataWrapper>
+
     @GET("characters?apikey=$apiKey")
-    fun getAllCharacters(@Query("offset")offset :Int = 0, @Query("limit") limit : Int = 100, @Query("ts") ts:String=System.currentTimeMillis().toString(), @Query("hash") hash: String = getMD5(ts)): Call<CharacterDataWrapper>
+    fun getSearchedCharacters(
+        @Query("nameStartsWith") nameStartsWith:String="",
+                         @Query("ts") ts:String=System.currentTimeMillis().toString(),
+                         @Query("hash") hash: String = getMD5(ts)): Call<CharacterDataWrapper>
 
     @GET("comics?apikey=$apiKey")
-    fun getAllComics(@Query("offset")offset :Int = 0, @Query("limit") limit : Int = 100,@Query("ts") ts:String=System.currentTimeMillis().toString(),  @Query("hash") hash: String = getMD5(ts)): Call<ComicDataWrapper>
+    fun getSearchedComics(
+        @Query("titleStartsWith")titleStartsWith:String="",
+                     @Query("ts") ts:String=System.currentTimeMillis().toString(),
+                     @Query("hash") hash: String = getMD5(ts)): Call<ComicDataWrapper>
+
+
 }
 

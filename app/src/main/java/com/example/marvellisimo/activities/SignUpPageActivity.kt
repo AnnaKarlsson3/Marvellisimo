@@ -12,10 +12,15 @@ import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 import kotlinx.android.synthetic.main.activity_signin.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class SignUpPageActivity : AppCompatActivity() {
@@ -30,6 +35,7 @@ class SignUpPageActivity : AppCompatActivity() {
 
         button_register_mainView.setOnClickListener {
             performRegister()
+
         }
 
         button_imageSelector_mainView.setOnClickListener {
@@ -64,6 +70,14 @@ class SignUpPageActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter username/email/password", Toast.LENGTH_LONG).show()
             return
         }
+//        try {
+//            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).await()
+//            uploadImageToFirebaseStorage()
+//
+//        } catch (exception: FirebaseAuthException) {
+//            Toast.makeText(this, "Failed to create user: ${exception.message}", Toast.LENGTH_SHORT)
+//                    .show()
+//        }
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
@@ -87,6 +101,8 @@ class SignUpPageActivity : AppCompatActivity() {
         if (selectedPhotouri == null) return
         val fileName = UUID.randomUUID().toString()
         val reference = FirebaseStorage.getInstance().getReference("/images/${fileName}")
+
+
         reference.putFile(selectedPhotouri!!).addOnSuccessListener {
             Log.d("SignUpActivity", "image is uploaded: ${it.metadata?.path}")
             reference.downloadUrl.addOnSuccessListener {
@@ -112,7 +128,9 @@ class SignUpPageActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             .addOnFailureListener {
-                Log.d("SignUpActivity","Fail to store user: ${it.message}")
+                Log.d("SignUpActivity", "Fail to store user: ${it.message}")
             }
+
     }
 }
+

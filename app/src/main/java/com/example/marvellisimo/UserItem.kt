@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 class UserItem(val user: User): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textView_user_row.text = user.username
-        //Picasso.get().load(user.imageUrl).into(viewHolder.itemView.imageView_usernav_row)
+//        Picasso.get().load(user.imageUrl).into(viewHolder.itemView.imageView_usernav_row)
 
         Log.d("userImg", "${user.imageUrl}")
 
