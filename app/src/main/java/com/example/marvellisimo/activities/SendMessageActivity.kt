@@ -3,6 +3,7 @@ package com.example.marvellisimo.activities
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.*
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
+import kotlinx.android.synthetic.main.chat_item_from_row.*
+import kotlinx.android.synthetic.main.chat_item_to_row.*
 
 
 class SendMessageActivity :AppCompatActivity () {
@@ -38,17 +41,8 @@ class SendMessageActivity :AppCompatActivity () {
         toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
 
 
-        val id = intent.getStringExtra("share_character_text")
-        if (id != null) {
-            Log.d("sendmessage", id)
-        }
-
-        //val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
-
-
-
-
         listenForMessages()
+
 
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
@@ -100,8 +94,16 @@ class SendMessageActivity :AppCompatActivity () {
     }
 
     private fun performSendMessage() {
+        val name = intent.getStringExtra("share_character_text")
+        if (name != null) {
+            Log.d("sendmessage", name)
+        }
 
-        val text = editext_chat_log.text.toString()
+
+        editext_chat_log?.setText(name)
+
+
+        ///val text = editext_chat_log.text.toString()
 
         val fromId = FirebaseAuth.getInstance().uid
         val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
@@ -114,8 +116,10 @@ class SendMessageActivity :AppCompatActivity () {
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         val chatMessage = toId?.let {
-            ChatMessage(reference.key!!, text, fromId,
-                it, System.currentTimeMillis() / 1000)
+            if (name != null) {
+                ChatMessage(reference.key!!, name, fromId,
+                    it, System.currentTimeMillis() / 1000)
+            }
         }
 
         reference.setValue(chatMessage)
