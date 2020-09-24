@@ -2,11 +2,8 @@ package com.example.marvellisimo.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -90,6 +87,8 @@ class SignUpPageActivity : AppCompatActivity() {
                     "SignUpActivity",
                     "Successfully created user with uid: ${it.result?.user?.uid}"
                 )
+                val intent = Intent(this, ComicsPageActivity::class.java)
+                startActivity(intent)
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
@@ -120,7 +119,7 @@ class SignUpPageActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val reference = FirebaseDatabase.getInstance().getReference("users/$uid")
 
-        val user = User(uid, username_mainView.text.toString(), imageUri)
+        val user = User(uid, username_mainView.text.toString().capitalize(), imageUri,true)
 
         reference.setValue(user)
             .addOnSuccessListener {

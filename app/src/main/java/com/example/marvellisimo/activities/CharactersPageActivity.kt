@@ -47,6 +47,7 @@ class CharactersPageActivity : AppCompatActivity() {
         val CHAR_URL = "CHAR_URL"
         val CHAR_IMAGE = "CHAR_IMAGE"
         val CHAR_FAVORITE = "CHAR_FAVORITE"
+        val USER_KEY = "USER_KEY"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
