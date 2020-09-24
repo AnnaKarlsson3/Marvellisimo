@@ -68,8 +68,6 @@ class ComicsPageActivity : AppCompatActivity() {
         unregisterReceiver(broadcastReceiver)
     }
 
-
-
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
     }
