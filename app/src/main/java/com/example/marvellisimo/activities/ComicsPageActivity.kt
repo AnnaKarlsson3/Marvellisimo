@@ -242,6 +242,8 @@ class ComicsPageActivity : AppCompatActivity() {
                     val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
 
+                    currentUser = snapshot.getValue(User::class.java)
+
                     Picasso.get()
                         .load(image)
                         .resize(50, 50)
