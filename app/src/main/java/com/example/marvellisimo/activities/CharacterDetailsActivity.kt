@@ -1,13 +1,21 @@
 package com.example.marvellisimo.activities
 
+import CharacterItem
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.CharactersPageActivity
+import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
+import com.example.marvellisimo.entity.Character
 import com.example.marvellisimo.entity.RealmCharacterEntity
 import com.squareup.picasso.Picasso
 import io.realm.Realm
@@ -23,6 +31,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_details)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
         val text = intent.getStringExtra(CharactersPageActivity.CHAR_NAME)
@@ -79,7 +88,26 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
 
 
+      share_character_detailview.setOnClickListener{
+          val intent = Intent(this, SendMessageActivity::class.java)
+          intent.putExtra("share_character_text", text )
+          startActivity(intent)
+
+      }
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
 
 }
 

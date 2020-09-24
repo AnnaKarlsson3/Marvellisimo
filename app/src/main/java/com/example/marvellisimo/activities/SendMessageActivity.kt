@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvellisimo.ChatFromItem
-import com.example.marvellisimo.ChatToItem
-import com.example.marvellisimo.ComicsPageActivity
-import com.example.marvellisimo.R
+import com.example.marvellisimo.*
 import com.example.marvellisimo.R.layout.*
 import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.User
@@ -39,6 +36,15 @@ class SendMessageActivity :AppCompatActivity () {
         recyclerview_chat_log.adapter = adapter
 
         toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+
+
+        val id = intent.getStringExtra("share_character_text")
+        if (id != null) {
+            Log.d("sendmessage", id)
+        }
+
+        //val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
+
 
 
 
