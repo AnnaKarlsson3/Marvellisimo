@@ -257,15 +257,14 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
-    //val users= mutableListOf<UserItem>()
+
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
         val users = mutableListOf<UserItem>()
-
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val adapterNav = GroupAdapter<GroupieViewHolder>()
-        ref.addChildEventListener(object :ChildEventListener{
 
+        ref.addChildEventListener(object :ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                     if(user != null){
@@ -274,13 +273,16 @@ class ComicsPageActivity : AppCompatActivity() {
                          users.add(user)
                     }
                 toolBar_RecyclerView.adapter = adapterNav
+
+                for(u in users){
+                    Log.d("users", "users in list: ${u.user.username}")}
+
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
                     intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
-                    /*Log.d("ToUser", "${userItem.user.username}")*/
                     finish()
                 }
             }
@@ -288,7 +290,7 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if (user != null) {
-                    val oldUser = users.find { it.user.uid == user.uid }
+                    val oldUser = users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
                     oldUser?.user?.active = user.active
 
                     adapterNav.notifyDataSetChanged()
@@ -297,13 +299,10 @@ class ComicsPageActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-               TODO()
-                /* val user = snapshot.getValue(User::class.java)
-                if(user != null){
-                    adapterNav.notifyDataSetChanged()
-                    users.remove(user)
-                }
-                toolBar_RecyclerView.adapter = adapterNav*/
+
+
+                   TODO()
+
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
