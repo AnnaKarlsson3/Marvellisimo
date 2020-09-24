@@ -26,17 +26,16 @@ import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_comic_page.*
+import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -122,7 +121,18 @@ class ComicsPageActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.exit_icon ->{
+                //set boolean active in db to false when logging out:
+                val ref = FirebaseDatabase.getInstance().getReference("/users")
+                val user = Firebase.auth.currentUser
+                val userid = user?.uid
+
+                if (userid != null) {
+                    ref.child(userid).child("active").setValue(false)
+                }
+
                 FirebaseAuth.getInstance().signOut()
+
+                //go back to login intent:
                 val intent = Intent(this, LoginPageActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -231,8 +241,12 @@ class ComicsPageActivity : AppCompatActivity() {
                    val name = snapshot.child("username").value.toString()
                     val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
-                    Picasso.get().load(image).into(inlogged_userImg)
-                    currentUser = snapshot.getValue(User::class.java)
+
+                    Picasso.get()
+                        .load(image)
+                        .resize(50, 50)
+                        .transform(CropCircleTransformation())
+                        .into(inlogged_userImg)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -241,20 +255,22 @@ class ComicsPageActivity : AppCompatActivity() {
         }
     }
 
+    //val users= mutableListOf<UserItem>()
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val users = mutableListOf<UserItem>()
 
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                val adapterNav = GroupAdapter<GroupieViewHolder>()
-                p0.children.forEach{
-                    Log.d("nav", "new massage")
-                    val user = it.getValue(User::class.java)
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val adapterNav = GroupAdapter<GroupieViewHolder>()
+        ref.addChildEventListener(object :ChildEventListener{
+
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
                     if(user != null){
-                        adapterNav.add(UserItem(user))
+                        val user=UserItem(user)
+                        adapterNav.add(user)
+                         users.add(user)
                     }
-                }
                 toolBar_RecyclerView.adapter = adapterNav
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
@@ -266,10 +282,37 @@ class ComicsPageActivity : AppCompatActivity() {
                     finish()
                 }
             }
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
 
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    val oldUser = users.find { it.user.uid == user.uid }
+                    oldUser?.user?.active = user.active
+
+                    adapterNav.notifyDataSetChanged()
+                }
+                toolBar_RecyclerView.adapter = adapterNav
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+               TODO()
+                /* val user = snapshot.getValue(User::class.java)
+                if(user != null){
+                    adapterNav.notifyDataSetChanged()
+                    users.remove(user)
+                }
+                toolBar_RecyclerView.adapter = adapterNav*/
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
 
     }
 
@@ -281,6 +324,21 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun connected() {
         Log.d("networkaccess", "connected")
+    }
+
+    override fun onDestroy() {
+        //set boolean active in db to false when logging out:
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val user = Firebase.auth.currentUser
+        val userid = user?.uid
+
+        if (userid != null) {
+            ref.child(userid).child("active").setValue(false)
+        }
+
+        FirebaseAuth.getInstance().signOut()
+
+        super.onDestroy()
     }
 
 
