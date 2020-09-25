@@ -37,10 +37,6 @@ class ComicDetailsActivity : AppCompatActivity() {
         val realm = Realm.getDefaultInstance()
     }
 
-    val toggle: ActionBarDrawerToggle by lazy {
-        ActionBarDrawerToggle(this, drawerLayout_co_detail, R.string.open, R.string.close)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_details)
@@ -49,17 +45,12 @@ class ComicDetailsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
-
 
         val id = intent.getIntExtra(ComicsPageActivity.COMIC_ID, 1)
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
         val info = intent.getStringExtra(ComicsPageActivity.COMIC_INFO)
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
-
-
 
         comic_name.text = text
         comic_info.text = info
@@ -77,11 +68,11 @@ class ComicDetailsActivity : AppCompatActivity() {
         }
 
 
+
         share_comic_detailview .setOnClickListener{
             // Show the single choice list items on an alert dialog
             showDialog()
         }
-
 
 
         image_Fav_Button_comic.setOnClickListener(object : View.OnClickListener {
@@ -92,18 +83,15 @@ class ComicDetailsActivity : AppCompatActivity() {
                         realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
                     image_Fav_Button_comic.setImageResource(R.drawable.ic_star_solid)
-
                 } else {
                     image_Fav_Button_comic.setImageResource(R.drawable.ic_star_regular)
                     realm.executeTransaction {
                         comicFromDatabase!!.favorite = false
                         realm.copyToRealmOrUpdate(comicFromDatabase)
                     }
-
                 }
             }
         })
-
 
         Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(comic_image)
 
@@ -112,6 +100,7 @@ class ComicDetailsActivity : AppCompatActivity() {
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
+
 
         drawerListener()
         displayCurrentUserInNav()
@@ -337,9 +326,7 @@ override fun onDestroy() {
         if (userid != null) {
             ref.child(userid).child("active").setValue(false)
         }
-
         FirebaseAuth.getInstance().signOut()
-
         super.onDestroy()
     }
 

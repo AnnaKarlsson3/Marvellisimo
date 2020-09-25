@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-//import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class SignUpPageActivity : AppCompatActivity() {
@@ -87,8 +86,6 @@ class SignUpPageActivity : AppCompatActivity() {
                     "SignUpActivity",
                     "Successfully created user with uid: ${it.result?.user?.uid}"
                 )
-                val intent = Intent(this, ComicsPageActivity::class.java)
-                startActivity(intent)
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
