@@ -1,13 +1,18 @@
 package com.example.marvellisimo.activities
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.transition.Slide
+import android.transition.TransitionManager
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
@@ -23,8 +28,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.realm.Realm
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.activity_character_details.*
 import kotlinx.android.synthetic.main.activity_comic_details.*
+
 
 
 class ComicDetailsActivity : AppCompatActivity() {
@@ -72,6 +77,12 @@ class ComicDetailsActivity : AppCompatActivity() {
         }
 
 
+        share_comic_detailview .setOnClickListener{
+            // Show the single choice list items on an alert dialog
+            showDialog()
+        }
+
+
 
         image_Fav_Button_comic.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -107,6 +118,8 @@ class ComicDetailsActivity : AppCompatActivity() {
         fetchUsersAndDisplayInNav()
     }
 
+
+
     private fun drawerListener (){
         drawerLayout_co_detail.addDrawerListener(toggle)
         toggle.syncState()
@@ -115,7 +128,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.exit_icon ->{
+            R.id.exit_icon -> {
                 //set boolean active in db to false when logging out:
                 val ref = FirebaseDatabase.getInstance().getReference("/users")
                 val user = Firebase.auth.currentUser
@@ -154,7 +167,7 @@ class ComicDetailsActivity : AppCompatActivity() {
         val userid = user?.uid
 
         if (userid != null) {
-            ref.child(userid).addListenerForSingleValueEvent(object: ValueEventListener {
+            ref.child(userid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val name = snapshot.child("username").value.toString()
                     val image = snapshot.child("imageUrl").value.toString()
@@ -176,6 +189,82 @@ class ComicDetailsActivity : AppCompatActivity() {
     }
 
 
+
+
+
+
+    private fun showDialog() {
+
+
+        // Initialize a new instance of alert dialog builder object
+        val builder = AlertDialog.Builder(this)
+
+        // Set a title for alert dialog
+        builder.setTitle("Choose an user")
+
+        val users = mutableListOf<UserItem>()
+        val ref = FirebaseDatabase.getInstance().getReference("/users")
+
+
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    val user = UserItem(user)
+                    users.add(user)
+
+                    Log.d("UserList" , "${users}")
+                    builder.adapter
+                }
+
+
+                for (u in users) {
+                    Log.d("usersCharacter", "users in list: ${u.user.username}")
+                }
+
+
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                val user = snapshot.getValue(User::class.java)
+                if (user != null) {
+                    val oldUser =
+                        users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
+                    oldUser?.user?.active = user.active
+
+
+                }
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+
+                TODO()
+
+            }
+
+
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
+
+
+        // Create a new AlertDialog using builder object
+        val dialog = builder.create()
+
+        // Finally, display the alert dialog
+        dialog.show()
+
+    }
+
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
         val users = mutableListOf<UserItem>()
@@ -185,17 +274,18 @@ class ComicDetailsActivity : AppCompatActivity() {
         ref.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
-                if(user != null){
+                if (user != null) {
                     val user = UserItem(user)
                     adapterNav.add(user)
                     users.add(user)
                 }
                 toolBar_RecyclerView_co_detail.adapter = adapterNav
 
-                for(u in users){
-                    Log.d("usersCharacter", "users in list: ${u.user.username}")}
+                for (u in users) {
+                    Log.d("usersCharacter", "users in list: ${u.user.username}")
+                }
 
-                adapterNav.setOnItemClickListener{item, view ->
+                adapterNav.setOnItemClickListener { item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
                     intent.putExtra(ComicsPageActivity.USER_KEY, userItem.user)
@@ -208,7 +298,8 @@ class ComicDetailsActivity : AppCompatActivity() {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if (user != null) {
-                    val oldUser = users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
+                    val oldUser =
+                        users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
                     oldUser?.user?.active = user.active
 
                     adapterNav.notifyDataSetChanged()
@@ -234,7 +325,10 @@ class ComicDetailsActivity : AppCompatActivity() {
         })
 
     }
-    override fun onDestroy() {
+
+
+
+override fun onDestroy() {
         //set boolean active in db to false when logging out:
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
