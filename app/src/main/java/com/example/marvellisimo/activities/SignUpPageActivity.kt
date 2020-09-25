@@ -86,8 +86,6 @@ class SignUpPageActivity : AppCompatActivity() {
                     "SignUpActivity",
                     "Successfully created user with uid: ${it.result?.user?.uid}"
                 )
-                val intent = Intent(this, ComicsPageActivity::class.java)
-                startActivity(intent)
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
