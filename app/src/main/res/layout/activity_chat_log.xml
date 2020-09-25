@@ -28,7 +28,7 @@
         android:ems="10"
         android:background="@android:color/white"
         android:inputType="textPersonName"
-        android:text="Enter text"
+        android:hint="Enter text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
         app:layout_constraintHorizontal_bias="0.0"

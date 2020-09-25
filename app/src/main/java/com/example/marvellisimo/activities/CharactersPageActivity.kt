@@ -37,7 +37,6 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_characters_page.*
-import kotlinx.android.synthetic.main.activity_comic_page.*
 
 
 class CharactersPageActivity : AppCompatActivity() {
@@ -49,10 +48,10 @@ class CharactersPageActivity : AppCompatActivity() {
     val manager = LinearLayoutManager(this)
     var isScrolling = false
     var current = 0
-    var total = 0
+    var totalOnRecycleView = 0
     var scrolledOut = 0
     var offset = 0
-    var totalCharacter = 0
+    var totalCharacterFromApi = 0
 
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout_character, R.string.open, R.string.close)
@@ -196,18 +195,18 @@ class CharactersPageActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 current = manager.childCount
-                total = manager.itemCount
+                totalOnRecycleView = manager.itemCount
                 scrolledOut = manager.findFirstVisibleItemPosition()
 
-                totalCharacter = modelCharacter.getTotalCharacterCount()
+                totalCharacterFromApi = modelCharacter.getTotalCharacterCount()
                 val limit = modelCharacter.getCharacterLimit()
                 Log.d("C", "character limit:${limit}")
                 Log.d("C", "character offset: ${offset}")
-                Log.d("C", "character total in Api: ${totalCharacter}")
+                Log.d("C", "character total in Api: ${totalCharacterFromApi}")
 
-                println("character--- total in recycleview: ${total}, current:${current}, scrolled${scrolledOut}")
+                println("character--- total in recycleview: ${totalOnRecycleView}, current:${current}, scrolled${scrolledOut}")
 
-                if (isScrolling && scrolledOut + current == (offset + limit) && offset < totalCharacter) {
+                if (isScrolling && scrolledOut + current == (offset + limit) && offset < totalCharacterFromApi) {
                     offset += limit
                     modelCharacter.getCharacterData(offset)
                     adapter.notifyDataSetChanged()
