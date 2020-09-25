@@ -38,7 +38,6 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_comic_page.*
-import kotlinx.android.synthetic.main.navigation_row_layout.view.*
 
 
 class ComicsPageActivity : AppCompatActivity() {
@@ -50,33 +49,11 @@ class ComicsPageActivity : AppCompatActivity() {
     val manager = LinearLayoutManager(this)
     var isScrolling = false
     var current = 0
-    var total = 0
+    var totalOnRecycleView = 0
     var scrolledOut = 0
     var offset = 0
-    var totalComic = 0
+    var totalComicFromApi = 0
 
-    private var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val notConnected = intent.getBooleanExtra(
-                ConnectivityManager
-                .EXTRA_NO_CONNECTIVITY, false)
-            if (notConnected) {
-                disconnected()
-            } else {
-                connected()
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        registerReceiver(broadcastReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-    }
-
-    override fun onStop() {
-        super.onStop()
-        unregisterReceiver(broadcastReceiver)
-    }
 
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
@@ -223,19 +200,19 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 current = manager.childCount
-                total = manager.itemCount
+                totalOnRecycleView = manager.itemCount
                 scrolledOut = manager.findFirstVisibleItemPosition()
-                totalComic = modelComic.getTotalComicCount()
+                totalComicFromApi = modelComic.getTotalComicCount()
                 val limit = modelComic.getComicLimit()
                 Log.d("C", "comic limit:${limit}")
                 Log.d("C", "comic offset: ${offset}")
-                Log.d("C", "comic total in Api: ${totalComic}")
+                Log.d("C", "comic total in Api: ${totalComicFromApi}")
 
-                println("comic--- total in recycleview: ${total}, current:${current}, scrolled${scrolledOut}")
+                println("comic--- total in recycleview: ${totalOnRecycleView}, current:${current}, scrolled${scrolledOut}")
 
 
 
-                if (isScrolling && (current + scrolledOut == offset + limit) && offset < totalComic) {
+                if (isScrolling && (current + scrolledOut == offset + limit) && offset < totalComicFromApi) {
                     offset += limit
 
                     modelComic.getComicData(offset)
@@ -367,15 +344,7 @@ class ComicsPageActivity : AppCompatActivity() {
         })
     }
 
-    private fun disconnected() {
-        Log.d("networkaccess", "disconnected")
-        Toast.makeText(applicationContext,"Du är offline ", Toast.LENGTH_SHORT).show()
 
-    }
-
-    private fun connected() {
-        Log.d("networkaccess", "connected")
-    }
 
     override fun onDestroy() {
         //set boolean active in db to false when logging out:
