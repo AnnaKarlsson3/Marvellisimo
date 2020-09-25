@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.util.*
 
 class SignUpPageActivity : AppCompatActivity() {
