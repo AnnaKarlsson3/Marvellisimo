@@ -274,7 +274,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
                     Picasso.get()
                         .load(image)
-                        .resize(50, 50)
+                        /*.resize(100, 100)*/
                         .transform(CropCircleTransformation())
                         .into(inlogged_userImg)
                 }

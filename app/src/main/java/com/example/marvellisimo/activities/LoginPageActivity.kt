@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
 
 
+
 class LoginPageActivity : AppCompatActivity() {
     var notConnected = false
 

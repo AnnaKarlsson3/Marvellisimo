@@ -2,6 +2,7 @@ package com.example.marvellisimo
 
 
 
+import ComicItem
 import android.widget.ImageView
 import com.example.marvellisimo.entity.User
 import com.squareup.picasso.Picasso
@@ -31,6 +32,7 @@ class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() 
     return R.layout.chat_item_from_row
   }
 }
+
 
 class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>() {
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
