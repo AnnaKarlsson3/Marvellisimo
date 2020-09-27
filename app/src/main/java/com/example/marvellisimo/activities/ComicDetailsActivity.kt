@@ -69,9 +69,9 @@ class ComicDetailsActivity : AppCompatActivity() {
 
 
 
-        share_comic_detailview .setOnClickListener{
-            // Show the single choice list items on an alert dialog
-            showDialog()
+        share_comic_detailview.setOnClickListener {
+            //val intent = Intent(this, PopUpWindow::class.java)
+            startActivity(intent)
         }
 
 
@@ -102,20 +102,21 @@ class ComicDetailsActivity : AppCompatActivity() {
         }
 
 
-        drawerListener()
-        displayCurrentUserInNav()
-        fetchUsersAndDisplayInNav()
+        //drawerListener()
+        //displayCurrentUserInNav()
+        //fetchUsersAndDisplayInNav()
     }
 
+}
 
 
-    private fun drawerListener (){
+    /*private fun drawerListener (){
         drawerLayout_co_detail.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
+    }*/
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.exit_icon -> {
                 //set boolean active in db to false when logging out:
@@ -137,12 +138,12 @@ class ComicDetailsActivity : AppCompatActivity() {
             }
         }
 
-        return if (toggle.onOptionsItemSelected(item)){
+        /*return if (toggle.onOptionsItemSelected(item)){
             return true
         }
         else{
             super.onOptionsItemSelected(item)
-        }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -155,7 +156,7 @@ class ComicDetailsActivity : AppCompatActivity() {
         val user = Firebase.auth.currentUser
         val userid = user?.uid
 
-        if (userid != null) {
+       /* if (userid != null) {
             ref.child(userid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val name = snapshot.child("username").value.toString()
@@ -173,7 +174,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {
                 }
-            })
+            })*/
         }
     }
 
@@ -203,7 +204,7 @@ class ComicDetailsActivity : AppCompatActivity() {
                     users.add(user)
 
                     Log.d("UserList" , "${users}")
-                    builder.adapter
+                   // builder.adapter
                 }
 
 
@@ -268,7 +269,7 @@ class ComicDetailsActivity : AppCompatActivity() {
                     adapterNav.add(user)
                     users.add(user)
                 }
-                toolBar_RecyclerView_co_detail.adapter = adapterNav
+                //toolBar_RecyclerView_co_detail.adapter = adapterNav
 
                 for (u in users) {
                     Log.d("usersCharacter", "users in list: ${u.user.username}")
@@ -279,8 +280,8 @@ class ComicDetailsActivity : AppCompatActivity() {
                     val intent = Intent(view.context, SendMessageActivity::class.java)
                     intent.putExtra(ComicsPageActivity.USER_KEY, userItem.user)
                     intent.putExtra(ComicsPageActivity.USER_NAME, userItem.user.username)
-                    startActivity(intent)
-                    finish()
+                    //startActivity(intent)
+                   // finish()
                 }
             }
 
@@ -293,7 +294,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
                     adapterNav.notifyDataSetChanged()
                 }
-                toolBar_RecyclerView_co_detail.adapter = adapterNav
+               // toolBar_RecyclerView_co_detail.adapter = adapterNav
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
@@ -317,7 +318,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
 
 
-override fun onDestroy() {
+/*override fun onDestroy() {
         //set boolean active in db to false when logging out:
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
@@ -330,4 +331,4 @@ override fun onDestroy() {
         super.onDestroy()
     }
 
-}
+}*/

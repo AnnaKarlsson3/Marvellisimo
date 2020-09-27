@@ -22,7 +22,7 @@ class UserItem(val user: User): Item<GroupieViewHolder>() {
 
         Picasso.get()
             .load(imgUrl)
-            /*.resize(100, 100)*/
+            .resize(100, 100)
             .transform(CropCircleTransformation())
             .into(viewHolder.itemView.imageView_usernav_row)
 
