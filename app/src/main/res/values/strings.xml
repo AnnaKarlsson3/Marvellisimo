@@ -10,4 +10,5 @@
     <string name="title_activity_comic_details">ComicDetailsActivity</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="dela_med_en_kompis">Dela med en kompis</string>
 </resources>
