@@ -3,6 +3,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorBlack</item>
+        <item name="popupMenuStyle">@style/popupMenuStyle</item>
+
     </style>
 
       <style name="custom_actionbar" parent="Theme.AppCompat.Light">
@@ -11,6 +13,11 @@
 
     <style name="custom_style" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/marvellisimo_toolbar</item>
+    </style>
+
+    <style name="popupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@android:color/holo_red_light</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
