@@ -290,9 +290,9 @@ class CharactersPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if(user != null){
-                    val user = UserItem(user)
-                    adapterNav.add(user)
-                    users.add(user)
+                    val useritem = UserItem(user)
+                    adapterNav.add(useritem)
+                    users.add(useritem)
                 }
                 toolBar_RecyclerView_character.adapter = adapterNav
 
