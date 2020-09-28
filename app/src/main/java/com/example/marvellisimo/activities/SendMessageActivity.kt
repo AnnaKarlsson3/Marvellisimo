@@ -1,9 +1,15 @@
 
 package com.example.marvellisimo.activities
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.ChatFromItem
 import com.example.marvellisimo.ChatToItem
@@ -28,6 +34,9 @@ class SendMessageActivity :AppCompatActivity () {
         val TAG = "ChatLog"
     }
 
+    private val CHANNEL_ID = "channel_id_01"
+    private val notificationsID = 101
+
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     var toUser: User? = null
@@ -35,6 +44,8 @@ class SendMessageActivity :AppCompatActivity () {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
+
+        createNotificationsChannel()
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
@@ -53,6 +64,7 @@ class SendMessageActivity :AppCompatActivity () {
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
+            //sendNotifications()
         }
     }
 
@@ -74,6 +86,7 @@ class SendMessageActivity :AppCompatActivity () {
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
+                        sendNotifications()
                     }
                 }
 
@@ -132,6 +145,38 @@ class SendMessageActivity :AppCompatActivity () {
 
         val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
         latestMessageToRef.setValue(chatMessage)
+    }
+
+
+    //makes notifications pop up
+    private fun createNotificationsChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "notificationTitle"
+            val descriptionText = "Notification Description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+
+        }
+
+    }
+
+    private fun sendNotifications(){
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("Marvelisimo")
+            .setContentText("New message")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationsID, builder.build())
+        }
+
     }
 }
 
