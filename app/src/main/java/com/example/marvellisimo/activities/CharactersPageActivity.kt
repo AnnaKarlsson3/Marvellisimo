@@ -290,9 +290,9 @@ class CharactersPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if(user != null){
-                    val user = UserItem(user)
-                    adapterNav.add(user)
-                    users.add(user)
+                    val useritem = UserItem(user)
+                    adapterNav.add(useritem)
+                    users.add(useritem)
                 }
                 toolBar_RecyclerView_character.adapter = adapterNav
 
@@ -305,7 +305,6 @@ class CharactersPageActivity : AppCompatActivity() {
                     intent.putExtra(ComicsPageActivity.USER_KEY, userItem.user)
                     intent.putExtra(ComicsPageActivity.USER_NAME, userItem.user.username)
                     startActivity(intent)
-                    finish()
                 }
             }
 
@@ -321,10 +320,11 @@ class CharactersPageActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java) ?: return
+                val userItem=users.find { it.user.uid==user.uid }!!
 
-
-                TODO()
-
+                users.remove(userItem)
+                adapterNav.remove(userItem)
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -337,20 +337,6 @@ class CharactersPageActivity : AppCompatActivity() {
 
         })
 
-    }
-    override fun onDestroy() {
-        //set boolean active in db to false when logging out:
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        val user = Firebase.auth.currentUser
-        val userid = user?.uid
-
-        if (userid != null) {
-            ref.child(userid).child("active").setValue(false)
-        }
-
-        FirebaseAuth.getInstance().signOut()
-
-        super.onDestroy()
     }
 
 }

@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:hardwareAccelerated="false"
         android:supportsRtl="true"
+        android:name=".RealmInit"
         android:theme="@style/AppTheme">
 
         <activity android:name=".activities.CharacterDetailsActivity">
@@ -35,6 +35,11 @@
         </activity>
 
         <activity android:name=".activities.LoginPageActivity">
+
+        </activity>
+
+        <activity android:name=".ComicsPageActivity"
+            android:label="ComicPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -52,7 +57,9 @@
 
         <activity android:name=".activities.SignUpPageActivity" />
 
-        <activity android:name=".activities.SendMessageActivity"/>
+        <activity android:name=".activities.SendMessageActivity">
+
+    </activity>
 
         <meta-data
             android:name="preloaded_fonts"

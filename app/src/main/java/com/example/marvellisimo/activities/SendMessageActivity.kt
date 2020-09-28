@@ -43,6 +43,10 @@ class SendMessageActivity :AppCompatActivity () {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
         recyclerview_chat_log.adapter = adapter
 
 
@@ -59,6 +63,8 @@ class SendMessageActivity :AppCompatActivity () {
 
 
         Log.d("comicID", "${comicId}")
+
+        to_username.text = intent.getStringExtra(ComicsPageActivity.USER_NAME)
 
 
 
