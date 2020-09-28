@@ -4,6 +4,7 @@ package com.example.marvellisimo.activities
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.R.layout.*
 import com.example.marvellisimo.entity.ChatMessage
+import com.example.marvellisimo.entity.Inbox
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -26,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
+import kotlinx.android.synthetic.main.activity_signin.*
 
 
 class SendMessageActivity :AppCompatActivity () {
@@ -34,8 +37,7 @@ class SendMessageActivity :AppCompatActivity () {
         val TAG = "ChatLog"
     }
 
-    private val CHANNEL_ID = "channel_id_01"
-    private val notificationsID = 101
+
 
     val adapter = GroupAdapter<GroupieViewHolder>()
 
@@ -45,7 +47,7 @@ class SendMessageActivity :AppCompatActivity () {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-        createNotificationsChannel()
+     
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
@@ -64,7 +66,7 @@ class SendMessageActivity :AppCompatActivity () {
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
-            //sendNotifications()
+
         }
     }
 
@@ -86,7 +88,6 @@ class SendMessageActivity :AppCompatActivity () {
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
                         adapter.add(ChatToItem(chatMessage.text, toUser!!))
-                        sendNotifications()
                     }
                 }
 
@@ -125,6 +126,17 @@ class SendMessageActivity :AppCompatActivity () {
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId")
+        val inbox = Inbox(fromId, false)
+
+        inboxRefrence.setValue(inbox)
+            .addOnSuccessListener {
+                Log.d("SignUpActivity", "User is saved to firebase database")
+            }
+            .addOnFailureListener {
+                Log.d("SignUpActivity", "Fail to store user: ${it.message}")
+            }
+
 
         val chatMessage = toId?.let {
             ChatMessage(reference.key!!, text, fromId,
@@ -140,44 +152,15 @@ class SendMessageActivity :AppCompatActivity () {
 
         toReference.setValue(chatMessage)
 
-        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+       /* val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId")
         latestMessageRef.setValue(chatMessage)
 
         val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)
+        latestMessageToRef.setValue(chatMessage)*/
     }
 
 
-    //makes notifications pop up
-    private fun createNotificationsChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "notificationTitle"
-            val descriptionText = "Notification Description"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
 
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-
-        }
-
-    }
-
-    private fun sendNotifications(){
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("Marvelisimo")
-            .setContentText("New message")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        with(NotificationManagerCompat.from(this)){
-            notify(notificationsID, builder.build())
-        }
-
-    }
 }
 
 
