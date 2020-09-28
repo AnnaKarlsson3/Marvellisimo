@@ -103,6 +103,10 @@
                     android:text="TextView"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
+                    app:autoSizeTextType="uniform"
+                    app:autoSizeMinTextSize="10sp"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeStepGranularity="1sp"
                     android:textSize="18sp"
                     tools:text="After an alien device mutated her DNA, Danvers transformed from a merely brilliant pilot into one of the most powerful Super Heroes in the universe. Now soaring among the stars, Carol Danvers is known as Captain Marvel!" />
 
