@@ -96,6 +96,12 @@ class ComicsPageActivity : AppCompatActivity() {
         navButtons();
         clickToRecycleView()
         onScrolling()
+
+        val user = Firebase.auth.currentUser
+
+        if (user==null) {
+            startActivity(Intent(this, LoginPageActivity::class.java))
+        }
     }
 
     private fun drawerListener() {
@@ -181,6 +187,8 @@ class ComicsPageActivity : AppCompatActivity() {
             }
         })
         recycle_view_comic.adapter = adapter
+
+
     }
 
     private fun onScrolling() {
@@ -294,9 +302,9 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                     if(user != null){
-                        val user=UserItem(user)
-                        adapterNav.add(user)
-                         users.add(user)
+                        val useritem =UserItem(user)
+                        adapterNav.add(useritem)
+                         users.add(useritem)
                     }
                 toolBar_RecyclerView.adapter = adapterNav
 
@@ -309,7 +317,6 @@ class ComicsPageActivity : AppCompatActivity() {
                     intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
-                    finish()
 
                 }
             }
@@ -317,7 +324,7 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if (user != null) {
-                    val oldUser = users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
+                    val oldUser = users.find { it.user.uid == user.uid }
                     oldUser?.user?.active = user.active
 
                     adapterNav.notifyDataSetChanged()
@@ -327,8 +334,11 @@ class ComicsPageActivity : AppCompatActivity() {
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
 
+                val user = snapshot.getValue(User::class.java) ?: return
+                val userItem=users.find { it.user.uid==user.uid }!!
 
-                   TODO()
+                users.remove(userItem)
+                adapterNav.remove(userItem)
 
             }
 
@@ -341,23 +351,6 @@ class ComicsPageActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-
-
-    override fun onDestroy() {
-        //set boolean active in db to false when logging out:
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        val user = Firebase.auth.currentUser
-        val userid = user?.uid
-
-        if (userid != null) {
-            ref.child(userid).child("active").setValue(false)
-        }
-
-        FirebaseAuth.getInstance().signOut()
-
-        super.onDestroy()
     }
 
     }

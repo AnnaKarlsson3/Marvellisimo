@@ -44,7 +44,6 @@ class ComicDetailsActivity : AppCompatActivity() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val id = intent.getIntExtra(ComicsPageActivity.COMIC_ID, 1)
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)
@@ -97,20 +96,6 @@ class ComicDetailsActivity : AppCompatActivity() {
         }
 
 
-    }
-
-
-override fun onDestroy() {
-        //set boolean active in db to false when logging out:
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        val user = Firebase.auth.currentUser
-        val userid = user?.uid
-
-        if (userid != null) {
-            ref.child(userid).child("active").setValue(false)
-        }
-        FirebaseAuth.getInstance().signOut()
-        super.onDestroy()
     }
 
 }
