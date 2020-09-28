@@ -96,6 +96,12 @@ class ComicsPageActivity : AppCompatActivity() {
         navButtons();
         clickToRecycleView()
         onScrolling()
+
+        val user = Firebase.auth.currentUser
+
+        if (user==null) {
+            startActivity(Intent(this, LoginPageActivity::class.java))
+        }
     }
 
     private fun drawerListener() {
@@ -311,7 +317,7 @@ class ComicsPageActivity : AppCompatActivity() {
                     intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
-                    finish()
+
                 }
             }
 
@@ -328,8 +334,11 @@ class ComicsPageActivity : AppCompatActivity() {
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
 
+                val user = snapshot.getValue(User::class.java) ?: return
+                val userItem=users.find { it.user.uid==user.uid }!!
 
-                   TODO()
+                users.remove(userItem)
+                adapterNav.remove(userItem)
 
             }
 
@@ -346,7 +355,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 
-    override fun onDestroy() {
+    /*override fun onDestroy() {
         //set boolean active in db to false when logging out:
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
@@ -359,7 +368,7 @@ class ComicsPageActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
 
         super.onDestroy()
-    }
+    }*/
 
     }
 

@@ -305,7 +305,6 @@ class CharactersPageActivity : AppCompatActivity() {
                     intent.putExtra(ComicsPageActivity.USER_KEY, userItem.user)
                     intent.putExtra(ComicsPageActivity.USER_NAME, userItem.user.username)
                     startActivity(intent)
-                    finish()
                 }
             }
 
@@ -338,7 +337,7 @@ class CharactersPageActivity : AppCompatActivity() {
         })
 
     }
-    override fun onDestroy() {
+  /*  override fun onDestroy() {
         //set boolean active in db to false when logging out:
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
@@ -351,6 +350,6 @@ class CharactersPageActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
 
         super.onDestroy()
-    }
+    }*/
 
 }
