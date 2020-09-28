@@ -13,10 +13,12 @@ import com.example.marvellisimo.R.layout.*
 import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
@@ -31,6 +33,7 @@ class SendMessageActivity :AppCompatActivity () {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     var toUser: User? = null
+
 
     var comicUrl : String? = null;
     var comicId : Int?  = 0;
@@ -58,17 +61,20 @@ class SendMessageActivity :AppCompatActivity () {
         Log.d("comicID", "${comicId}")
 
 
-        listenForMessages()
+
 
         send_button_chat_log.setOnClickListener {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
         }
+        listenForMessages()
     }
 
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
         val toId = toUser?.uid
+        Log.d(TAG, "from listenForMessage> ${toUser?.username}")
+
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -114,10 +120,10 @@ class SendMessageActivity :AppCompatActivity () {
         /*val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
         val toId = toUser?.uid
 
-        Log.d("Tousername", "${toUser?.username}")
+        Log.d(TAG, "${toUser?.username}")
 
 
-        var text = "Send a Link  ${comicUrl}"
+        val text = "Send a Link  ${comicUrl}"
 
 
         send(fromId, toId, text)
@@ -127,6 +133,8 @@ class SendMessageActivity :AppCompatActivity () {
 
     private fun send(fromId: String?, toId: String?, text: String) {
         if (fromId == null) return
+        Log.d(TAG, "send: ${toId}")
+        Log.d(TAG,"send: ${FirebaseAuth.getInstance()} && ${fromId}")
 
         val reference =
             FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
@@ -162,12 +170,13 @@ class SendMessageActivity :AppCompatActivity () {
 
     private fun performSendMessage() {
 
-
-        val fromId = FirebaseAuth.getInstance().uid
+        val fromId = Firebase.auth.currentUser?.uid
+        //val fromId = FirebaseAuth.getInstance().uid
         /*val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
         val toId = toUser?.uid
 
-        Log.d("Tousername", "${toUser?.username}")
+        Log.d(TAG, "performSendMessage> ${toUser?.username}")
+        Log.d(TAG,"${FirebaseAuth.getInstance()} && ${fromId}")
 
         val text = editext_chat_log.text.toString();
 
