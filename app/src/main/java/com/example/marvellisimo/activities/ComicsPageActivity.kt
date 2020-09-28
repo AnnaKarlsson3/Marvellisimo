@@ -181,8 +181,6 @@ class ComicsPageActivity : AppCompatActivity() {
             }
         })
         recycle_view_comic.adapter = adapter
-
-
     }
 
     private fun onScrolling() {
@@ -312,6 +310,7 @@ class ComicsPageActivity : AppCompatActivity() {
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
                     finish()
+
                 }
             }
 

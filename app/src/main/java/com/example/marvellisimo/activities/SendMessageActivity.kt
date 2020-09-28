@@ -46,6 +46,10 @@ class SendMessageActivity :AppCompatActivity () {
 
         toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
 
+        to_username.text = intent.getStringExtra(ComicsPageActivity.USER_NAME)
+
+
+
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {

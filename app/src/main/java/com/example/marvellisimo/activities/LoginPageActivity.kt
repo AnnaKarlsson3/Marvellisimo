@@ -92,6 +92,7 @@ class LoginPageActivity : AppCompatActivity() {
                             //start new intent:
                             val intent = Intent(this, ComicsPageActivity::class.java)
                             startActivity(intent)
+
                         }
                         .addOnFailureListener() {
                             Toast.makeText(this, "${it.message}", Toast.LENGTH_LONG).show()
