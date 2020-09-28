@@ -69,19 +69,14 @@ class ComicsPageActivity : AppCompatActivity() {
         val USER_KEY = "USER_KEY"
         val USER_NAME = "USER_NAME"
         var currentUser: User? = null
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
-        Realm.init(this)
 
-        val configuration = RealmConfiguration.Builder()
-            .name("comicDb")
-            .schemaVersion(1)
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(configuration)
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
