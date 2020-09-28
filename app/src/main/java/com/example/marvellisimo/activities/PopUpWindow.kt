@@ -20,13 +20,13 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_simple_dialog.*
 
-class PopUpWindow(val comicId: Int, val comicUrl: String?) : DialogFragment(){
+class PopUpWindow(val Id: Int?, val Url: String?) : DialogFragment(){
 
     companion object {
 
         const val TAG = "PopUpWindow"
-        val COMIC_ID = "COMIC_ID"
-        val COMIC_URL = "COMIC_URL"
+        val ID = "ID"
+        val URL = "URL"
         val USER_KEY = "USER_KEY"
         val USER_NAME = "USER_NAME"
 
@@ -78,8 +78,8 @@ class PopUpWindow(val comicId: Int, val comicUrl: String?) : DialogFragment(){
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
-                    intent.putExtra(PopUpWindow.COMIC_ID, comicId)
-                    intent.putExtra(PopUpWindow.COMIC_URL, comicUrl)
+                    intent.putExtra(PopUpWindow.ID, Id)
+                    intent.putExtra(PopUpWindow.URL, Url)
                     intent.putExtra(PopUpWindow.USER_KEY, userItem.user)
                     intent.putExtra(PopUpWindow.USER_NAME, userItem.user.username)
                     startActivity(intent)

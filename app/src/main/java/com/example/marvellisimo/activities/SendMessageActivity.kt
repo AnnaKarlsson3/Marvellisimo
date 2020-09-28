@@ -33,8 +33,8 @@ class SendMessageActivity :AppCompatActivity () {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     var toUser: User? = null
-    var comicUrl : String? = null;
-    var comicId : Int?  = 0;
+    var Url : String? = null;
+    var Id : Int?  = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +46,11 @@ class SendMessageActivity :AppCompatActivity () {
 
         recyclerview_chat_log.adapter = adapter
 
-        comicId = intent.getIntExtra(PopUpWindow.COMIC_ID, 0)
+        Id = intent.getIntExtra(PopUpWindow.ID, 0)
 
 
-        if (comicId!= 0){
-            comicUrl = intent.getStringExtra(PopUpWindow.COMIC_URL)
+        if (Id!= 0){
+            Url = intent.getStringExtra(PopUpWindow.URL)
             toUser = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
             performShareLink()
         } else {
@@ -122,7 +122,7 @@ class SendMessageActivity :AppCompatActivity () {
         Log.d(TAG, "${toUser?.username}")
 
 
-        val text = "Send a Link : ${comicUrl} "
+        val text = "Send a Link : ${Url} "
 
 
         send(fromId, toId, text)
