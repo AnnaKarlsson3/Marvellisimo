@@ -8,7 +8,6 @@
     android:background="@android:color/white">
 
     <include
-        android:id="@+id/include3"
         layout="@layout/appbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
@@ -31,11 +30,14 @@
         android:id="@+id/to_username"
         android:layout_width="match_parent"
         android:gravity="center"
+        android:fontFamily="@font/bangers"
+        android:background="@color/colorBlack"
+        android:textColor="@color/textColor"
         android:text="NAMN"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include3"
+        app:layout_constraintTop_toBottomOf="@+id/texttool"
         android:layout_height="wrap_content" />
 
     <Button
