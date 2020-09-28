@@ -1,7 +1,5 @@
 package com.example.marvellisimo
 
-
-
 import ComicItem
 import android.widget.ImageView
 import com.example.marvellisimo.entity.User

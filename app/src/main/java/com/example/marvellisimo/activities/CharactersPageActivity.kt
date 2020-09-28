@@ -320,10 +320,11 @@ class CharactersPageActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
+                val user = snapshot.getValue(User::class.java) ?: return
+                val userItem=users.find { it.user.uid==user.uid }!!
 
-
-                TODO()
-
+                users.remove(userItem)
+                adapterNav.remove(userItem)
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
@@ -337,19 +338,5 @@ class CharactersPageActivity : AppCompatActivity() {
         })
 
     }
-  /*  override fun onDestroy() {
-        //set boolean active in db to false when logging out:
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        val user = Firebase.auth.currentUser
-        val userid = user?.uid
-
-        if (userid != null) {
-            ref.child(userid).child("active").setValue(false)
-        }
-
-        FirebaseAuth.getInstance().signOut()
-
-        super.onDestroy()
-    }*/
 
 }

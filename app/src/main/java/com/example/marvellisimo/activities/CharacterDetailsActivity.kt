@@ -89,17 +89,5 @@ class CharacterDetailsActivity : AppCompatActivity() {
         }
     }
 
-  /*  override fun onDestroy() {
-        //set boolean active in db to false when logging out:
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
-        val user = Firebase.auth.currentUser
-        val userid = user?.uid
-
-        if (userid != null) {
-            ref.child(userid).child("active").setValue(false)
-        }
-        FirebaseAuth.getInstance().signOut()
-        super.onDestroy()
-    }*/
 }
 
