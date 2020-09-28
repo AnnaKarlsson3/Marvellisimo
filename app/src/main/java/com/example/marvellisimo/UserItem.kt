@@ -18,13 +18,13 @@ class UserItem(val user: User): Item<GroupieViewHolder>() {
 
         Log.d("userImg", "${user.imageUrl}")
 
-        val imgUrl = user.imageUrl
+        /*val imgUrl = user.imageUrl
 
         Picasso.get()
             .load(imgUrl)
             .resize(100, 100)
             .transform(CropCircleTransformation())
-            .into(viewHolder.itemView.imageView_usernav_row)
+            .into(viewHolder.itemView.imageView_usernav_row)*/
 
         var onlineOffline: ImageView =
             viewHolder.itemView.findViewById(R.id.imageview_online_offline)

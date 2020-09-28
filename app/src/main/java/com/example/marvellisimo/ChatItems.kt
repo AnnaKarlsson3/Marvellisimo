@@ -42,6 +42,7 @@ class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>() {
     /*val targetImageView: ImageView = viewHolder.itemView.findViewById(R.id.image_message_to)
 
     Picasso.get()
+
       .load(user.imageUrl)
       .resize(20, 20)
       .transform(CropCircleTransformation())

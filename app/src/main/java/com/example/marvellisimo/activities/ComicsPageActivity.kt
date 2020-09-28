@@ -267,16 +267,16 @@ class ComicsPageActivity : AppCompatActivity() {
             ref.child(userid).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val name = snapshot.child("username").value.toString()
-                    val image = snapshot.child("imageUrl").value.toString()
+                    //val image = snapshot.child("imageUrl").value.toString()
                     inlogged_username.text = name
 
                     currentUser = snapshot.getValue(User::class.java)
 
-                    Picasso.get()
+                    /*Picasso.get()
                         .load(image)
                         /*.resize(100, 100)*/
                         .transform(CropCircleTransformation())
-                        .into(inlogged_userImg)
+                        .into(inlogged_userImg)*/
                 }
 
                 override fun onCancelled(error: DatabaseError) {
