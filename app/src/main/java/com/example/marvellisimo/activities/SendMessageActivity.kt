@@ -32,6 +32,8 @@ class SendMessageActivity :AppCompatActivity () {
 
     var toUser: User? = null
 
+    var comicUrl : String? = null;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
@@ -39,7 +41,15 @@ class SendMessageActivity :AppCompatActivity () {
         recyclerview_chat_log.adapter = adapter
 
         toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        val comicId = intent.getIntExtra(PopUpWindow.COMIC_ID, 0)
+        comicUrl = intent.getStringExtra(PopUpWindow.COMIC_URL)
 
+        if (comicId!= null){
+            performShareLink();
+        }
+
+
+        Log.d("comicID", "${comicId}")
 
 
         listenForMessages()
@@ -93,6 +103,41 @@ class SendMessageActivity :AppCompatActivity () {
 
     }
 
+    private fun performShareLink() {
+
+        val text = "Send a Link  ${comicUrl}"
+
+
+        val fromId = FirebaseAuth.getInstance().uid
+        val user = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
+        val toId = user?.uid
+
+        if (fromId == null) return
+
+        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+
+        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
+        val chatMessage = toId?.let {
+            ChatMessage(reference.key!!, text, fromId,
+                it, System.currentTimeMillis() / 1000)
+        }
+
+        reference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Log.d(TAG, "Saved our chat message: ${reference.key}")
+                editext_chat_log.text.clear()
+                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
+            }
+
+        toReference.setValue(chatMessage)
+
+        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+        latestMessageRef.setValue(chatMessage)
+
+        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+        latestMessageToRef.setValue(chatMessage)
+    }
     private fun performSendMessage() {
 
         val text = editext_chat_log.text.toString()

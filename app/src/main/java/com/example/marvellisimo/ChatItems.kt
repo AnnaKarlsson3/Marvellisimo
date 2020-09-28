@@ -4,6 +4,7 @@ package com.example.marvellisimo
 
 import ComicItem
 import android.widget.ImageView
+import com.example.marvellisimo.entity.Url
 import com.example.marvellisimo.entity.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
@@ -18,13 +19,13 @@ class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() 
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
     viewHolder.itemView.message_from.text = text
 
-    val targetImageView: ImageView = viewHolder.itemView.findViewById(R.id.image_message_from)
+    /*val targetImageView: ImageView = viewHolder.itemView.findViewById(R.id.image_message_from)
 
     Picasso.get()
       .load(user.imageUrl)
       .resize(20, 20)
       .transform(CropCircleTransformation())
-      .into(targetImageView)
+      .into(targetImageView)*/
 
   }
 
@@ -38,13 +39,13 @@ class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>() {
   override fun bind(viewHolder: GroupieViewHolder, position: Int) {
     viewHolder.itemView.message_to.text = text
 
-    val targetImageView: ImageView = viewHolder.itemView.findViewById(R.id.image_message_to)
+    /*val targetImageView: ImageView = viewHolder.itemView.findViewById(R.id.image_message_to)
 
     Picasso.get()
       .load(user.imageUrl)
       .resize(20, 20)
       .transform(CropCircleTransformation())
-      .into(targetImageView)
+      .into(targetImageView)*/
   }
 
   override fun getLayout(): Int {

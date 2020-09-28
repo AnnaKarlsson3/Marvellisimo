@@ -1,11 +1,9 @@
 package com.example.marvellisimo.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
@@ -54,7 +52,7 @@ class ComicDetailsActivity : AppCompatActivity() {
 
 
         share_comic_detailview.setOnClickListener {
-            PopUpWindow().show(supportFragmentManager, PopUpWindow.TAG)
+            PopUpWindow(id, url).show(supportFragmentManager, PopUpWindow.TAG)
             //PopUpWindow.newInstance("Log out", "Do you").show(supportFragmentManager, PopUpWindow.TAG)
         }
 

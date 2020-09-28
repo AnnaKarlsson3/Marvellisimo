@@ -18,16 +18,17 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_comic_page.*
-import kotlinx.android.synthetic.main.activity_comic_page.toolBar_RecyclerView
 import kotlinx.android.synthetic.main.fragment_simple_dialog.*
-import kotlinx.android.synthetic.main.fragment_simple_dialog.view.*
 
-class PopUpWindow : DialogFragment(){
+class PopUpWindow(val comicId: Int, val comicUrl: String?) : DialogFragment(){
 
     companion object {
 
         const val TAG = "PopUpWindow"
+        val COMIC_ID = "COMIC_ID"
+        val COMIC_URL = "COMIC_URL"
+        val USER_KEY = "USER_KEY"
+        val USER_NAME = "USER_NAME"
 
 
 
@@ -77,8 +78,10 @@ class PopUpWindow : DialogFragment(){
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
-                    intent.putExtra(ComicsPageActivity.USER_KEY, userItem.user)
-                    intent.putExtra(ComicsPageActivity.USER_NAME, userItem.user.username)
+                    intent.putExtra(PopUpWindow.COMIC_ID, comicId)
+                    intent.putExtra(PopUpWindow.COMIC_URL, comicUrl)
+                    intent.putExtra(PopUpWindow.USER_KEY, userItem.user)
+                    intent.putExtra(PopUpWindow.USER_NAME, userItem.user.username)
                     startActivity(intent)
 
                 }
