@@ -213,7 +213,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 
-                if (isScrolling && (current + scrolledOut == offset + limit) && offset < totalComicFromApi) {
+                if (isScrolling && (current + scrolledOut) >= (offset + limit) && offset < totalComicFromApi) {
                     offset += limit
 
                     modelComic.getComicData(offset)

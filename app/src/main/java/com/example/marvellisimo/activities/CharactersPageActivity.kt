@@ -206,7 +206,7 @@ class CharactersPageActivity : AppCompatActivity() {
 
                 println("character--- total in recycleview: ${totalOnRecycleView}, current:${current}, scrolled${scrolledOut}")
 
-                if (isScrolling && scrolledOut + current == (offset + limit) && offset < totalCharacterFromApi) {
+                if (isScrolling && (scrolledOut + current) >= (offset + limit) && offset < totalCharacterFromApi) {
                     offset += limit
                     modelCharacter.getCharacterData(offset)
                     adapter.notifyDataSetChanged()
