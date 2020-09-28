@@ -31,6 +31,8 @@ class SendMessageActivity :AppCompatActivity () {
     val adapter = GroupAdapter<GroupieViewHolder>()
 
     var toUser: User? = null
+    var comicUrl : String? = null;
+    var comicId : Int?  = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +44,16 @@ class SendMessageActivity :AppCompatActivity () {
 
         recyclerview_chat_log.adapter = adapter
 
-        toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        comicId = intent.getIntExtra(PopUpWindow.COMIC_ID, 0)
 
-        to_username.text = intent.getStringExtra(ComicsPageActivity.USER_NAME)
+
+        if (comicId!= 0){
+            comicUrl = intent.getStringExtra(PopUpWindow.COMIC_URL)
+            toUser = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
+            performShareLink()
+        } else {
+            toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        }
 
 
 
@@ -54,6 +63,8 @@ class SendMessageActivity :AppCompatActivity () {
             Log.d(TAG, "Attempt to send message....")
             performSendMessage()
         }
+
+
     }
 
     private fun listenForMessages() {
@@ -99,23 +110,38 @@ class SendMessageActivity :AppCompatActivity () {
 
     }
 
-    private fun performSendMessage() {
-
-        val text = editext_chat_log.text.toString()
-
+    private fun performShareLink(){
         val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
-        val toId = user?.uid
+        /*val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
+        val toId = toUser?.uid
 
+        Log.d(TAG, "${toUser?.username}")
+
+
+        val text = "Send a Link  ${comicUrl}"
+
+
+        send(fromId, toId, text)
+
+
+    }
+
+    private fun send(fromId: String?, toId: String?, text: String) {
         if (fromId == null) return
+        Log.d(TAG, "send: ${toId}")
+        Log.d(TAG,"send: ${FirebaseAuth.getInstance().uid} && ${fromId}")
 
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val reference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+        val toReference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
         val chatMessage = toId?.let {
-            ChatMessage(reference.key!!, text, fromId,
-                it, System.currentTimeMillis() / 1000)
+            ChatMessage(
+                reference.key!!, text, fromId,
+                it, System.currentTimeMillis() / 1000
+            )
         }
 
         reference.setValue(chatMessage)
@@ -127,11 +153,25 @@ class SendMessageActivity :AppCompatActivity () {
 
         toReference.setValue(chatMessage)
 
-        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+        val latestMessageRef =
+            FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
         latestMessageRef.setValue(chatMessage)
 
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+        val latestMessageToRef =
+            FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
         latestMessageToRef.setValue(chatMessage)
+    }
+
+    private fun performSendMessage() {
+
+        val text = editext_chat_log.text.toString()
+
+        val fromId = FirebaseAuth.getInstance().uid
+        //val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        val toId = toUser?.uid
+
+        send(fromId, toId, text)
+
     }
 }
 

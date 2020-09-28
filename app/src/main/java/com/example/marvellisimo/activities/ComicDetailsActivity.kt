@@ -54,6 +54,8 @@ class ComicDetailsActivity : AppCompatActivity() {
         comic_name.text = text
         comic_info.text = info
 
+
+
         val comicFromDatabase = ComicDetailsActivity.realm.where(RealmComicEntity::class.java)
             .equalTo("id", id)
             .findFirst()
@@ -67,7 +69,10 @@ class ComicDetailsActivity : AppCompatActivity() {
         }
 
 
-
+        share_comic_detailview.setOnClickListener {
+            PopUpWindow(id, url).show(supportFragmentManager, PopUpWindow.TAG)
+            //PopUpWindow.newInstance("Log out", "Do you").show(supportFragmentManager, PopUpWindow.TAG)
+        }
 
         image_Fav_Button_comic.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
