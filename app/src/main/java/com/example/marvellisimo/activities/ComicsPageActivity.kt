@@ -165,7 +165,13 @@ class ComicsPageActivity : AppCompatActivity() {
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
-                    PrintToRecycleView()
+                    //PrintToRecycleView()
+                    modelComic.comicResults.observe(activity,{
+                        adapter.clear()
+                        it.forEach { comic ->
+                            adapter.add(ComicItem(comic))
+                        }
+                    })
                 }
                 isClicked = !isClicked;
             }
