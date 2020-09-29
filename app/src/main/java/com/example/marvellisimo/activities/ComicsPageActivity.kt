@@ -166,7 +166,13 @@ class ComicsPageActivity : AppCompatActivity() {
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
-                    PrintToRecycleView()
+                    //PrintToRecycleView()
+                    modelComic.comicResults.observe(activity,{
+                        adapter.clear()
+                        it.forEach { comic ->
+                            adapter.add(ComicItem(comic))
+                        }
+                    })
                 }
                 isClicked = !isClicked;
             }
@@ -214,7 +220,7 @@ class ComicsPageActivity : AppCompatActivity() {
 
 
 
-                if (isScrolling && (current + scrolledOut == offset + limit) && offset < totalComicFromApi) {
+                if (isScrolling && (current + scrolledOut) >= (offset + limit) && offset < totalComicFromApi) {
                     offset += limit
 
                     modelComic.getComicData(offset)
@@ -298,6 +304,8 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                     if(user != null){
+                        if( user.uid == currentUser?.uid) return
+
                         val useritem =UserItem(user)
                         adapterNav.add(useritem)
                          users.add(useritem)

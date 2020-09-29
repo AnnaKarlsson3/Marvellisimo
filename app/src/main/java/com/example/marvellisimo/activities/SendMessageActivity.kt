@@ -16,7 +16,7 @@ import com.example.marvellisimo.ChatFromItem
 import com.example.marvellisimo.ChatToItem
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
-import com.example.marvellisimo.R.layout.*
+import com.example.marvellisimo.R.layout.activity_chat_log
 import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.Inbox
 import com.example.marvellisimo.entity.User
@@ -37,36 +37,39 @@ class SendMessageActivity :AppCompatActivity () {
         val TAG = "ChatLog"
     }
 
-
-
     val adapter = GroupAdapter<GroupieViewHolder>()
-
     var toUser: User? = null
+    var url : String? = null;
+    var id : Int?  = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-
-
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recyclerview_chat_log.adapter = adapter
 
-        toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
 
-        to_username.text = intent.getStringExtra(ComicsPageActivity.USER_NAME)
+        id = intent.getIntExtra(PopUpWindow.ID, 0)
 
+        if (id!= 0){
+            url = intent.getStringExtra(PopUpWindow.URL)
+            toUser = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
+            performShareLink()
+        } else {
+            toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        }
 
+        to_username.text = toUser?.username
 
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {
-            Log.d(TAG, "Attempt to send message....")
             performSendMessage()
-
         }
     }
 
@@ -75,7 +78,7 @@ class SendMessageActivity :AppCompatActivity () {
         val toId = toUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
-        ref.addChildEventListener(object: ChildEventListener {
+        ref.addChildEventListener(object : ChildEventListener {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
@@ -113,21 +116,40 @@ class SendMessageActivity :AppCompatActivity () {
 
     }
 
+    private fun performShareLink(){
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+
+        val text = "Send a Link : ${url} "
+
+        getIntent().removeExtra("url")
+        getIntent().removeExtra("id")
+
+        send(fromId, toId, text)
+    }
+
     private fun performSendMessage() {
 
         val text = editext_chat_log.text.toString()
-
         val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
-        val toId = user?.uid
+        val toId = toUser?.uid
 
+        send(fromId, toId, text)
+        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
+        val toUser = user?.uid
+
+    }
+
+    private fun send(fromId: String?, toId: String?, text: String) {
         if (fromId == null) return
 
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val reference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+        val toReference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId").push()
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toUser").push()
         val inbox = Inbox(toId!!,inboxRefrence.key!!,fromId, false)
 
         inboxRefrence.setValue(inbox)
@@ -140,28 +162,21 @@ class SendMessageActivity :AppCompatActivity () {
 
 
         val chatMessage = toId?.let {
-            ChatMessage(reference.key!!, text, fromId,
-                it, System.currentTimeMillis() / 1000)
+            ChatMessage(
+                reference.key!!, text, fromId,
+                it, System.currentTimeMillis() / 1000
+            )
         }
 
         reference.setValue(chatMessage)
             .addOnSuccessListener {
-                Log.d(TAG, "Saved our chat message: ${reference.key}")
                 editext_chat_log.text.clear()
                 recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
 
         toReference.setValue(chatMessage)
 
-       /* val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId")
-        latestMessageRef.setValue(chatMessage)
-
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)*/
     }
-
-
-
 }
 
 

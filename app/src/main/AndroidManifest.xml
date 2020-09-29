@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.marvellisimo">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="Marvellisimo"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:hardwareAccelerated="false"
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme">
@@ -18,27 +17,27 @@
         <activity android:name=".activities.CharacterDetailsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CharactersPageActivity"/>
+                android:value=".CharactersPageActivity" />
         </activity>
 
         <activity
             android:name=".CharactersPageActivity"
-            android:label="@string/title_activity_characters_page">
-        </activity>
+            android:label="@string/title_activity_characters_page"></activity>
 
         <activity
             android:name=".activities.ComicDetailsActivity"
             android:label="@string/title_activity_comic_details">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ComicsPageActivity"/>
+                android:value=".ComicsPageActivity" />
         </activity>
 
         <activity android:name=".activities.LoginPageActivity">
 
         </activity>
 
-        <activity android:name=".ComicsPageActivity"
+        <activity
+            android:name=".ComicsPageActivity"
             android:label="ComicPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,8 +49,10 @@
         <activity android:name=".activities.SignUpPageActivity" />
 
         <activity android:name=".activities.SendMessageActivity">
-
-    </activity>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ComicsPageActivity" />
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

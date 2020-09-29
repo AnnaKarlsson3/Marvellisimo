@@ -69,14 +69,6 @@ class SignUpPageActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter username/email/password", Toast.LENGTH_LONG).show()
             return
         }
-//        try {
-//            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).await()
-//            uploadImageToFirebaseStorage()
-//
-//        } catch (exception: FirebaseAuthException) {
-//            Toast.makeText(this, "Failed to create user: ${exception.message}", Toast.LENGTH_SHORT)
-//                    .show()
-//        }
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
@@ -99,7 +91,6 @@ class SignUpPageActivity : AppCompatActivity() {
         val fileName = UUID.randomUUID().toString()
         val reference = FirebaseStorage.getInstance().getReference("/images/${fileName}")
 
-
         reference.putFile(selectedPhotouri!!).addOnSuccessListener {
             Log.d("SignUpActivity", "image is uploaded: ${it.metadata?.path}")
             reference.downloadUrl.addOnSuccessListener {
@@ -108,7 +99,7 @@ class SignUpPageActivity : AppCompatActivity() {
             }
         }
             .addOnFailureListener {
-                //todo
+
             }
     }
 

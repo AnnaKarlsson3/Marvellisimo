@@ -1,15 +1,13 @@
 package com.example.marvellisimo
 
-import ComicItem
 import android.widget.ImageView
 import com.example.marvellisimo.entity.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.activity_comic_page.*
-import kotlinx.android.synthetic.main.chat_item_from_row.view.*
 import kotlinx.android.synthetic.main.chat_item_to_row.view.*
+import kotlinx.android.synthetic.main.chat_item_from_row.view.*
 
 
 class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() {
@@ -20,7 +18,7 @@ class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() 
 
     Picasso.get()
       .load(user.imageUrl)
-      .resize(20, 20)
+      .resize(100, 100)
       .transform(CropCircleTransformation())
       .into(targetImageView)
 
@@ -40,7 +38,7 @@ class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>() {
 
     Picasso.get()
       .load(user.imageUrl)
-      .resize(20, 20)
+      .resize(100, 100)
       .transform(CropCircleTransformation())
       .into(targetImageView)
   }
