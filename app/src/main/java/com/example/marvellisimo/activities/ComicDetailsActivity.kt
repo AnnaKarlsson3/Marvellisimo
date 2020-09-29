@@ -43,7 +43,12 @@ class ComicDetailsActivity : AppCompatActivity() {
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
+
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar?.setDisplayShowHomeEnabled(true)
+
+
 
         val id = intent.getIntExtra(ComicsPageActivity.COMIC_ID, 1)
         val text = intent.getStringExtra(ComicsPageActivity.COMIC_TITLE)

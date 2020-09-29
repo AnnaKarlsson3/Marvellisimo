@@ -41,6 +41,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val id = intent.getIntExtra(CharactersPageActivity.CHAR_ID, 1)
         val text = intent.getStringExtra(CharactersPageActivity.CHAR_NAME)
