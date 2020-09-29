@@ -125,6 +125,8 @@ class SendMessageActivity :AppCompatActivity () {
 
 
         val text = "Send a Link : ${Url} "
+        getIntent().removeExtra("url");
+        getIntent().removeExtra("id");
 
 
         send(fromId, toId, text)
