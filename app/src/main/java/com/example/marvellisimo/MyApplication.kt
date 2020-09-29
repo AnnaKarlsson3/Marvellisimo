@@ -19,7 +19,7 @@ import com.google.firebase.ktx.Firebase
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
-class RealmInit : Application() {
+class MyApplication : Application() {
     private val CHANNEL_ID = "channel_id_01"
     private val notificationsID = 101
 
@@ -39,21 +39,13 @@ class RealmInit : Application() {
         val userid = user?.uid
         val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$userid")
 
-
-
              inboxRefrence.addChildEventListener(object: ChildEventListener {
                      override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                          val inboxItem = p0.getValue(Inbox::class.java)
 
-                            val uid = inboxItem?.uid
-                         Log.d("kul", "$uid")
-
-                            if(inboxItem?.seen == false) {
+                         if(inboxItem?.seen == false) {
                                 sendNotifications()
                             }
-
-
-
                      }
 
                      override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {

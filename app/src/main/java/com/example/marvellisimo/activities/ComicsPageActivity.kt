@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.activities.ComicDetailsActivity
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
+import com.example.marvellisimo.entity.Inbox
 import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
@@ -308,6 +309,42 @@ class ComicsPageActivity : AppCompatActivity() {
 
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
+
+                    //set inbox seen to true
+                    val user = Firebase.auth.currentUser
+                    val userid = user?.uid
+                    val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$userid")
+
+                    inboxRefrence.addChildEventListener(object: ChildEventListener {
+                        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                            val inboxItem = p0.getValue(Inbox::class.java)
+
+                            if(inboxItem?.seen == false && userItem.user.uid == inboxItem?.fromId) {
+
+                                if (userid != null) {
+                                    inboxRefrence.child(inboxItem.id).child("seen").setValue(true)
+                                }
+                            }
+                        }
+
+                        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                        }
+
+                        override fun onChildRemoved(snapshot: DataSnapshot) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
+
                     val intent = Intent(view.context, SendMessageActivity::class.java)
                     intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
