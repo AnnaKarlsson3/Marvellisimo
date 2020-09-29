@@ -46,11 +46,14 @@ class RealmInit : Application() {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val inboxItem = p0.getValue(Inbox::class.java)
 
-                if(p0.key == userid)
-               if(inboxItem?.seen != true) {
-                   sendNotifications()
-                   Log.d("send", "$p0, send notification")
-               }
+                if(p0.key == userid) {
+                    if (inboxItem?.seen!!.equals(true) ) {
+                        sendNotifications()
+                        Log.d("send", "$p0, send notification, ${inboxItem.seen}")
+                    }
+                }
+
+                Log.d("send", "${inboxItem?.seen}")
 
             }
 
