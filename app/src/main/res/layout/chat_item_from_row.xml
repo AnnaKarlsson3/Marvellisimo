@@ -16,7 +16,6 @@
         android:maxWidth="300dp"
         android:padding="16dp"
         android:text="This is my message"
-        android:autoLink="web"
         app:layout_constraintStart_toEndOf="@+id/image_message_from"
         app:layout_constraintTop_toTopOf="@+id/image_message_from" />
 
