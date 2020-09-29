@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.UserItem
 import com.example.marvellisimo.entity.User
@@ -60,6 +61,7 @@ class PopUpWindow(val Id: Int?, val Url: String?) : DialogFragment(){
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if(user != null){
+                    if( user.uid == ComicsPageActivity.currentUser?.uid) return
                     val user= UserItem(user)
                     adapterPopUp.add(user)
                     users.add(user)
