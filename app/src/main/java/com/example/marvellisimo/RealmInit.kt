@@ -47,9 +47,13 @@ class RealmInit : Application() {
                 val inboxItem = p0.getValue(Inbox::class.java)
 
                 if(p0.key == userid) {
-                    if (inboxItem?.seen!!.equals(true) ) {
-                        sendNotifications()
+                    if (!inboxItem?.seen!!) {
                         Log.d("send", "$p0, send notification, ${inboxItem.seen}")
+                        sendNotifications()
+
+                    }
+                    else{
+                        Log.d("send", "im in else")
                     }
                 }
 

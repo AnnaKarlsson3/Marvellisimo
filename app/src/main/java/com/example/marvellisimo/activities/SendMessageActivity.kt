@@ -127,7 +127,7 @@ class SendMessageActivity :AppCompatActivity () {
 
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
         val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId").push()
-        val inbox = Inbox(fromId, false)
+        val inbox = Inbox(inboxRefrence.key!!,fromId, false)
 
         inboxRefrence.setValue(inbox)
             .addOnSuccessListener {
