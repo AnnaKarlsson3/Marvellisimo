@@ -133,10 +133,8 @@ class SendMessageActivity :AppCompatActivity () {
         val text = editext_chat_log.text.toString()
         val fromId = FirebaseAuth.getInstance().uid
         val toId = toUser?.uid
-
         send(fromId, toId, text)
-        val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
-        val toUser = user?.uid
+
 
     }
 
@@ -149,7 +147,7 @@ class SendMessageActivity :AppCompatActivity () {
         val toReference =
             FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toUser").push()
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId").push()
         val inbox = Inbox(toId!!,inboxRefrence.key!!,fromId, false)
 
         inboxRefrence.setValue(inbox)
