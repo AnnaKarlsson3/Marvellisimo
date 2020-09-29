@@ -40,12 +40,13 @@ class RealmInit : Application() {
 
         val user = Firebase.auth.currentUser
         val userid = user?.uid
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/userid")
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox")
         inboxRefrence.addChildEventListener(object: ChildEventListener {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val inboxItem = p0.getValue(Inbox::class.java)
 
+                if(p0.key == userid)
                if(inboxItem?.seen != true) {
                    sendNotifications()
                    Log.d("send", "$p0, send notification")
