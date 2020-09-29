@@ -303,6 +303,8 @@ class ComicsPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                     if(user != null){
+                        if( user.uid == currentUser?.uid) return
+
                         val useritem =UserItem(user)
                         adapterNav.add(useritem)
                          users.add(useritem)

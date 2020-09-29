@@ -2,8 +2,6 @@
 package com.example.marvellisimo.activities
 
 import android.os.Bundle
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.marvellisimo.ChatFromItem
@@ -21,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_chat_log.*
-import java.net.URL
 
 
 class SendMessageActivity :AppCompatActivity () {
@@ -31,10 +28,9 @@ class SendMessageActivity :AppCompatActivity () {
     }
 
     val adapter = GroupAdapter<GroupieViewHolder>()
-
     var toUser: User? = null
-    var Url : String? = null;
-    var Id : Int?  = 0;
+    var url : String? = null;
+    var id : Int?  = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,31 +41,26 @@ class SendMessageActivity :AppCompatActivity () {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         recyclerview_chat_log.adapter = adapter
 
-        Id = intent.getIntExtra(PopUpWindow.ID, 0)
 
+        id = intent.getIntExtra(PopUpWindow.ID, 0)
 
-        if (Id!= 0){
-            Url = intent.getStringExtra(PopUpWindow.URL)
+        if (id!= 0){
+            url = intent.getStringExtra(PopUpWindow.URL)
             toUser = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
             performShareLink()
-
         } else {
             toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
         }
+
         to_username.text = toUser?.username
-
-
 
         listenForMessages()
 
         send_button_chat_log.setOnClickListener {
-            Log.d(TAG, "Attempt to send message....")
             performSendMessage()
         }
-
 
     }
 
@@ -118,27 +109,28 @@ class SendMessageActivity :AppCompatActivity () {
 
     private fun performShareLink(){
         val fromId = FirebaseAuth.getInstance().uid
-        /*val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
         val toId = toUser?.uid
 
-        Log.d(TAG, "ID: ${Id}")
-        Log.d(TAG, "URL ${Url}")
-        Log.d(TAG, "${toUser?.username}")
+        val text = "Send a Link : ${url} "
 
-
-        val text = "Send a Link : ${Url} "
-        getIntent().removeExtra("url");
-        getIntent().removeExtra("id");
-
+        getIntent().removeExtra("url")
+        getIntent().removeExtra("id")
 
         send(fromId, toId, text)
     }
 
+    private fun performSendMessage() {
+
+        val text = editext_chat_log.text.toString()
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+
+        send(fromId, toId, text)
+
+    }
+
     private fun send(fromId: String?, toId: String?, text: String) {
         if (fromId == null) return
-        Log.d(TAG, "send: ${toId}")
-        Log.d(TAG, "send: ${FirebaseAuth.getInstance().uid} && ${fromId}")
-
 
         val reference =
             FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
@@ -155,30 +147,11 @@ class SendMessageActivity :AppCompatActivity () {
 
         reference.setValue(chatMessage)
             .addOnSuccessListener {
-                Log.d(TAG, "Saved our chat message: ${reference.key}")
                 editext_chat_log.text.clear()
                 recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
 
         toReference.setValue(chatMessage)
-
-        /*val latestMessageRef =
-            FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
-        latestMessageRef.setValue(chatMessage)
-
-        val latestMessageToRef =
-            FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)*/
-    }
-
-    private fun performSendMessage() {
-
-        val text = editext_chat_log.text.toString()
-        val fromId = FirebaseAuth.getInstance().uid
-        //val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
-        val toId = toUser?.uid
-
-        send(fromId, toId, text)
 
     }
 }

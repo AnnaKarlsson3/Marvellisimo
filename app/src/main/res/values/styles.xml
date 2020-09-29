@@ -5,12 +5,4 @@
         <item name="colorPrimary">@color/colorBlack</item>
     </style>
 
-      <style name="custom_actionbar" parent="Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/custom_style</item>
-    </style>
-
-    <style name="custom_style" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@drawable/marvellisimo_toolbar</item>
-    </style>
-
 </resources>

@@ -227,7 +227,7 @@ class CharactersPageActivity : AppCompatActivity() {
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
 
-            //intent.putExtra(CHAR_KEY, characterItem.character)
+
             intent.putExtra(CHAR_ID, characterItem.character.id)
             intent.putExtra(CHAR_NAME, characterItem.character.name)
             intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
@@ -297,14 +297,13 @@ class CharactersPageActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if(user != null){
+                    if( user.uid == ComicsPageActivity.currentUser?.uid) return
                     val useritem = UserItem(user)
                     adapterNav.add(useritem)
                     users.add(useritem)
                 }
                 toolBar_RecyclerView_character.adapter = adapterNav
 
-                for(u in users){
-                    Log.d("usersCharacter", "users in list: ${u.user.username}")}
 
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
