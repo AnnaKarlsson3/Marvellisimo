@@ -117,8 +117,8 @@ class SendMessageActivity :AppCompatActivity () {
         /*val user = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)*/
         val toId = toUser?.uid
 
-
-
+        Log.d(TAG, "ID: ${Id}")
+        Log.d(TAG, "URL ${Url}")
         Log.d(TAG, "${toUser?.username}")
 
 
@@ -132,8 +132,6 @@ class SendMessageActivity :AppCompatActivity () {
         if (fromId == null) return
         Log.d(TAG, "send: ${toId}")
         Log.d(TAG, "send: ${FirebaseAuth.getInstance().uid} && ${fromId}")
-
-
 
 
         val reference =
@@ -158,13 +156,13 @@ class SendMessageActivity :AppCompatActivity () {
 
         toReference.setValue(chatMessage)
 
-        val latestMessageRef =
+        /*val latestMessageRef =
             FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
         latestMessageRef.setValue(chatMessage)
 
         val latestMessageToRef =
             FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)
+        latestMessageToRef.setValue(chatMessage)*/
     }
 
     private fun performSendMessage() {

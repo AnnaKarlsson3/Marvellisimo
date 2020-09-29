@@ -48,6 +48,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(CharactersPageActivity.CHAR_IMAGE)
         val url = intent.getStringExtra(CharactersPageActivity.CHAR_URL)
 
+        Log.d("ChatLog", "Character from CHaracter ${url}")
+
         val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
             .equalTo("id", id)
             .findFirst()

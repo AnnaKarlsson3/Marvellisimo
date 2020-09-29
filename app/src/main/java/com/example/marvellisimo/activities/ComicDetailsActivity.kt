@@ -51,6 +51,7 @@ class ComicDetailsActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(ComicsPageActivity.COMIC_IMAGE)
         val url = intent.getStringExtra(ComicsPageActivity.COMIC_URL)
 
+        Log.d("ChatLog", "Comic from CHaracter ${url}")
         comic_name.text = text
         comic_info.text = info
 
