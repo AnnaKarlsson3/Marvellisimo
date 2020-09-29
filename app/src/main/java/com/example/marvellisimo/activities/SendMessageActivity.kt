@@ -47,7 +47,7 @@ class SendMessageActivity :AppCompatActivity () {
         super.onCreate(savedInstanceState)
         setContentView(activity_chat_log)
 
-     
+
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
@@ -126,7 +126,7 @@ class SendMessageActivity :AppCompatActivity () {
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
 
         val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId")
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$toId").push()
         val inbox = Inbox(fromId, false)
 
         inboxRefrence.setValue(inbox)

@@ -13,10 +13,12 @@ import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.Inbox
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -36,8 +38,9 @@ class RealmInit : Application() {
 
         createNotificationsChannel()
 
-
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox")
+        val user = Firebase.auth.currentUser
+        val userid = user?.uid
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/userid")
         inboxRefrence.addChildEventListener(object: ChildEventListener {
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -45,14 +48,13 @@ class RealmInit : Application() {
 
                if(inboxItem?.seen != true) {
                    sendNotifications()
+                   Log.d("send", "$p0, send notification")
                }
 
             }
 
-
-
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
