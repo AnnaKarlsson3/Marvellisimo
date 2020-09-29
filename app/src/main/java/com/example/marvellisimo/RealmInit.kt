@@ -37,7 +37,7 @@ class RealmInit : Application() {
 
         val user = Firebase.auth.currentUser
         val userid = user?.uid
-        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox")
+        val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$userid")
 
 
 
@@ -47,14 +47,13 @@ class RealmInit : Application() {
 
                             val uid = inboxItem?.uid
                          Log.d("kul", "$uid")
-                         if(uid == userid) {
-                             if (!inboxItem?.seen!!) {
-                                 sendNotifications()
-                             }
-                             else{
-                                 Log.d("send", "im in else")
-                             }
-                         }
+
+                            if(inboxItem?.seen == false) {
+                                sendNotifications()
+                            }
+
+
+
                      }
 
                      override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
