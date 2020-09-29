@@ -55,9 +55,11 @@ class SendMessageActivity :AppCompatActivity () {
             Url = intent.getStringExtra(PopUpWindow.URL)
             toUser = intent.getParcelableExtra<User>(PopUpWindow.USER_KEY)
             performShareLink()
+
         } else {
             toUser = intent.getParcelableExtra<User>(ComicsPageActivity.USER_KEY)
         }
+        to_username.text = toUser?.username
 
 
 

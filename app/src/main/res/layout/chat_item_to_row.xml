@@ -11,12 +11,12 @@
         android:id="@+id/message_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="16dp"
+        android:autoLink="web"
         android:background="@drawable/rounded_search_menu"
         android:maxWidth="250dp"
         android:padding="16dp"
         android:text="This is my message"
-        android:autoLink="web"
         app:layout_constraintStart_toEndOf="@+id/image_message_to"
         app:layout_constraintTop_toTopOf="@+id/image_message_to" />
 

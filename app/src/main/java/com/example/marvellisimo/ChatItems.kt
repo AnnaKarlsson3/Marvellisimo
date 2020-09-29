@@ -18,7 +18,7 @@ class ChatFromItem(val text: String, val user: User): Item<GroupieViewHolder>() 
 
     Picasso.get()
       .load(user.imageUrl)
-      .resize(20, 20)
+      .resize(100, 100)
       .transform(CropCircleTransformation())
       .into(targetImageView)
 
@@ -38,7 +38,7 @@ class ChatToItem(val text: String, val user: User): Item<GroupieViewHolder>() {
 
     Picasso.get()
       .load(user.imageUrl)
-      .resize(20, 20)
+      .resize(100, 100)
       .transform(CropCircleTransformation())
       .into(targetImageView)
   }
