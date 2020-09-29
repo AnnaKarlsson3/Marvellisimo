@@ -26,6 +26,7 @@ import io.realm.Realm
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_character_details.*
 import kotlinx.android.synthetic.main.activity_characters_page.*
+import kotlinx.android.synthetic.main.activity_comic_details.*
 
 
 class CharacterDetailsActivity : AppCompatActivity() {
@@ -47,6 +48,8 @@ class CharacterDetailsActivity : AppCompatActivity() {
         val imageUrl = intent.getStringExtra(CharactersPageActivity.CHAR_IMAGE)
         val url = intent.getStringExtra(CharactersPageActivity.CHAR_URL)
 
+        Log.d("ChatLog", "Character from CHaracter ${url}")
+
         val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
             .equalTo("id", id)
             .findFirst()
@@ -62,6 +65,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
         } else {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_regular)
+        }
+
+        share_character_detailview.setOnClickListener {
+            PopUpWindow(id, url).show(supportFragmentManager, PopUpWindow.TAG)
+            //PopUpWindow.newInstance("Log out", "Do you").show(supportFragmentManager, PopUpWindow.TAG)
         }
 
         image_Fav_Button_character.setOnClickListener(object : View.OnClickListener {

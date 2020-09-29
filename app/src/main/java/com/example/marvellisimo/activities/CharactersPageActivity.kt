@@ -77,6 +77,7 @@ class CharactersPageActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+
         drawerListener()
         displayCurrentUserInNav()
         fetchUsersAndDisplayInNav()
