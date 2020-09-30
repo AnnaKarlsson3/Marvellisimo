@@ -1,22 +1,15 @@
 package com.example.marvellisimo.activities
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.RealmComicEntity
 import com.squareup.picasso.Picasso
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_comic_details.*
-
-
 
 class ComicDetailsActivity : AppCompatActivity() {
     companion object {
@@ -80,8 +73,5 @@ class ComicDetailsActivity : AppCompatActivity() {
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
-
-
     }
-
 }

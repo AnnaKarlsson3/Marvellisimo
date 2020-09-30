@@ -5,14 +5,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.marvellisimo.activities.SendMessageActivity
-import com.example.marvellisimo.entity.ChatMessage
 import com.example.marvellisimo.entity.Inbox
-import com.example.marvellisimo.entity.User
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
@@ -47,26 +42,15 @@ class MyApplication : Application() {
                                 sendNotifications()
                             }
                      }
-
                      override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
                      }
-
                      override fun onChildRemoved(snapshot: DataSnapshot) {
-                         TODO("Not yet implemented")
                      }
-
                      override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                         TODO("Not yet implemented")
                      }
-
                      override fun onCancelled(error: DatabaseError) {
-                         TODO("Not yet implemented")
                      }
                  })
-
-
-
     }
 
         //makes notifications pop up
@@ -82,9 +66,7 @@ class MyApplication : Application() {
                 val notificationManager: NotificationManager =
                     getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(channel)
-
             }
-
         }
 
         private fun sendNotifications() {
@@ -97,9 +79,5 @@ class MyApplication : Application() {
             with(NotificationManagerCompat.from(this)) {
                 notify(notificationsID, builder.build())
             }
-
         }
-
-
-
 }

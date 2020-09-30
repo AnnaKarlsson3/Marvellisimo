@@ -9,25 +9,19 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Button
-
-
 import android.widget.ImageButton
 import android.widget.SearchView
-
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.marvellisimo.activities.CharacterDetailsActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
 import com.example.marvellisimo.entity.User
 import com.example.marvellisimo.items.UserItem
-
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -72,12 +66,10 @@ class CharactersPageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters_page)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
 
         drawerListener()
         displayCurrentUserInNav()
@@ -155,7 +147,6 @@ class CharactersPageActivity : AppCompatActivity() {
                             adapter.add(CharacterItem(character))
                         }
                     })
-
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
@@ -165,27 +156,20 @@ class CharactersPageActivity : AppCompatActivity() {
                             adapter.add(CharacterItem(character))
                         }
                     })
-                    //PrintToRecycleView()
                 }
-
             }
         })
     }
 
     private fun PrintToRecycleView() {
-
         //3party adapter https://github.com/lisawray/groupie ..
         modelCharacter.getCharacterData(offset).observe(this, {
             adapter.clear()
             it.forEach { character ->
                 adapter.add(CharacterItem(character))
-                Log.d("characterResult", "${character.name}")
             }
         })
-
         recycle_view_character.adapter = adapter
-
-
     }
 
     private fun onScrolling() {
@@ -196,7 +180,6 @@ class CharactersPageActivity : AppCompatActivity() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true
-
                 }
             }
 
@@ -228,7 +211,6 @@ class CharactersPageActivity : AppCompatActivity() {
             val characterItem = item as CharacterItem
             val intent = Intent(this, CharacterDetailsActivity::class.java)
 
-
             intent.putExtra(CHAR_ID, characterItem.character.id)
             intent.putExtra(CHAR_NAME, characterItem.character.name)
             intent.putExtra(CHAR_IMAGE, characterItem.character.thumbnail)
@@ -241,25 +223,22 @@ class CharactersPageActivity : AppCompatActivity() {
 
     private fun filterCharacter() {
         search_bar_character.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
             override fun onQueryTextChange(newText: String): Boolean {
                 modelCharacter.getSearchCharacterData(newText).observe(activity, {
                     adapter.clear()
                     it.forEach { character ->
                         adapter.add(CharacterItem(character))
-                        Log.d("filterdCharacter", "${character.name}")
                     }
                 })
                 return false
             }
-
             override fun onQueryTextSubmit(query: String): Boolean {
                 // task HERE
                 return false
             }
-
         })
     }
+
     private fun displayCurrentUserInNav(){
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         val user = Firebase.auth.currentUser
@@ -280,13 +259,11 @@ class CharactersPageActivity : AppCompatActivity() {
                         .transform(CropCircleTransformation())
                         .into(inlogged_userImg_character)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
         }
     }
-
 
     //Displays all users
     private fun fetchUsersAndDisplayInNav(){
@@ -305,7 +282,6 @@ class CharactersPageActivity : AppCompatActivity() {
                 }
                 toolBar_RecyclerView_character.adapter = adapterNav
 
-
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
                     val intent = Intent(view.context, SendMessageActivity::class.java)
@@ -318,7 +294,7 @@ class CharactersPageActivity : AppCompatActivity() {
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val user = snapshot.getValue(User::class.java)
                 if (user != null) {
-                    val oldUser = users.find { it.user.uid == user.uid } //hitta user i listan som har samma uid som den i db har som ändrats
+                    val oldUser = users.find { it.user.uid == user.uid }
                     oldUser?.user?.active = user.active
 
                     adapterNav.notifyDataSetChanged()
@@ -335,15 +311,10 @@ class CharactersPageActivity : AppCompatActivity() {
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
             }
 
             override fun onCancelled(error: DatabaseError) {
-
             }
-
         })
-
     }
-
 }

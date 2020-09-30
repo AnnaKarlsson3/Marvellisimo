@@ -36,13 +36,11 @@ class CharacterDetailsActivity : AppCompatActivity() {
             .equalTo("id", id)
             .findFirst()
 
-        var favorite = characterFromDatabase!!.favorite
-
         character_name.text = text
         character_info.text = info
-
         Picasso.get().load(imageUrl).fit().into(character_image)
 
+        var favorite = characterFromDatabase!!.favorite
         if (favorite) {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
         } else {

@@ -86,8 +86,6 @@ class ViewModelComicCharacterPage : ViewModel() {
         realm.close()
         super.onCleared()
     }
-
-
 }
 
 

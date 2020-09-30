@@ -89,21 +89,12 @@ class PopUpWindow(val Id: Int?, val Url: String?) : DialogFragment(){
                 }
                 recyclerView_popup_view.adapter = adapterPopUp
             }
-
             override fun onChildRemoved(snapshot: DataSnapshot) {
-
             }
-
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
             }
-
             override fun onCancelled(error: DatabaseError) {
-
             }
-
         })
-
     }
-
 }

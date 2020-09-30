@@ -12,14 +12,9 @@ import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-
 import kotlinx.android.synthetic.main.activity_signin.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 class SignUpPageActivity : AppCompatActivity() {
@@ -34,7 +29,6 @@ class SignUpPageActivity : AppCompatActivity() {
 
         button_register_mainView.setOnClickListener {
             performRegister()
-
         }
 
         button_imageSelector_mainView.setOnClickListener {
@@ -55,8 +49,6 @@ class SignUpPageActivity : AppCompatActivity() {
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotouri)
             circle_image_view.setImageBitmap(bitmap)
             button_imageSelector_mainView.alpha = 0f
-//            val bitmapDrawable = BitmapDrawable(bitmap)
-//            button_imageSelector_mainView.setBackgroundDrawable(bitmapDrawable)
         }
     }
 
@@ -73,7 +65,6 @@ class SignUpPageActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
-                //else if successful
                 Log.d(
                     "SignUpActivity",
                     "Successfully created user with uid: ${it.result?.user?.uid}"
@@ -99,7 +90,6 @@ class SignUpPageActivity : AppCompatActivity() {
             }
         }
             .addOnFailureListener {
-
             }
     }
 
@@ -107,7 +97,7 @@ class SignUpPageActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val reference = FirebaseDatabase.getInstance().getReference("users/$uid")
 
-        val user = User(uid, username_mainView.text.toString().capitalize(), imageUri,true)
+        val user = User(uid, username_mainView.text.toString().capitalize(), imageUri, true)
 
         reference.setValue(user)
             .addOnSuccessListener {
@@ -118,7 +108,6 @@ class SignUpPageActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d("SignUpActivity", "Fail to store user: ${it.message}")
             }
-
     }
 }
 

@@ -19,6 +19,3 @@ data class Comic(val id: Int,
                  val description: String,
                  val thumbnail: Image,
                  val urls: ArrayList<Url>):Parcelable
-
-//@Parcelize
-//data class ImageComic(val path: String, val extension: String):Parcelable

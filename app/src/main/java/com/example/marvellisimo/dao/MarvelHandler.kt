@@ -39,7 +39,6 @@ class MarvelHandler(val realm: Realm) {
                         Log.d("loaded", "comics : ${response.body()!!.data.results.size}")
                     }
 
-
                 } else {
                     Log.d("loaded", "comics : not loaded")
                 }
@@ -100,7 +99,6 @@ class MarvelHandler(val realm: Realm) {
                     Log.d("loaded", "characters : not loaded")
                 }
             }
-
             override fun onFailure(call: Call<CharacterDataWrapper>, t: Throwable) {
             }
         })
@@ -110,7 +108,6 @@ class MarvelHandler(val realm: Realm) {
     //set CharacterData from API to Realm
     private fun saveCharactersToRealm(characterDataWrapper: CharacterDataWrapper) {
         realm.executeTransactionAsync(fun(realm: Realm) {
-            //realm.deleteAll()
             characterDataWrapper.data.results.forEach { c ->
                 val characterFromDatabase = realm.where(RealmCharacterEntity::class.java)
                     .equalTo("id", c.id)
@@ -152,11 +149,8 @@ class MarvelHandler(val realm: Realm) {
                         saveComicsToRealm(response.body()!!)
                     }
                 }
-
                 override fun onFailure(call: Call<ComicDataWrapper>, t: Throwable) {
-                    TODO("Not yet implemented")
                 }
-
             })
     }
 
@@ -175,14 +169,9 @@ class MarvelHandler(val realm: Realm) {
                         saveCharactersToRealm(response.body()!!)
                     }
                 }
-
-
                 override fun onFailure(call: Call<CharacterDataWrapper>, t: Throwable) {
                     TODO("Not yet implemented")
                 }
-
             })
     }
-
-
 }//class end

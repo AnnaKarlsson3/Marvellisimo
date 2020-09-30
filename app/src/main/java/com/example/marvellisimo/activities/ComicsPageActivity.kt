@@ -34,7 +34,6 @@ import com.xwray.groupie.GroupieViewHolder
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_comic_page.*
 
-
 class ComicsPageActivity : AppCompatActivity() {
 
     val modelComic: ViewModelComicCharacterPage by viewModels()
@@ -48,7 +47,6 @@ class ComicsPageActivity : AppCompatActivity() {
     var scrolledOut = 0
     var offset = 0
     var totalComicFromApi = 0
-
 
     val toggle: ActionBarDrawerToggle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
@@ -64,13 +62,11 @@ class ComicsPageActivity : AppCompatActivity() {
         val USER_KEY = "USER_KEY"
         val USER_NAME = "USER_NAME"
         var currentUser: User? = null
-        
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comic_page)
-
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolBar)
         setSupportActionBar(toolbar)
@@ -86,8 +82,8 @@ class ComicsPageActivity : AppCompatActivity() {
         clickToRecycleView()
         onScrolling()
 
+        //start Login if u not allready logged in:
         val user = Firebase.auth.currentUser
-
         if (user==null) {
             startActivity(Intent(this, LoginPageActivity::class.java))
         }
@@ -120,7 +116,6 @@ class ComicsPageActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
         return if (toggle.onOptionsItemSelected(item)) {
             return true
         } else {
@@ -159,7 +154,6 @@ class ComicsPageActivity : AppCompatActivity() {
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
-                    //PrintToRecycleView()
                     modelComic.comicResults.observe(activity,{
                         adapter.clear()
                         it.forEach { comic ->
@@ -178,12 +172,9 @@ class ComicsPageActivity : AppCompatActivity() {
             adapter.clear()
             it.forEach { comic ->
                 adapter.add(ComicItem(comic))
-                Log.d("comicResult", "${comic.title}")
             }
         })
         recycle_view_comic.adapter = adapter
-
-
     }
 
     private fun onScrolling() {
@@ -194,7 +185,6 @@ class ComicsPageActivity : AppCompatActivity() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true
-
                 }
             }
 
@@ -211,14 +201,11 @@ class ComicsPageActivity : AppCompatActivity() {
 
                 println("comic--- total in recycleview: ${totalOnRecycleView}, current:${current}, scrolled${scrolledOut}")
 
-
-
                 if (isScrolling && (current + scrolledOut) >= (offset + limit) && offset < totalComicFromApi) {
                     offset += limit
 
                     modelComic.getComicData(offset)
                     adapter.notifyDataSetChanged()
-
                 }
             }
         })
@@ -240,20 +227,16 @@ class ComicsPageActivity : AppCompatActivity() {
 
     private fun filterComic() {
         search_bar_comic.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
             override fun onQueryTextChange(newText: String): Boolean {
                 modelComic.getSearchComicData(newText).observe(activity, {
                     adapter.clear()
                     it.forEach { comic ->
                         adapter.add(ComicItem(comic))
-                        Log.d("filterdComic", "${comic.title}")
                     }
                 })
                 return false
             }
-
             override fun onQueryTextSubmit(query: String): Boolean {
-                // task HERE
                 return false
             }
         })
@@ -275,19 +258,16 @@ class ComicsPageActivity : AppCompatActivity() {
 
                     Picasso.get()
                         .load(image)
-                        /*.resize(100, 100)*/
                         .transform(CropCircleTransformation())
                         .into(inlogged_userImg)
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
         }
-
     }
 
-    //Displays all users
+    //Displays all users in nav:
     private fun fetchUsersAndDisplayInNav(){
         val users = mutableListOf<UserItem>()
         val ref = FirebaseDatabase.getInstance().getReference("/users")
@@ -305,13 +285,10 @@ class ComicsPageActivity : AppCompatActivity() {
                     }
                 toolBar_RecyclerView.adapter = adapterNav
 
-                for(u in users){
-                    Log.d("users", "users in list: ${u.user.username}")}
-
                 adapterNav.setOnItemClickListener{item, view ->
                     val userItem = item as UserItem
 
-                    //set inbox seen to true
+                    //set inbox seen to true:
                     val user = Firebase.auth.currentUser
                     val userid = user?.uid
                     val inboxRefrence = FirebaseDatabase.getInstance().getReference("/inbox/$userid")
@@ -327,30 +304,20 @@ class ComicsPageActivity : AppCompatActivity() {
                                 }
                             }
                         }
-
                         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
                         }
-
                         override fun onChildRemoved(snapshot: DataSnapshot) {
-                            TODO("Not yet implemented")
                         }
-
                         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                            TODO("Not yet implemented")
                         }
-
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
                         }
                     })
-
 
                     val intent = Intent(view.context, SendMessageActivity::class.java)
                     intent.putExtra(USER_KEY, userItem.user)
                     intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
-
                 }
             }
 
@@ -366,27 +333,21 @@ class ComicsPageActivity : AppCompatActivity() {
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-
                 val user = snapshot.getValue(User::class.java) ?: return
                 val userItem=users.find { it.user.uid==user.uid }!!
 
                 users.remove(userItem)
                 adapterNav.remove(userItem)
-
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
             }
 
             override fun onCancelled(error: DatabaseError) {
-
             }
-
         })
     }
-
-    }
+}
 
 
 

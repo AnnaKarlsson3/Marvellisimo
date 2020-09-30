@@ -34,7 +34,6 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
         }
 
         fav_ListButton.setOnClickListener(object : View.OnClickListener {
-            //favorite = !favorite
 
             override fun onClick(v: View?) {
                 if (favorite == false) {

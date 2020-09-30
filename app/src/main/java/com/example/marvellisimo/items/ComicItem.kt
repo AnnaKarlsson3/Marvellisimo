@@ -36,7 +36,6 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         }
 
         fav_ListButton.setOnClickListener(object : View.OnClickListener {
-            //favorite = !favorite
 
             override fun onClick(v: View?) {
                 if (favorite == false) {
@@ -52,13 +51,11 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
                 }
             }
         });
-
     }
 
     //renders out the rows in view:
     override fun getLayout(): Int {
         return R.layout.comic_recycle_row_layout
     }
-
 }
 

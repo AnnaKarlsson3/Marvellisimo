@@ -44,7 +44,6 @@ class SendMessageActivity :AppCompatActivity () {
 
         recyclerview_chat_log.adapter = adapter
 
-
         id = intent.getIntExtra(PopUpWindow.ID, 0)
 
         if (id!= 0){
@@ -88,23 +87,14 @@ class SendMessageActivity :AppCompatActivity () {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
             }
-
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-
             }
-
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
             }
-
             override fun onChildRemoved(p0: DataSnapshot) {
-
             }
-
         })
-
     }
 
     private fun performShareLink(){
@@ -120,13 +110,10 @@ class SendMessageActivity :AppCompatActivity () {
     }
 
     private fun performSendMessage() {
-
         val text = editext_chat_log.text.toString()
         val fromId = FirebaseAuth.getInstance().uid
         val toId = toUser?.uid
         send(fromId, toId, text)
-
-
     }
 
     private fun send(fromId: String?, toId: String?, text: String) {
@@ -149,7 +136,6 @@ class SendMessageActivity :AppCompatActivity () {
                 Log.d("SignUpActivity", "Fail to store user: ${it.message}")
             }
 
-
         val chatMessage = toId?.let {
             ChatMessage(
                 reference.key!!, text, fromId,
@@ -162,9 +148,7 @@ class SendMessageActivity :AppCompatActivity () {
                 editext_chat_log.text.clear()
                 recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
-
         toReference.setValue(chatMessage)
-
     }
 }
 

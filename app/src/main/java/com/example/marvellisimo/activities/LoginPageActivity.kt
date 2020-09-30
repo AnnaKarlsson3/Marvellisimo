@@ -29,7 +29,6 @@ class LoginPageActivity : AppCompatActivity() {
                 ConnectivityManager
                     .EXTRA_NO_CONNECTIVITY, false
             )
-
                 if (notConnected) {
                     if (!notConnected) {
                         Toast.makeText(
@@ -88,17 +87,13 @@ class LoginPageActivity : AppCompatActivity() {
                             if (userid != null) {
                                 ref.child(userid).child("active").setValue(true)
                             }
-
                             //start new intent:
                             val intent = Intent(this, ComicsPageActivity::class.java)
                             startActivity(intent)
-
                         }
                         .addOnFailureListener() {
                             Toast.makeText(this, "${it.message}", Toast.LENGTH_LONG).show()
-
                         }
-
             }
 
             noAccount.setOnClickListener {
@@ -114,14 +109,9 @@ class LoginPageActivity : AppCompatActivity() {
                 "Internet Not Available, Cross Check Your Internet Connectivity and Try Again! ",
                 Toast.LENGTH_LONG
             ).show()
-
         }
 
         private fun connected() {
             Log.d("networkaccess", "connected")
-
-
         }
-
-
-    }
+}
