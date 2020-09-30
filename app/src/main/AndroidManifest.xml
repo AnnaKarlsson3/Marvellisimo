@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +23,7 @@
 
         <activity
             android:name=".CharactersPageActivity"
-            android:label="@string/title_activity_characters_page"></activity>
+            android:label="@string/title_activity_characters_page"/>
 
         <activity
             android:name=".activities.ComicDetailsActivity"

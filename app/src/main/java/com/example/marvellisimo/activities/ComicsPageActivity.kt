@@ -70,8 +70,7 @@ class ComicsPageActivity : AppCompatActivity() {
         val USER_KEY = "USER_KEY"
         val USER_NAME = "USER_NAME"
         var currentUser: User? = null
-
-
+        
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
