@@ -1,11 +1,7 @@
 package com.example.marvellisimo
 
-import ComicItem
-import android.content.BroadcastReceiver
-import android.content.Context
+import com.example.marvellisimo.items.ComicItem
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -15,7 +11,6 @@ import android.widget.AbsListView
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +22,7 @@ import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
 import com.example.marvellisimo.entity.Inbox
 import com.example.marvellisimo.entity.User
+import com.example.marvellisimo.items.UserItem
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -35,8 +31,6 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import io.realm.Realm
-import io.realm.RealmConfiguration
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_comic_page.*
 
@@ -305,7 +299,7 @@ class ComicsPageActivity : AppCompatActivity() {
                     if(user != null){
                         if( user.uid == currentUser?.uid) return
 
-                        val useritem =UserItem(user)
+                        val useritem = UserItem(user)
                         adapterNav.add(useritem)
                          users.add(useritem)
                     }

@@ -12,7 +12,6 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_character_details.*
 
 
-
 class CharacterDetailsActivity : AppCompatActivity() {
     companion object {
         val realm = Realm.getDefaultInstance()
