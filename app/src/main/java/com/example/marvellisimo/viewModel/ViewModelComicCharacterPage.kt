@@ -1,15 +1,11 @@
 package com.example.marvellisimo.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.marvellisimo.UserItem
 import com.example.marvellisimo.dao.MarvelHandler
 import com.example.marvellisimo.dao.asLiveData
 import com.example.marvellisimo.entity.RealmCharacterEntity
 import com.example.marvellisimo.entity.RealmComicEntity
-import com.example.marvellisimo.entity.User
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults

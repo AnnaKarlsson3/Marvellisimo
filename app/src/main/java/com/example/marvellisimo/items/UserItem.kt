@@ -1,9 +1,8 @@
-package com.example.marvellisimo
+package com.example.marvellisimo.items
 
-import android.icu.number.NumberFormatter.with
-import android.icu.number.NumberRangeFormatter.with
 import android.util.Log
 import android.widget.ImageView
+import com.example.marvellisimo.R
 import com.example.marvellisimo.entity.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder

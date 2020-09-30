@@ -9,7 +9,7 @@ import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.marvellisimo.ComicsPageActivity
 import com.example.marvellisimo.R
-import com.example.marvellisimo.UserItem
+import com.example.marvellisimo.items.UserItem
 import com.example.marvellisimo.entity.User
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot

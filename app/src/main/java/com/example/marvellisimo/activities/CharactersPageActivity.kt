@@ -1,6 +1,6 @@
 package com.example.marvellisimo
 
-import CharacterItem
+import com.example.marvellisimo.items.CharacterItem
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.marvellisimo.activities.LoginPageActivity
 import com.example.marvellisimo.activities.SendMessageActivity
 import com.example.marvellisimo.entity.User
+import com.example.marvellisimo.items.UserItem
 
 import com.example.marvellisimo.viewModel.ViewModelComicCharacterPage
 import com.google.firebase.auth.FirebaseAuth
