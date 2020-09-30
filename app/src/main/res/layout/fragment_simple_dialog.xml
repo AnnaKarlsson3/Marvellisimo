@@ -24,7 +24,7 @@
             android:layout_marginBottom="50dp"
             android:layout_marginStart="70dp"
             android:textSize="25sp"
-            android:text="Dela med en Kompis"
+            android:text="Share with a friend"
             android:textAlignment="center" />
 
     </LinearLayout>
