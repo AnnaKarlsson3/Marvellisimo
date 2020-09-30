@@ -19,22 +19,21 @@ class ViewModelComicCharacterPage : ViewModel() {
     }
     val api= MarvelHandler(realm)
 
-    val comicResults:LiveData<RealmResults<RealmComicEntity>> by lazy {
-        realm.where(RealmComicEntity::class.java).sort("title", Sort.ASCENDING).findAllAsync().asLiveData()
+    fun comicResults():LiveData<RealmResults<RealmComicEntity>> {
+        return realm.where(RealmComicEntity::class.java).sort("title", Sort.ASCENDING).findAllAsync().asLiveData()
     }
     fun getComicData(offset: Int): LiveData<RealmResults<RealmComicEntity>> {
         api.fetchComicsToRealm(offset)
-        return comicResults
+        return comicResults()
     }
 
-    val characterResults:LiveData<RealmResults<RealmCharacterEntity>> by lazy {
-        realm.where(RealmCharacterEntity::class.java).sort("name", Sort.ASCENDING).findAllAsync().asLiveData()
+    fun characterResults():LiveData<RealmResults<RealmCharacterEntity>>{
+        return realm.where(RealmCharacterEntity::class.java).sort("name", Sort.ASCENDING).findAllAsync().asLiveData()
     }
 
     fun getCharacterData(offset : Int): LiveData<RealmResults<RealmCharacterEntity>> {
         api.fetchCharactersToRealm(offset)
-
-        return characterResults
+        return characterResults()
     }
 
     fun getFavoriteComic(): LiveData<RealmResults<RealmComicEntity>> {

@@ -150,7 +150,7 @@ class CharactersPageActivity : AppCompatActivity() {
                     favButton.setImageResource(R.drawable.ic_star_solid)
                 } else {
                     favButton.setImageResource(R.drawable.ic_star_regular)
-                    modelCharacter.characterResults.observe(activity,{
+                    modelCharacter.characterResults().observe(activity,{
                         adapter.clear()
                         it.forEach { character ->
                             adapter.add(CharacterItem(character))

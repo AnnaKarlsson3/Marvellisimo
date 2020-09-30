@@ -71,7 +71,7 @@ class MyApplication : Application() {
 
         private fun sendNotifications() {
             val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-               .setSmallIcon(R.drawable.marvelissimo_logga)
+                .setSmallIcon(R.drawable.marvelissimo_logga)
                 .setContentTitle("Marvelisimo")
                 .setContentText("New message")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

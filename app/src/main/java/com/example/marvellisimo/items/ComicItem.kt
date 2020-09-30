@@ -38,7 +38,7 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         fav_ListButton.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View?) {
-                if (favorite == false) {
+                if (!favorite) {
                     realm.executeTransaction {
                         comic.favorite = true
                         realm.copyToRealmOrUpdate(comic)

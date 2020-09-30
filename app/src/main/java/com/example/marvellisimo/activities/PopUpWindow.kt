@@ -27,7 +27,6 @@ class PopUpWindow(val Id: Int?, val Url: String?) : DialogFragment(){
         val ID = "ID"
         val URL = "URL"
         val USER_KEY = "USER_KEY"
-        val USER_NAME = "USER_NAME"
     }
 
     override fun onCreateView(
@@ -74,7 +73,6 @@ class PopUpWindow(val Id: Int?, val Url: String?) : DialogFragment(){
                     intent.putExtra(ID, Id)
                     intent.putExtra(URL, Url)
                     intent.putExtra(USER_KEY, userItem.user)
-                    intent.putExtra(USER_NAME, userItem.user.username)
                     startActivity(intent)
                 }
             }

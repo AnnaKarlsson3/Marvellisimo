@@ -36,7 +36,7 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
         fav_ListButton.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View?) {
-                if (favorite == false) {
+                if (!favorite) {
                     realm.executeTransaction {
                         character.favorite = true
                         realm.copyToRealmOrUpdate(character)
