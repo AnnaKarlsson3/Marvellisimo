@@ -73,7 +73,7 @@ class ComicDetailsActivity : AppCompatActivity() {
             }
         }
 
-        Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(comic_image)
+        Picasso.get().load(imageUrl).fit().into(comic_image)
 
         comic_link.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)

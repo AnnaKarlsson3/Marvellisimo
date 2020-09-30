@@ -21,9 +21,7 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         viewHolder.itemView.textView_comicname_row.text = comic.title
         var favorite = comic.favorite
 
-      //  val img : String = renamePathHttps("${comic.thumbnail}")
         val img : String = "${comic.thumbnail}"
-
         Picasso.get().load(img).resize(100, 75)
             .centerCrop()
             .into(viewHolder.itemView.imageView_comic_row)
@@ -62,8 +60,5 @@ class ComicItem(val comic: RealmComicEntity) : Item<GroupieViewHolder>() {
         return R.layout.comic_recycle_row_layout
     }
 
-  /*  fun renamePathHttps(path: String): String {
-        return path.replace("http", "https")
-    }*/
 }
 

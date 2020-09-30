@@ -20,10 +20,7 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
         viewHolder.itemView.textView_charactername_row.text = character.name
         var favorite = character.favorite
 
-
-        //val img : String = renamePathHttps("${character.thumbnail}")
         val img : String = "${character.thumbnail}"
-
         Picasso.get().load(img).resize(100, 75)
             .centerCrop().into(viewHolder.itemView.imageView_character_row)
 
@@ -59,7 +56,4 @@ class CharacterItem(val character: RealmCharacterEntity) : Item<GroupieViewHolde
     override fun getLayout(): Int {
         return R.layout.character_recycle_row_layout
     }
-    /*fun renamePathHttps(path: String): String {
-        return path.replace("http", "https")
-    }*/
 }

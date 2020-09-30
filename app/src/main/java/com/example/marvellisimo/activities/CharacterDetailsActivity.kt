@@ -41,7 +41,7 @@ class CharacterDetailsActivity : AppCompatActivity() {
         character_name.text = text
         character_info.text = info
 
-        Picasso.get().load(imageUrl?.replace("http", "https")).fit().into(character_image)
+        Picasso.get().load(imageUrl).fit().into(character_image)
 
         if (favorite) {
             image_Fav_Button_character.setImageResource(R.drawable.ic_star_solid)
